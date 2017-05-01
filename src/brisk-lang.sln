@@ -11,6 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "git", "git", "{B7562AD0-8F3
 		..\.gitignore = ..\.gitignore
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "common", "common\common.vcxproj", "{4F22E20E-826B-4579-9957-673FB5820D95}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test_files", "test_files", "{87C31077-AC75-4BEF-A59B-E5E9BD5E36AC}"
+	ProjectSection(SolutionItems) = preProject
+		test_files\test.br = test_files\test.br
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -27,6 +34,14 @@ Global
 		{07095932-37F5-487E-8E1A-4EAA9EF35EE7}.Release|x64.Build.0 = Release|x64
 		{07095932-37F5-487E-8E1A-4EAA9EF35EE7}.Release|x86.ActiveCfg = Release|Win32
 		{07095932-37F5-487E-8E1A-4EAA9EF35EE7}.Release|x86.Build.0 = Release|Win32
+		{4F22E20E-826B-4579-9957-673FB5820D95}.Debug|x64.ActiveCfg = Debug|x64
+		{4F22E20E-826B-4579-9957-673FB5820D95}.Debug|x64.Build.0 = Debug|x64
+		{4F22E20E-826B-4579-9957-673FB5820D95}.Debug|x86.ActiveCfg = Debug|Win32
+		{4F22E20E-826B-4579-9957-673FB5820D95}.Debug|x86.Build.0 = Debug|Win32
+		{4F22E20E-826B-4579-9957-673FB5820D95}.Release|x64.ActiveCfg = Release|x64
+		{4F22E20E-826B-4579-9957-673FB5820D95}.Release|x64.Build.0 = Release|x64
+		{4F22E20E-826B-4579-9957-673FB5820D95}.Release|x86.ActiveCfg = Release|Win32
+		{4F22E20E-826B-4579-9957-673FB5820D95}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
