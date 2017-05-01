@@ -16,7 +16,7 @@ namespace brisk {
 			auto result = std::unique_ptr<u8>(static_cast<u8*>(calloc(size_needed + 1, 1)));
 			result.get()[size_needed] = '\0';
 
-			WideCharToMultiByte(CP_UTF8, 0, wstr, static_cast<int>(length), (char*)result.get(), size_needed, nullptr, nullptr);
+			WideCharToMultiByte(CP_UTF8, 0, wstr, static_cast<int>(length), reinterpret_cast<char*>(result.get()), size_needed, nullptr, nullptr);
 
 			return result;
 		}

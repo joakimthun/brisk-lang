@@ -20,10 +20,10 @@ namespace brisk {
 		file.seekg(0, std::ios::beg);
 
 		const auto full_path_name = get_full_path_name(path.c_str());
-		result->path = std::string((char*)(full_path_name.get()));
+		result->path = std::string(reinterpret_cast<char*>(full_path_name.get()));
 
 		result->content = std::unique_ptr<u8>(static_cast<u8*>(std::calloc(result->length, 1)));
-		auto &read_result = file.read((char*)result->content.get(), result->length);
+		auto &read_result = file.read(reinterpret_cast<char*>(result->content.get()), result->length);
 		
 		file.close();
 
