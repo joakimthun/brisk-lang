@@ -10,12 +10,8 @@ namespace brisk {
 
 	struct File
 	{
-		inline ~File()
-		{
-			SAFE_DELETE(content);
-		}
-
-		u8 *content;
+		std::unique_ptr<u8> content;
+		std::string path;
 		u64 length;
 	};
 

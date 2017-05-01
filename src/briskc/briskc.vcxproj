@@ -142,9 +142,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="briskc.cpp" />
+    <ClCompile Include="exceptions\unrecognized_token_exception.cpp" />
+    <ClCompile Include="lexing\lexer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="lexer\lexer.h" />
+    <ClInclude Include="exceptions\unrecognized_token_exception.h" />
+    <ClInclude Include="lexing\lexer.h" />
+    <ClInclude Include="lexing\token.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\common\common.vcxproj">

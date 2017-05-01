@@ -2,6 +2,7 @@
 
 namespace brisk {
 
+	BriskException::BriskException() {}
 	BriskException::BriskException(const std::string &message) : message_(message) {}
 
 	const char *BriskException::what() const throw()

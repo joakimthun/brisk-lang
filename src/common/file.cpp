@@ -3,7 +3,8 @@
 #include <stdlib.h>
 #include <fstream>
 
-#include "exceptions/brisk_io_exception.h"
+#include "exceptions.h"
+#include "util.h"
 
 namespace brisk {
 
@@ -12,23 +13,24 @@ namespace brisk {
 		std::ifstream file(path, std::ios::binary | std::ios::ate);
 
 		if (!file.good())
-			throw BriskIOException("Could not open '" + path + "'");
+			throw IOException("Could not open '" + path + "'");
 
 		auto result = std::make_unique<File>();
 		result->length = file.tellg();
 		file.seekg(0, std::ios::beg);
 
-		result->content = static_cast<u8*>(std::calloc(result->length, 1));
+		const auto full_path_name = get_full_path_name(path.c_str());
+		result->path = std::string((char*)(full_path_name.get()));
 
-		auto &read_result = file.read((char*)result->content, result->length);
+		result->content = std::unique_ptr<u8>(static_cast<u8*>(std::calloc(result->length, 1)));
+		auto &read_result = file.read((char*)result->content.get(), result->length);
 		
 		file.close();
 
 		if(!read_result)
-			throw BriskIOException("Could not read '" + path + "'");
+			throw IOException("Could not read '" + path + "'");
 
 		return result;
-		
 	}
 
 }

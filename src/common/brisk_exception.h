@@ -8,9 +8,10 @@ namespace brisk {
 	class BriskException : public std::exception
 	{
 	public:
+		BriskException();
 		BriskException(const std::string& message);
 
-		virtual const char* what() const throw();
+		virtual const char* what() const override;
 
 	protected:
 		std::string message_;
