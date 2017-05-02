@@ -2,6 +2,8 @@
 
 #include <string>
 #include <memory>
+#include <vector>
+
 
 #include "typedef.h"
 #include "token.h"
@@ -16,9 +18,10 @@ namespace brisk {
 		Lexer(const std::string &filepath);
 
 		Token next();
-		//Token peek();
+		const Token &peek(u16 offset = 1);
 
 	private:
+		Token next_internal();
 		Token create_token(TokenType type, u64 start_offset);
 		Token create_token(TokenType type, u64 start_offset, TokenValue value);
 		void consume_whitespace();
@@ -36,6 +39,7 @@ namespace brisk {
 		utf8::CodePoint current_;
 		u32 row_;
 		u32 column_;
+		std::vector<Token> peek_queue_;
 	};
 }
 

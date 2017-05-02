@@ -20,6 +20,36 @@ namespace brisk {
 
 	Token Lexer::next()
 	{
+		if (!peek_queue_.empty())
+		{
+			const auto next_token = peek_queue_.front();
+			peek_queue_.erase(peek_queue_.begin());
+			return next_token;
+		}
+
+		return next_internal();
+	}
+
+	const Token &Lexer::peek(u16 offset)
+	{
+		if (peek_queue_.size() > 0 && peek_queue_.back().type == TokenType::Eof)
+			return peek_queue_.back();
+
+		if (peek_queue_.size() >= offset)
+			return peek_queue_[offset - 1];
+
+		while (peek_queue_.size() < offset)
+		{
+			peek_queue_.push_back(next_internal());
+			if (peek_queue_.back().type == TokenType::Eof)
+				return peek_queue_.back();
+		}
+
+		return peek_queue_.back();
+	}
+
+	Token Lexer::next_internal()
+	{
 		if (current_.eof || (current_offset_ >= file_->length))
 			return Token(TokenType::Eof, nullptr, 0, 0, 0, 0);
 
@@ -48,11 +78,6 @@ namespace brisk {
 
 		throw UnrecognizedTokenException(current_.value, row_, column_, file_->path);
 	}
-
-	//Token Lexer::peek()
-	//{
-	//	return Token()
-	//}
 
 	Token Lexer::create_token(TokenType type, u64 start_offset)
 	{
