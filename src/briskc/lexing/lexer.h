@@ -26,7 +26,7 @@ namespace brisk {
 		Token create_token(TokenType type, u64 start_offset, TokenValue value);
 		void consume_whitespace();
 		void consume();
-		void consume_new_line();
+		void consume_newline();
 
 		bool is_whitespace();
 		bool is_identifier();

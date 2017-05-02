@@ -11,6 +11,8 @@ namespace brisk {
 		// Operators
 		Plus,
 		Minus,
+		Star,
+		Slash,
 
 		// Literals
 		I32Literal

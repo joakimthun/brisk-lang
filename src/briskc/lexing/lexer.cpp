@@ -50,6 +50,7 @@ namespace brisk {
 
 	Token Lexer::next_internal()
 	{
+		start:
 		if (current_.eof || (current_offset_ >= file_->length))
 			return Token(TokenType::Eof, nullptr, 0, 0, 0, 0);
 
@@ -67,6 +68,18 @@ namespace brisk {
 		case '-': {
 			consume();
 			return create_token(TokenType::Minus, start_offset);
+		}
+		case '*': {
+			consume();
+			return create_token(TokenType::Star, start_offset);
+		}
+		case '/': {
+			consume();
+			return create_token(TokenType::Slash, start_offset);
+		}
+		case '\n': {
+			consume_newline();
+			goto start;
 		}
 		default:
 			break;
@@ -111,7 +124,7 @@ namespace brisk {
 		column_++;
 	}
 
-	void Lexer::consume_new_line()
+	void Lexer::consume_newline()
 	{
 		consume();
 		row_++;
