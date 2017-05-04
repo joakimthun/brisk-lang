@@ -144,11 +144,21 @@
     <ClCompile Include="briskc.cpp" />
     <ClCompile Include="exceptions\unrecognized_token_exception.cpp" />
     <ClCompile Include="lexing\lexer.cpp" />
+    <ClCompile Include="parsing\grammar.cpp" />
+    <ClCompile Include="parsing\brisk_parser.cpp" />
+    <ClCompile Include="parsing\parsers\bin_expr_parser.cpp" />
+    <ClCompile Include="parsing\parsers\literal_parser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="exceptions\unrecognized_token_exception.h" />
     <ClInclude Include="lexing\lexer.h" />
-    <ClInclude Include="lexing\token.h" />
+    <ClInclude Include="parsing\grammar.h" />
+    <ClInclude Include="parsing\brisk_parser.h" />
+    <ClInclude Include="parsing\parsers\bin_expr_parser.h" />
+    <ClInclude Include="parsing\parsers\infix_parser.h" />
+    <ClInclude Include="parsing\parsers\literal_parser.h" />
+    <ClInclude Include="parsing\parsers\parser.h" />
+    <ClInclude Include="parsing\precedence.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\common\common.vcxproj">

@@ -1,25 +1,11 @@
 #pragma once
 
 #include "typedef.h"
+#include "token_type.h"
 
 namespace brisk {
 
-	enum class TokenType : u16
-	{
-		Eof = 0,
-
-		// Operators
-		Plus,
-		Minus,
-		Star,
-		Slash,
-
-		// Literals
-		I32Literal
-	};
-
-
-	union TokenValue 
+	union TokenValue
 	{
 		i32 i32;
 		float f;
@@ -28,6 +14,17 @@ namespace brisk {
 
 	struct Token
 	{
+		inline Token()
+			:
+			type(TokenType::Eof),
+			value({ 0 }),
+			raw_value(nullptr),
+			length(0),
+			row(0),
+			column_start(0),
+			column_end(0)
+		{}
+
 		inline Token(TokenType type, u8 *raw_value, u32 length, u32 row, u32 column_start, u32 column_end)
 			:
 			type(type),

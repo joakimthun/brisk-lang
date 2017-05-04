@@ -19,9 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ast\ast.h" />
+    <ClInclude Include="token.h" />
+    <ClInclude Include="token_type.h" />
     <ClInclude Include="brisk_exception.h" />
     <ClInclude Include="exceptions.h" />
     <ClInclude Include="file.h" />
+    <ClInclude Include="type.h" />
     <ClInclude Include="typedef.h" />
     <ClInclude Include="utf8.h" />
     <ClInclude Include="util.h" />

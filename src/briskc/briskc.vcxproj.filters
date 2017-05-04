@@ -24,15 +24,45 @@
     <ClCompile Include="exceptions\unrecognized_token_exception.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="parsing\grammar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="parsing\brisk_parser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="parsing\parsers\bin_expr_parser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="parsing\parsers\literal_parser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lexing\lexer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="lexing\token.h">
+    <ClInclude Include="exceptions\unrecognized_token_exception.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="exceptions\unrecognized_token_exception.h">
+    <ClInclude Include="parsing\precedence.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="parsing\grammar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="parsing\parsers\parser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="parsing\brisk_parser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="parsing\parsers\bin_expr_parser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="parsing\parsers\infix_parser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="parsing\parsers\literal_parser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

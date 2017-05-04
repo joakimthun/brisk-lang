@@ -100,7 +100,7 @@ namespace brisk {
 	Token Lexer::create_token(TokenType type, u64 start_offset, TokenValue value)
 	{
 		const auto length = current_offset_ - start_offset;
-		auto column_start = column_ - length;
+		const auto column_start = column_ - length;
 
 		return Token(type, 
 			file_->content.get() + start_offset, 
