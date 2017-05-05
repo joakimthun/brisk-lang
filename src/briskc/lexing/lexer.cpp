@@ -85,6 +85,9 @@ namespace brisk {
 			break;
 		}
 
+		if (is_identifier())
+			return read_identifier(start_offset);
+
 		if (is_digit())
 			return read_digit(start_offset);
 
@@ -169,5 +172,17 @@ namespace brisk {
 		value.i32 = std::atoi(reinterpret_cast<char*>(raw_value));
 
 		return create_token(TokenType::I32Literal, start_offset, value);
+	}
+
+	Token Lexer::read_identifier(u64 start_offset)
+	{
+		consume();
+
+		while (is_identifier() || is_digit())
+		{
+			consume();
+		}
+
+		return create_token(TokenType::Identifier, start_offset);
 	}
 }

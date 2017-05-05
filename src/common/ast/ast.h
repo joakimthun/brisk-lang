@@ -7,6 +7,7 @@
 #include "../token_type.h"
 #include "../token.h"
 #include "../type.h"
+#include "../string_view.h"
 
 namespace brisk {
 
@@ -56,5 +57,10 @@ namespace brisk {
 			double d;
 		} value;
 		Type type;
+	};
+
+	struct IdentifierExpr : public Expr
+	{
+		StringView name;
 	};
 }

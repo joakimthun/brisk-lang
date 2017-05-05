@@ -1,6 +1,7 @@
 #include "grammar.h"
 
 #include "precedence.h"
+#include "parsers/identifier_parser.h"
 #include "parsers/bin_expr_parser.h"
 #include "parsers/literal_parser.h"
 
@@ -46,6 +47,7 @@ namespace brisk {
 
 		// Expr
 		expr_parsers_.insert(expr_pair(TokenType::I32Literal, std::make_unique<LiteralParser>()));
+		expr_parsers_.insert(expr_pair(TokenType::Identifier, std::make_unique<IdentifierParser>()));
 	}
 
 }

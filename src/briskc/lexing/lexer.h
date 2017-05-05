@@ -33,6 +33,7 @@ namespace brisk {
 		bool is_digit();
 
 		Token read_digit(u64 start_offset);
+		Token read_identifier(u64 start_offset);
 
 		std::unique_ptr<File> file_;
 		u64 current_offset_;

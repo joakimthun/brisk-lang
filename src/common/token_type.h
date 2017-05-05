@@ -17,7 +17,9 @@ namespace brisk {
 		Slash,
 
 		// Literals
-		I32Literal
+		I32Literal,
+
+		Identifier
 	};
 
 	std::string token_type_name(TokenType type);

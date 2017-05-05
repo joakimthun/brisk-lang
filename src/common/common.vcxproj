@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ast\ast.h" />
+    <ClInclude Include="string_view.h" />
     <ClInclude Include="token.h" />
     <ClInclude Include="token_type.h" />
     <ClInclude Include="brisk_exception.h" />
@@ -34,6 +35,7 @@
   <ItemGroup>
     <ClCompile Include="brisk_exception.cpp" />
     <ClCompile Include="file.cpp" />
+    <ClCompile Include="string_view.cpp" />
     <ClCompile Include="token.cpp" />
     <ClCompile Include="token_type.cpp" />
     <ClCompile Include="utf8.cpp" />

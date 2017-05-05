@@ -4,6 +4,7 @@
 
 #include "typedef.h"
 #include "token_type.h"
+#include "string_view.h"
 
 namespace brisk {
 
@@ -24,8 +25,7 @@ namespace brisk {
 
 		TokenType type;
 		TokenValue value;
-		u8 *raw_value;
-		u32 length;
+		StringView raw_value;
 		u32 row;
 		u32 column_start;
 		u32 column_end;

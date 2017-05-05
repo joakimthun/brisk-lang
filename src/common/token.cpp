@@ -6,8 +6,6 @@ namespace brisk {
 		:
 		type(TokenType::Eof),
 		value({ 0 }),
-		raw_value(nullptr),
-		length(0),
 		row(0),
 		column_start(0),
 		column_end(0),
@@ -18,8 +16,7 @@ namespace brisk {
 		:
 		type(type),
 		value({ 0 }),
-		raw_value(raw_value),
-		length(length),
+		raw_value(StringView(raw_value, length)),
 		row(row),
 		column_start(column_start),
 		column_end(column_end),
@@ -30,8 +27,7 @@ namespace brisk {
 		:
 		type(type),
 		value(value),
-		raw_value(raw_value),
-		length(length),
+		raw_value(StringView(raw_value, length)),
 		row(row),
 		column_start(column_start),
 		column_end(column_end),

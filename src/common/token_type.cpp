@@ -18,6 +18,8 @@ namespace brisk {
 			return "Slash";
 		case TokenType::I32Literal:
 			return "I32Literal";
+		case TokenType::Identifier:
+			return "Identifier";
 		default:
 			return "Unknown token type";;
 		}

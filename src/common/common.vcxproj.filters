@@ -48,6 +48,9 @@
     <ClInclude Include="token.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="string_view.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="file.cpp">
@@ -69,6 +72,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="token_type.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="string_view.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
