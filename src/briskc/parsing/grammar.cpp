@@ -4,6 +4,7 @@
 #include "parsers/identifier_parser.h"
 #include "parsers/bin_expr_parser.h"
 #include "parsers/literal_parser.h"
+#include "parsers/assignment_parser.h"
 
 namespace brisk {
 
@@ -44,6 +45,7 @@ namespace brisk {
 		infix_parsers_.insert(infix_pair(TokenType::Minus, std::make_unique<BinExprParser>(Precedence::Sum)));
 		infix_parsers_.insert(infix_pair(TokenType::Star, std::make_unique<BinExprParser>(Precedence::Product)));
 		infix_parsers_.insert(infix_pair(TokenType::Slash, std::make_unique<BinExprParser>(Precedence::Product)));
+		infix_parsers_.insert(infix_pair(TokenType::Equals, std::make_unique<AssignmentParser>()));
 
 		// Expr
 		expr_parsers_.insert(expr_pair(TokenType::I32Literal, std::make_unique<LiteralParser>()));

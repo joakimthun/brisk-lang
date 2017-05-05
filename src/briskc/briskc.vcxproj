@@ -147,6 +147,7 @@
     <ClCompile Include="lexing\lexer.cpp" />
     <ClCompile Include="parsing\grammar.cpp" />
     <ClCompile Include="parsing\brisk_parser.cpp" />
+    <ClCompile Include="parsing\parsers\assignment_parser.cpp" />
     <ClCompile Include="parsing\parsers\bin_expr_parser.cpp" />
     <ClCompile Include="parsing\parsers\identifier_parser.cpp" />
     <ClCompile Include="parsing\parsers\literal_parser.cpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="lexing\lexer.h" />
     <ClInclude Include="parsing\grammar.h" />
     <ClInclude Include="parsing\brisk_parser.h" />
+    <ClInclude Include="parsing\parsers\assignment_parser.h" />
     <ClInclude Include="parsing\parsers\bin_expr_parser.h" />
     <ClInclude Include="parsing\parsers\identifier_parser.h" />
     <ClInclude Include="parsing\parsers\infix_parser.h" />

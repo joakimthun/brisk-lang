@@ -63,4 +63,10 @@ namespace brisk {
 	{
 		StringView name;
 	};
+
+	struct AssignExpr : public Expr
+	{
+		std::unique_ptr<Expr> left;
+		std::unique_ptr<Expr> right;
+	};
 }

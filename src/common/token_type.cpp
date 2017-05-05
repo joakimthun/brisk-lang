@@ -16,6 +16,8 @@ namespace brisk {
 			return "Star";
 		case TokenType::Slash:
 			return "Slash";
+		case TokenType::Equals:
+			return "Equals";
 		case TokenType::I32Literal:
 			return "I32Literal";
 		case TokenType::Identifier:

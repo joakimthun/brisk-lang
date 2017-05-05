@@ -15,6 +15,7 @@ namespace brisk {
 		Minus,
 		Star,
 		Slash,
+		Equals,
 
 		// Literals
 		I32Literal,

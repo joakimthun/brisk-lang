@@ -4,11 +4,9 @@
 
 namespace brisk {
 
-	class LiteralParser : public Parser
+	struct LiteralParser : public Parser
 	{
-	public:
 		std::unique_ptr<Expr> parse(BriskParser &parser) override;
-
 	};
 	
 }
