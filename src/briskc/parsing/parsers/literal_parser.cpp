@@ -4,6 +4,8 @@
 #include "ast/ast.h"
 #include "type.h"
 
+#include "exceptions.h"
+
 namespace brisk {
 
 	std::unique_ptr<Expr> LiteralParser::parse(BriskParser &parser)
@@ -22,7 +24,7 @@ namespace brisk {
 			break;
 		}
 		default:
-			throw "LiteralParser::parse";
+			throw BriskException("LiteralParser::parse -> Unsupported type");
 		}
 
 		return expr;

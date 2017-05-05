@@ -52,7 +52,7 @@ namespace brisk {
 	{
 		start:
 		if (current_.eof || (current_offset_ >= file_->length))
-			return Token(TokenType::Eof, nullptr, 0, 0, 0, 0);
+			return Token(TokenType::Eof, nullptr, 0, 0, 0, 0, nullptr);
 
 		consume_whitespace();
 
@@ -108,7 +108,8 @@ namespace brisk {
 			row_, 
 			column_start,
 			column_,
-			value);
+			value,
+			file_.get());
 	}
 
 	void Lexer::consume_whitespace()

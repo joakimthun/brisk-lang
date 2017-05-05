@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "typedef.h"
 
 namespace brisk {
@@ -18,4 +20,5 @@ namespace brisk {
 		I32Literal
 	};
 
+	std::string token_type_name(TokenType type);
 }

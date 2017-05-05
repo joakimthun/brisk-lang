@@ -2,6 +2,9 @@
 
 #include <utility>
 
+#include "exceptions.h"
+#include "../exceptions/parsing_exception.h"
+
 namespace brisk {
 
 	BriskParser::BriskParser(const std::string &filepath)
@@ -23,7 +26,7 @@ namespace brisk {
 		return ast;
 	}
 
-	const Token & BriskParser::current_token()
+	const Token &BriskParser::current_token()
 	{
 		return current_token_;
 	}
@@ -36,7 +39,7 @@ namespace brisk {
 	void BriskParser::consume(TokenType type)
 	{
 		if (current_token_.type != type)
-			throw "Invalid token";
+			throw ParsingException(type, current_token_);
 
 		consume();
 	}
@@ -56,13 +59,16 @@ namespace brisk {
 		auto expr_parser = grammar_.get_expr_parser(current_token_.type);
 
 		if (expr_parser == nullptr)
-			throw "expr_parser == nullptr";
+			throw ParsingException(current_token_);
 
 		auto left = expr_parser->parse(*this);
 
 		while (precedence < get_precedence())
 		{
 			auto infix_parser = grammar_.get_infix_parser(current_token_.type);
+			if (infix_parser == nullptr)
+				throw ParsingException(current_token_);
+
 			left = infix_parser->parse(*this, std::move(left));
 		}
 

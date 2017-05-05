@@ -19,7 +19,7 @@ namespace brisk {
 		expr->op = parser.current_token().type;
 		parser.consume();
 		expr->left = std::move(left);
-		expr->right = parser.parse_expr();
+		expr->right = parser.parse_expr(precedence());
 
 		expr->end = parser.current_token();
 

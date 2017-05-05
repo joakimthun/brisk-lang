@@ -34,6 +34,8 @@
   <ItemGroup>
     <ClCompile Include="brisk_exception.cpp" />
     <ClCompile Include="file.cpp" />
+    <ClCompile Include="token.cpp" />
+    <ClCompile Include="token_type.cpp" />
     <ClCompile Include="utf8.cpp" />
     <ClCompile Include="util.cpp" />
     <ClCompile Include="win32.cpp" />
