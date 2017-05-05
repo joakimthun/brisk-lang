@@ -23,7 +23,7 @@ namespace brisk {
 		for (auto i = 0u; i < length_; i++)
 			result += data_[i];
 
-		return std::string();
+		return result;
 	}
 
 	u32 StringView::length() const
