@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "typedef.h"
-#include "util.h"
+#include "byte_buffer.h"
 
 namespace brisk {
 
@@ -16,4 +16,5 @@ namespace brisk {
 	};
 
 	std::unique_ptr<File> open_file(const std::string &path);
+	void write_file(const std::string &path, const ByteBuffer &data);
 }

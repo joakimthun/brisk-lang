@@ -33,4 +33,10 @@ namespace brisk {
 		return result;
 	}
 
+	void write_file(const std::string & path, const ByteBuffer & data)
+	{
+		std::ofstream file(path, std::ios::binary);
+		file.write(reinterpret_cast<const char*>(data.data()), data.length());
+		file.close();
+	}
 }

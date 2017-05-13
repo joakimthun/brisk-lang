@@ -4,12 +4,17 @@
 #include "lexing/lexer.h"
 #include "parsing/brisk_parser.h"
 
+#include "codegen/coff.h"
+
 using namespace brisk;
 
 int main(int argc, char* argv[])
 {
 	try
 	{
+		coff::read("C:/test/main.obj");
+		coff::write("");
+
 		auto parser = BriskParser("test_files/test.br");
 
 		auto e = parser.parse_expr();

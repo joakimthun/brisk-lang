@@ -142,6 +142,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="briskc.cpp" />
+    <ClCompile Include="codegen\coff.cpp" />
     <ClCompile Include="exceptions\parsing_exception.cpp" />
     <ClCompile Include="exceptions\unrecognized_token_exception.cpp" />
     <ClCompile Include="lexing\lexer.cpp" />
@@ -153,6 +154,7 @@
     <ClCompile Include="parsing\parsers\literal_parser.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="codegen\coff.h" />
     <ClInclude Include="exceptions\parsing_exception.h" />
     <ClInclude Include="exceptions\unrecognized_token_exception.h" />
     <ClInclude Include="lexing\lexer.h" />
