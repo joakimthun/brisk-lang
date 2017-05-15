@@ -48,6 +48,9 @@
     <ClCompile Include="codegen\coff.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="codegen\x86_64\emitter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lexing\lexer.h">
@@ -89,5 +92,16 @@
     <ClInclude Include="codegen\coff.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="codegen\x86_64\emitter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codegen\x86_64\x64.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="test.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
   </ItemGroup>
 </Project>

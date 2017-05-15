@@ -52,15 +52,15 @@ namespace brisk {
 			auto brk = 0;
 		}
 
-		void write(const std::string &path)
+		void write(const ByteBuffer& code, const std::string &path)
 		{
 			auto header = FileHeader{ 0 };
-			header.magic = 0x14c;
+			header.machine = static_cast<u16>(MACHINE::IMAGE_FILE_MACHINE_AMD64);
 			auto now = std::time(nullptr);
 			header.timdat = now;
 			header.nscns = 1;
 			header.nsyms = 1;
-			header.symptr = sizeof(FileHeader) + sizeof(SectionHeader) + 10;
+			header.symptr = sizeof(FileHeader) + sizeof(SectionHeader) + code.length();
 
 			auto cs = SectionHeader{ 0 };
 			cs.name[0] = '.';
@@ -70,66 +70,14 @@ namespace brisk {
 			cs.name[4] = 't';
 
 			cs.flags = static_cast<u32>(SectionHeaderFlags::STYP_TEXT);
-			cs.size = 10;
+			cs.size = code.length();
 			cs.scnptr = sizeof(FileHeader) + sizeof(SectionHeader);
 
-			/*auto dir_s = SectionHeader{ 0 };
-			dir_s.name[0] = '.';
-			dir_s.name[1] = 'd';
-			dir_s.name[2] = 'r';
-			dir_s.name[3] = 'e';
-			dir_s.name[4] = 'c';
-			dir_s.name[5] = 't';
-			dir_s.name[6] = 'v';
-			dir_s.name[7] = 'e';
-
-			auto dir_content = std::string("/DEFAULTLIB:\"LIBCMT\" /DEFAULTLIB:\"OLDNAMES\"");
-			ByteBuffer dir_b;
-			dir_b.write(dir_content.c_str(), dir_content.size());
-
-			dir_s.flags = 1051136;
-			dir_s.size = dir_b.length();
-			dir_s.scnptr = sizeof(FileHeader) + sizeof(SectionHeader);*/
-
-			
-
-			ByteBuffer code;
-			code.write(0x55);	// push ebp
-			
-			code.write(0x8B);	// mov ebp, esp
-			code.write(0xEC);
-			
-			code.write(0xB8);	// mov eax, 64h
-			code.write(0x64);
-			code.write(0x00);
-			code.write(0x00);
-			code.write(0x00);
-			
-			code.write(0x5D);	// pop ebp
-			code.write(0xC3);	// ret
-
-			
-
-			//auto ste_dir = SymbolTableEntry{ 0 };
-			//ste_dir.entry.name[0] = '.';
-			//ste_dir.entry.name[1] = 'd';
-			//ste_dir.entry.name[2] = 'r';
-			//ste_dir.entry.name[3] = 'e';
-			//ste_dir.entry.name[4] = 'c';
-			//ste_dir.entry.name[5] = 't';
-			//ste_dir.entry.name[6] = 'v';
-			//ste_dir.entry.name[7] = 'e';
-			//ste_dir.scnum = 2;
-			//ste_dir.type = 0;
-			//ste_dir.sclass = 3;
-			////ste_dir.numaux = 1;
-
 			auto ste_main = SymbolTableEntry{ 0 };
-			ste_main.entry.name[0] = '_';
-			ste_main.entry.name[1] = 'm';
-			ste_main.entry.name[2] = 'a';
-			ste_main.entry.name[3] = 'i';
-			ste_main.entry.name[4] = 'n';
+			ste_main.entry.name[0] = 'm';
+			ste_main.entry.name[1] = 'a';
+			ste_main.entry.name[2] = 'i';
+			ste_main.entry.name[3] = 'n';
 			ste_main.scnum = 1;
 			ste_main.type = 32;
 			ste_main.sclass = 2;
@@ -145,11 +93,7 @@ namespace brisk {
 			buffer.write(0);
 			buffer.write(0);
 
-			write_file("C:/test/brisk.obj", buffer);
-
-			auto soste = sizeof(SymbolTableEntry);
-
-			read("C:/test/brisk.obj");
+			write_file(path, buffer);
 		}
 	}
 }

@@ -6,10 +6,20 @@
 #include "typedef.h"
 
 namespace brisk {
+
+	class ByteBuffer;
+
 	namespace coff {
 
 #pragma pack(push, 1)
-		
+
+		enum class MACHINE : u16
+		{
+			IMAGE_FILE_MACHINE_I386 = 0x014c, // x86
+			IMAGE_FILE_MACHINE_IA64 = 0x0200, // Intel Itanium
+			IMAGE_FILE_MACHINE_AMD64 = 0x8664 // x64
+		};
+
 		enum class FileHeaderFlags : u16
 		{
 			RELFLG = 0x0001,	// If set, there is no relocation information in this file. This is usually clear for objects and set for executables.
@@ -21,7 +31,7 @@ namespace brisk {
 
 		struct FileHeader
 		{
-			u16 magic;			// magic number
+			u16 machine;		// machine
 			u16 nscns;			// number of sections
 			u32 timdat;			// time & date stamp, time_t
 			u32 symptr;			// file pointer to symtab
@@ -90,6 +100,6 @@ namespace brisk {
 #pragma pack(pop)
 
 		void read(const std::string &path);
-		void write(const std::string &path);
+		void write(const ByteBuffer& code, const std::string &path);
 	}
 }

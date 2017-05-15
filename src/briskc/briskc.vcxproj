@@ -54,6 +54,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
@@ -143,6 +144,7 @@
   <ItemGroup>
     <ClCompile Include="briskc.cpp" />
     <ClCompile Include="codegen\coff.cpp" />
+    <ClCompile Include="codegen\x86_64\emitter.cpp" />
     <ClCompile Include="exceptions\parsing_exception.cpp" />
     <ClCompile Include="exceptions\unrecognized_token_exception.cpp" />
     <ClCompile Include="lexing\lexer.cpp" />
@@ -155,6 +157,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="codegen\coff.h" />
+    <ClInclude Include="codegen\x86_64\emitter.h" />
+    <ClInclude Include="codegen\x86_64\x64.h" />
     <ClInclude Include="exceptions\parsing_exception.h" />
     <ClInclude Include="exceptions\unrecognized_token_exception.h" />
     <ClInclude Include="lexing\lexer.h" />
@@ -173,7 +177,13 @@
       <Project>{4f22e20e-826b-4579-9957-673fb5820d95}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <MASM Include="test.asm">
+      <FileType>Document</FileType>
+    </MASM>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
   </ImportGroup>
 </Project>
