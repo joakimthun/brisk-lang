@@ -54,15 +54,15 @@ namespace brisk {
 
 		void write(const ByteBuffer& code, const std::string &path)
 		{
-			auto header = FileHeader{ 0 };
+			/*auto header = FileHeader{ 0 };
 			header.machine = static_cast<u16>(MACHINE::IMAGE_FILE_MACHINE_AMD64);
 			auto now = std::time(nullptr);
 			header.timdat = now;
 			header.nscns = 1;
 			header.nsyms = 1;
-			header.symptr = sizeof(FileHeader) + sizeof(SectionHeader) + code.length();
+			header.symptr = sizeof(FileHeader) + sizeof(SectionHeader) + code.length();*/
 
-			auto cs = SectionHeader{ 0 };
+			/*auto cs = SectionHeader{ 0 };
 			cs.name[0] = '.';
 			cs.name[1] = 't';
 			cs.name[2] = 'e';
@@ -71,18 +71,18 @@ namespace brisk {
 
 			cs.flags = static_cast<u32>(SectionHeaderFlags::STYP_TEXT);
 			cs.size = code.length();
-			cs.scnptr = sizeof(FileHeader) + sizeof(SectionHeader);
+			cs.scnptr = sizeof(FileHeader) + sizeof(SectionHeader);*/
 
-			auto ste_main = SymbolTableEntry{ 0 };
+			/*auto ste_main = SymbolTableEntry{ 0 };
 			ste_main.entry.name[0] = 'm';
 			ste_main.entry.name[1] = 'a';
 			ste_main.entry.name[2] = 'i';
 			ste_main.entry.name[3] = 'n';
 			ste_main.scnum = 1;
 			ste_main.type = 32;
-			ste_main.sclass = 2;
+			ste_main.sclass = 2;*/
 
-			ByteBuffer buffer;
+			/*ByteBuffer buffer;
 			buffer.write(&header, sizeof(FileHeader));
 			buffer.write(&cs, sizeof(SectionHeader));
 			buffer.write(code.data(), code.length());
@@ -93,7 +93,7 @@ namespace brisk {
 			buffer.write(0);
 			buffer.write(0);
 
-			write_file(path, buffer);
+			write_file(path, buffer);*/
 		}
 	}
 }

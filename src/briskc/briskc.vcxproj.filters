@@ -45,10 +45,13 @@
     <ClCompile Include="parsing\parsers\assignment_parser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="codegen\coff.cpp">
+    <ClCompile Include="codegen\x86_64\emitter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="codegen\x86_64\emitter.cpp">
+    <ClCompile Include="codegen\coff\coff.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="codegen\coff\coff_writer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -89,13 +92,16 @@
     <ClInclude Include="parsing\parsers\assignment_parser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="codegen\coff.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="codegen\x86_64\emitter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="codegen\x86_64\x64.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codegen\coff\coff.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codegen\coff\coff_writer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

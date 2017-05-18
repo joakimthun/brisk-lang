@@ -5,11 +5,21 @@ namespace brisk {
 
 		Emitter::Emitter()
 		{
+			buffer_ = std::make_unique<ByteBuffer>();
 		}
 
 		void Emitter::emit_add(Register destination, u8 value)
 		{
 			// 83 /0 ib
+			emit(0x83);
+			emit_modrm(ModRM_Mod::RegisterAddr, destination);
+			emit(value);
+		}
+
+		void Emitter::emit_add64(Register destination, u8 value)
+		{
+			// REX.W + 83 / 0 ib
+			emit_rex(REX::W);
 			emit(0x83);
 			emit_modrm(ModRM_Mod::RegisterAddr, destination);
 			emit(value);
@@ -23,7 +33,16 @@ namespace brisk {
 			emit(value);
 		}
 
-		void Emitter::emit_mov(Register destination, u64 value)
+		void Emitter::emit_sub64(Register destination, u8 value)
+		{
+			// REX.W + 83 /5 ib
+			emit_rex(REX::W);
+			emit(0x83);
+			emit_modrm(ModRM_Mod::RegisterAddr, 0x5, (u8)destination);
+			emit(value);
+		}
+
+		void Emitter::emit_mov64(Register destination, u64 value)
 		{
 			// REX.W + B8 +rd io
 			emit_rex(REX::W);
@@ -33,15 +52,31 @@ namespace brisk {
 
 		void Emitter::emit_mov(Register destination, Register source)
 		{
-			// 89 / r
+			// 89 /r
 			emit(0x89);
 			emit_modrm(ModRM_Mod::RegisterAddr, source, destination);
+		}
+
+		void Emitter::emit_lea64(Register destination, u32 displacement)
+		{
+			// REX.W + 8D /r
+			emit_rex(REX::W);
+			emit(0x8d);
+			emit_modrm(ModRM_Mod::RegIndir, (u8)destination, 0x5);
+			emit4(displacement);
 		}
 
 		void Emitter::emit_ret()
 		{
 			// Near return to calling procedure.
 			emit(0xc3);
+		}
+
+		void Emitter::emit_call()
+		{
+			// E8 cd
+			emit(0xe8);
+			emit4(0);
 		}
 
 		void Emitter::emit_rex(REX r)
@@ -70,7 +105,17 @@ namespace brisk {
 
 		void Emitter::emit(u8 value)
 		{
-			buffer_.write(value);
+			buffer_->write(value);
+		}
+
+		void Emitter::emit4(u32 value)
+		{
+			auto byte_ptr = (u8*)&value;
+			for (auto i = 0u; i < 4; i++)
+			{
+				emit(*byte_ptr);
+				byte_ptr++;
+			}
 		}
 
 		void Emitter::emit8(u64 value)
@@ -83,9 +128,9 @@ namespace brisk {
 			}
 		}
 
-		const ByteBuffer &Emitter::buffer() const
+		std::unique_ptr<ByteBuffer> Emitter::buffer()
 		{
-			return buffer_;
+			return std::move(buffer_);
 		}
 
 		void Emitter::emit_modrm(ModRM_Mod mod, Register rm)
@@ -109,7 +154,7 @@ namespace brisk {
 			// 0x11 = 00.010.001 (mod = 0, reg / digit = 2, r / m = 1).
 
 			u8 result = rm | ((u8)reg << 3) | ((u8)mod << 6);
-			buffer_.write(result);
+			buffer_->write(result);
 		}
 	}
 }
