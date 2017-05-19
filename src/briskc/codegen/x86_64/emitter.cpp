@@ -66,6 +66,12 @@ namespace brisk {
 			emit4(displacement);
 		}
 
+		void Emitter::emit_xor(Register destination, Register source)
+		{
+			emit(0x33);
+			emit_modrm(ModRM_Mod::RegisterAddr, source, destination);
+		}
+
 		void Emitter::emit_ret()
 		{
 			// Near return to calling procedure.

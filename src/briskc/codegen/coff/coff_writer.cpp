@@ -75,7 +75,10 @@ namespace brisk {
 
 			auto section_content_size = 0u;
 			for (auto& s : sections_)
+			{
 				section_content_size += s.second->content->length();
+				section_content_size += s.second->relocations.size() * sizeof(RelocationDirective);
+			}
 
 			header_.symptr = sizeof(FileHeader) + (sizeof(SectionHeader) * header_.nscns) + section_content_size;
 
@@ -86,12 +89,26 @@ namespace brisk {
 			{
 				s.second->header.scnptr = scnptr;
 				scnptr += s.second->content->length();
+
+				s.second->header.nreloc = s.second->relocations.size();
+
+				if (s.second->header.nreloc > 0)
+				{
+					s.second->header.relptr = scnptr;
+					scnptr += s.second->header.nreloc * sizeof(RelocationDirective);
+				}
+
 				buffer.write(&s.second->header, sizeof(SectionHeader));
 			}
 
 			for (auto& s : sections_)
 			{
 				buffer.write(s.second->content->data(), s.second->content->length());
+				
+				for (auto& r : s.second->relocations)
+				{
+					buffer.write(&r, sizeof(RelocationDirective));
+				}
 			}
 
 			for (auto& s : symbols_)

@@ -21,6 +21,7 @@ namespace brisk {
 			void emit_mov64(Register destination, u64 value);
 			void emit_mov(Register destination, Register source);
 			void emit_lea64(Register destination, u32 displacement);
+			void emit_xor(Register destination, Register source);
 			void emit_ret();
 			void emit_call();
 			void emit_rex(REX r);
