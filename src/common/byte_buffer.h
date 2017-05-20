@@ -8,6 +8,7 @@ namespace brisk {
 	{
 	public:
 		ByteBuffer();
+		ByteBuffer(u32 initial_capacity);
 		~ByteBuffer();
 
 		const void *data() const;
@@ -18,6 +19,7 @@ namespace brisk {
 		void *data_;
 		u32 length_;
 		u32 offset_;
+		u32 capacity_;
 	};
 
 }
