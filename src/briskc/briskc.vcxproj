@@ -145,7 +145,7 @@
     <ClCompile Include="briskc.cpp" />
     <ClCompile Include="codegen\coff\coff.cpp" />
     <ClCompile Include="codegen\coff\coff_writer.cpp" />
-    <ClCompile Include="codegen\x86_64\emitter.cpp" />
+    <ClCompile Include="codegen\amd64\emitter.cpp" />
     <ClCompile Include="exceptions\parsing_exception.cpp" />
     <ClCompile Include="exceptions\unrecognized_token_exception.cpp" />
     <ClCompile Include="lexing\lexer.cpp" />
@@ -159,8 +159,8 @@
   <ItemGroup>
     <ClInclude Include="codegen\coff\coff.h" />
     <ClInclude Include="codegen\coff\coff_writer.h" />
-    <ClInclude Include="codegen\x86_64\emitter.h" />
-    <ClInclude Include="codegen\x86_64\x64.h" />
+    <ClInclude Include="codegen\amd64\emitter.h" />
+    <ClInclude Include="codegen\amd64\x64.h" />
     <ClInclude Include="exceptions\parsing_exception.h" />
     <ClInclude Include="exceptions\unrecognized_token_exception.h" />
     <ClInclude Include="lexing\lexer.h" />

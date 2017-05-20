@@ -8,7 +8,7 @@
 
 #include "codegen/coff/coff.h"
 #include "codegen/coff/coff_writer.h"
-#include "codegen/x86_64/emitter.h"
+#include "codegen/amd64/emitter.h"
 
 using namespace brisk;
 
