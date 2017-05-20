@@ -16,6 +16,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test_files", "test_files", "{87C31077-AC75-4BEF-A59B-E5E9BD5E36AC}"
 	ProjectSection(SolutionItems) = preProject
 		test_files\test.br = test_files\test.br
+		test_files\test2.br = test_files\test2.br
 	EndProjectSection
 EndProject
 Global

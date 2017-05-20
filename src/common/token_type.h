@@ -20,7 +20,18 @@ namespace brisk {
 		// Literals
 		I32Literal,
 
-		Identifier
+		// Keywords
+		Fn,
+		Ret,
+		I32,
+
+		// Misc
+		Identifier,
+		LBracket,
+		RBracket,
+		LParen,
+		RParen,
+		RArrow,
 	};
 
 	std::string token_type_name(TokenType type);

@@ -143,6 +143,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="briskc.cpp" />
+    <ClCompile Include="codegen\amd64\generator.cpp" />
     <ClCompile Include="codegen\coff\coff.cpp" />
     <ClCompile Include="codegen\coff\coff_writer.cpp" />
     <ClCompile Include="codegen\amd64\emitter.cpp" />
@@ -153,10 +154,13 @@
     <ClCompile Include="parsing\brisk_parser.cpp" />
     <ClCompile Include="parsing\parsers\assignment_parser.cpp" />
     <ClCompile Include="parsing\parsers\bin_expr_parser.cpp" />
+    <ClCompile Include="parsing\parsers\fn_decl_parser.cpp" />
     <ClCompile Include="parsing\parsers\identifier_parser.cpp" />
     <ClCompile Include="parsing\parsers\literal_parser.cpp" />
+    <ClCompile Include="parsing\parsers\ret_parser.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="codegen\amd64\generator.h" />
     <ClInclude Include="codegen\coff\coff.h" />
     <ClInclude Include="codegen\coff\coff_writer.h" />
     <ClInclude Include="codegen\amd64\emitter.h" />
@@ -168,10 +172,12 @@
     <ClInclude Include="parsing\brisk_parser.h" />
     <ClInclude Include="parsing\parsers\assignment_parser.h" />
     <ClInclude Include="parsing\parsers\bin_expr_parser.h" />
+    <ClInclude Include="parsing\parsers\fn_decl_parser.h" />
     <ClInclude Include="parsing\parsers\identifier_parser.h" />
     <ClInclude Include="parsing\parsers\infix_parser.h" />
     <ClInclude Include="parsing\parsers\literal_parser.h" />
     <ClInclude Include="parsing\parsers\parser.h" />
+    <ClInclude Include="parsing\parsers\ret_parser.h" />
     <ClInclude Include="parsing\precedence.h" />
   </ItemGroup>
   <ItemGroup>

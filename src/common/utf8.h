@@ -7,6 +7,13 @@ namespace brisk {
 		
 		struct CodePoint
 		{
+			inline CodePoint()
+				:
+				value(0),
+				num_bytes(0),
+				eof(0)
+			{}
+
 			inline CodePoint(u32 value, u8 num_bytes, bool eof = false)
 				:
 				value(value),

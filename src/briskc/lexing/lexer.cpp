@@ -7,6 +7,8 @@
 
 namespace brisk {
 
+	typedef std::pair<std::string, TokenType> kwe;
+
 	Lexer::Lexer(const std::string &filepath)
 		:
 		current_offset_(0),
@@ -16,6 +18,11 @@ namespace brisk {
 	{
 		file_ = open_file(filepath);
 		current_ = utf8::read_code_point(file_->content.get(), file_->length, current_offset_);
+
+		// Keywords
+		keywords_.insert(kwe("fn", TokenType::Fn));
+		keywords_.insert(kwe("ret", TokenType::Ret));
+		keywords_.insert(kwe("i32", TokenType::I32));
 	}
 
 	Token Lexer::next()
@@ -67,6 +74,10 @@ namespace brisk {
 		}
 		case '-': {
 			consume();
+
+			if(consume('>'))
+				return create_token(TokenType::RArrow, start_offset);
+
 			return create_token(TokenType::Minus, start_offset);
 		}
 		case '*': {
@@ -81,6 +92,22 @@ namespace brisk {
 			consume();
 			return create_token(TokenType::Equals, start_offset);
 		}
+		case '{': {
+			consume();
+			return create_token(TokenType::LBracket, start_offset);
+		}
+		case '}': {
+			consume();
+			return create_token(TokenType::RBracket, start_offset);
+		}
+		case '(': {
+			consume();
+			return create_token(TokenType::LParen, start_offset);
+		}
+		case ')': {
+			consume();
+			return create_token(TokenType::RParen, start_offset);
+		}
 		case '\n': {
 			consume_newline();
 			goto start;
@@ -88,6 +115,10 @@ namespace brisk {
 		default:
 			break;
 		}
+
+		const auto keyword = is_keyword();
+		if (keyword.match)
+			return read_keyword(start_offset, keyword.length, keyword.ttype);
 
 		if (is_identifier())
 			return read_identifier(start_offset);
@@ -132,6 +163,17 @@ namespace brisk {
 		column_++;
 	}
 
+	bool Lexer::consume(char c)
+	{
+		if (current_.value == c)
+		{
+			consume();
+			return true;
+		}
+
+		return false;
+	}
+
 	void Lexer::consume_newline()
 	{
 		consume();
@@ -155,6 +197,36 @@ namespace brisk {
 	bool Lexer::is_identifier()
 	{
 		return current_.value == '_' || std::isalpha(current_.value);
+	}
+
+	KeywordMatch Lexer::is_keyword()
+	{
+		u32 l = 0;
+		std::string kw;
+		auto c = utf8::read_code_point(file_->content.get(), file_->length, current_offset_ + l);
+
+		while (std::isalpha(c.value) || std::isdigit(c.value))
+		{
+			// Fix this if we add unicode stuff in keywords
+			kw += (char)c.value;
+			l += c.num_bytes;
+			c = utf8::read_code_point(file_->content.get(), file_->length, current_offset_ + l);
+		}
+
+		KeywordMatch m;
+		if (kw.size() == 0)
+			return m;
+
+		auto it = keywords_.find(kw);
+		if (it != keywords_.end())
+		{
+			m.length = l;
+			m.ttype = it->second;
+			m.match = true;
+			return m;
+		}
+
+		return m;
 	}
 
 	bool Lexer::is_digit()
@@ -188,5 +260,13 @@ namespace brisk {
 		}
 
 		return create_token(TokenType::Identifier, start_offset);
+	}
+
+	Token Lexer::read_keyword(u64 start_offset, u32 length, TokenType type)
+	{
+		for (auto i = 0u; i < length; i++)
+			consume();
+
+		return create_token(type, start_offset);
 	}
 }

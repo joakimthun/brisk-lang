@@ -9,6 +9,7 @@
 #include "codegen/coff/coff.h"
 #include "codegen/coff/coff_writer.h"
 #include "codegen/amd64/emitter.h"
+#include "codegen/amd64/generator.h"
 
 using namespace brisk;
 
@@ -80,11 +81,7 @@ int main(int argc, char* argv[])
 		//coff::read("C:/test/main.obj");
 		coff::read("C:/test/brisk.obj");
 
-		/*auto parser = BriskParser("test_files/test.br");
-
-		auto e = parser.parse_expr();
-
-		auto lexer = Lexer("test_files/test.br");
+		auto lexer = Lexer("test_files/test2.br");
 
 		auto t = lexer.next();
 		while (t.type != TokenType::Eof)
@@ -93,7 +90,13 @@ int main(int argc, char* argv[])
 			std::cout << "' Length: " << t.raw_value.length() << " Start col: " << t.column_start << " End col: " << t.column_end << " Row: " << t.row << std::endl;
 
 			t = lexer.next();
-		}*/
+		}
+
+		auto parser = BriskParser("test_files/test2.br");
+		auto ast = parser.parse();
+
+		auto x64gen = x64::Generator();
+		x64gen.visit(*ast);
 	}
 	catch (const BriskException& ex)
 	{

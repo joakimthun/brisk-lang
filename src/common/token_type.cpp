@@ -20,8 +20,24 @@ namespace brisk {
 			return "Equals";
 		case TokenType::I32Literal:
 			return "I32Literal";
+		case TokenType::Fn:
+			return "Fn";
+		case TokenType::Ret:
+			return "Ret";
+		case TokenType::I32:
+			return "I32";
 		case TokenType::Identifier:
 			return "Identifier";
+		case TokenType::LBracket:
+			return "LBracket";
+		case TokenType::RBracket:
+			return "RBracket";
+		case TokenType::LParen:
+			return "LParen";
+		case TokenType::RParen:
+			return "RParen";
+		case TokenType::RArrow:
+			return "RArrow";
 		default:
 			return "Unknown token type";;
 		}

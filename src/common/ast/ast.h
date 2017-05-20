@@ -11,9 +11,12 @@
 
 namespace brisk {
 
+	struct ASTVisitor;
+
 	struct Node
 	{
 		inline virtual ~Node() {};
+		virtual void accept(ASTVisitor &visitor) = 0;
 		Token start;
 		Token end;
 	};
@@ -23,15 +26,10 @@ namespace brisk {
 		inline virtual ~Expr() {};
 	};
 
-	struct Stmt : public Node
-	{
-		inline virtual ~Stmt() {};
-	};
-
 	struct Ast
 	{
 		std::string file;
-		std::vector <std::unique_ptr<Node>> stmts;
+		std::vector<std::unique_ptr<Node>> exprs;
 	};
 
 	struct BinExpr : public Expr
@@ -39,6 +37,8 @@ namespace brisk {
 		std::unique_ptr<Expr> left;
 		std::unique_ptr<Expr> right;
 		TokenType op;
+
+		void accept(ASTVisitor &visitor) override;
 	};
 
 	struct LiteralExpr : public Expr
@@ -57,16 +57,44 @@ namespace brisk {
 			double d;
 		} value;
 		Type type;
+
+		void accept(ASTVisitor &visitor) override;
 	};
 
 	struct IdentifierExpr : public Expr
 	{
 		StringView name;
+
+		void accept(ASTVisitor &visitor) override;
 	};
 
 	struct AssignExpr : public Expr
 	{
 		std::unique_ptr<Expr> left;
 		std::unique_ptr<Expr> right;
+
+		void accept(ASTVisitor &visitor) override;
+	};
+
+	struct BlockExpr : public Expr
+	{
+		std::vector<std::unique_ptr<Node>> exprs;
+
+		void accept(ASTVisitor &visitor) override;
+	};
+
+	struct FnDeclExpr : public Expr
+	{
+		StringView name;
+		std::unique_ptr<BlockExpr> body;
+
+		void accept(ASTVisitor &visitor) override;
+	};
+
+	struct RetExpr : public Expr
+	{
+		std::unique_ptr<Expr> expr;
+
+		void accept(ASTVisitor &visitor) override;
 	};
 }

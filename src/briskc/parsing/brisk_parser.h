@@ -20,11 +20,11 @@ namespace brisk {
 		void consume();
 		void consume(TokenType type);
 		const Token &peek(u16 offset = 1);
+		std::unique_ptr<Expr> parse_top_expr();
 		std::unique_ptr<Expr> parse_expr();
 		std::unique_ptr<Expr> parse_expr(u8 precedence);
 
 	private:
-		std::unique_ptr<Stmt> parse_stmt();
 		u8 get_precedence();
 
 		Lexer lexer_;

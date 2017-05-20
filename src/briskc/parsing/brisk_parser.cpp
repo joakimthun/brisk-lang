@@ -17,10 +17,11 @@ namespace brisk {
 	std::unique_ptr<Ast> BriskParser::parse()
 	{
 		auto ast = std::make_unique<Ast>();
+		//ast->file = lexer_.
 
 		while (current_token_.type != TokenType::Eof)
 		{
-			ast->stmts.push_back(parse_stmt());
+			ast->exprs.push_back(parse_top_expr());
 		}
 
 		return ast;
@@ -49,6 +50,15 @@ namespace brisk {
 		return lexer_.peek(offset);
 	}
 
+	std::unique_ptr<Expr> BriskParser::parse_top_expr()
+	{
+		auto parser = grammar_.get_top_expr_parser(current_token_.type);
+		if(parser == nullptr)
+			throw ParsingException(current_token_);
+
+		return parser->parse(*this);
+	}
+
 	std::unique_ptr<Expr> BriskParser::parse_expr()
 	{
 		return parse_expr(0);
@@ -73,11 +83,6 @@ namespace brisk {
 		}
 
 		return left;
-	}
-
-	std::unique_ptr<Stmt> BriskParser::parse_stmt()
-	{
-		return std::unique_ptr<Stmt>();
 	}
 
 	u8 BriskParser::get_precedence()

@@ -16,11 +16,13 @@ namespace brisk {
 
 		InfixParser *get_infix_parser(TokenType type);
 		Parser *get_expr_parser(TokenType type);
+		Parser *get_top_expr_parser(TokenType type);
 	private:
 		void init();
 
 		std::unordered_map<TokenType, std::unique_ptr<InfixParser>> infix_parsers_;
 		std::unordered_map<TokenType, std::unique_ptr<Parser>> expr_parsers_;
+		std::unordered_map<TokenType, std::unique_ptr<Parser>> top_expr_parsers_;
 	};
 
 }
