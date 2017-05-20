@@ -5,7 +5,7 @@ namespace brisk {
 
 		Emitter::Emitter()
 		{
-			buffer_ = std::make_unique<ByteBuffer>();
+			buffer_ = std::make_unique<ByteBuffer>(1024);
 		}
 
 		void Emitter::emit_add(Register destination, u8 value)
