@@ -31,7 +31,10 @@ namespace brisk {
 			for (u8 i = 1; i < allocated_.size(); i++)
 			{
 				if (!allocated_[i])
+				{
+					allocated_[i] = true;
 					return static_cast<Register>(i);
+				}
 			}
 
 			throw BriskException("RegisterAllocator::get_free");

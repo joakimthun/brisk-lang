@@ -8,6 +8,13 @@ namespace brisk {
 			buffer_ = std::make_unique<ByteBuffer>(1024);
 		}
 
+		void Emitter::emit_add(Register destination, Register source)
+		{
+			// 03 /r
+			emit(0x03);
+			emit_modrm(ModRM_Mod::RegisterAddr, source, destination);
+		}
+
 		void Emitter::emit_add(Register destination, u8 value)
 		{
 			// 83 /0 ib

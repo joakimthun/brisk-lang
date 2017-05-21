@@ -37,17 +37,24 @@ namespace brisk {
 
 		void Generator::visit(BinExpr &expr)
 		{
-			auto dest_reg = reg_allocator_.get_free();
-			emitter_.emit_mov(dest_reg, 333);
-			reg_allocator_.push(dest_reg);
+			//auto dest_reg = reg_allocator_.get_free();
+			//emitter_.emit_mov(dest_reg, 333);
+			//reg_allocator_.push(dest_reg);
 
-			//expr.left->accept(*this);
-			//expr.right->accept(*this);
+			expr.left->accept(*this);
+			auto left_reg = reg_allocator_.pop();
+			expr.right->accept(*this);
+			auto right_reg = reg_allocator_.pop();
+
+			emitter_.emit_add(left_reg, right_reg);
+			reg_allocator_.push(right_reg);
 		}
 
 		void Generator::visit(LiteralExpr &expr)
 		{
-			std::cout << "LiteralExpr" << std::endl;
+			auto dest_reg = reg_allocator_.get_free();
+			emitter_.emit_mov(dest_reg, expr.value.i32);
+			reg_allocator_.push(dest_reg);
 		}
 
 		void Generator::visit(IdentifierExpr &expr)
