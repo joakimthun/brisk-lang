@@ -50,6 +50,13 @@ namespace brisk {
 			emit8(value);
 		}
 
+		void Emitter::emit_mov(Register destination, u32 value)
+		{
+			// B8+ rd id
+			emit(0xb8 | ((u8)destination));
+			emit4(value);
+		}
+
 		void Emitter::emit_mov(Register destination, Register source)
 		{
 			// 89 /r

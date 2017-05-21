@@ -144,6 +144,7 @@
   <ItemGroup>
     <ClCompile Include="briskc.cpp" />
     <ClCompile Include="codegen\amd64\generator.cpp" />
+    <ClCompile Include="codegen\amd64\register_allocator.cpp" />
     <ClCompile Include="codegen\coff\coff.cpp" />
     <ClCompile Include="codegen\coff\coff_writer.cpp" />
     <ClCompile Include="codegen\amd64\emitter.cpp" />
@@ -161,6 +162,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="codegen\amd64\generator.h" />
+    <ClInclude Include="codegen\amd64\register_allocator.h" />
     <ClInclude Include="codegen\coff\coff.h" />
     <ClInclude Include="codegen\coff\coff_writer.h" />
     <ClInclude Include="codegen\amd64\emitter.h" />

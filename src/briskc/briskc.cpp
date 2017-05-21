@@ -72,9 +72,9 @@ int main(int argc, char* argv[])
 		puts_reloc.symndx = 2;
 		writer.add_relocation(".code", puts_reloc);
 
-		writer.add_symbol("main", 0x2, 0x20, 0x2);
-		writer.add_symbol("$str", 0x1, 0, 0x03);
-		writer.add_symbol("puts", 0x0, 0x20, 0x2);
+		writer.add_symbol("main", 0x2, coff::SymbolTableMsEntryType::IMAGE_SYM_DTYPE_FUNCTION, coff::SymbolTableEntryClass::IMAGE_SYM_CLASS_EXTERNAL);
+		writer.add_symbol("$str", 0x1, coff::SymbolTableMsEntryType::IMAGE_SYM_TYPE_NULL, coff::SymbolTableEntryClass::IMAGE_SYM_CLASS_STATIC);
+		writer.add_symbol("puts", 0x0, coff::SymbolTableMsEntryType::IMAGE_SYM_DTYPE_FUNCTION, coff::SymbolTableEntryClass::IMAGE_SYM_CLASS_EXTERNAL);
 
 		writer.write_to_disk("C:/test/brisk.obj");
 
@@ -97,6 +97,8 @@ int main(int argc, char* argv[])
 
 		auto x64gen = x64::Generator();
 		x64gen.visit(*ast);
+
+		x64gen.write_to_disk("C:/test/brisk2.obj");
 	}
 	catch (const BriskException& ex)
 	{

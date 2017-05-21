@@ -14,8 +14,8 @@ namespace brisk {
 
 		expr->start = parser.current_token();
 
-		parser.consume(TokenType::Identifier);
 		expr->name = parser.current_token().raw_value;
+		parser.consume(TokenType::Identifier);
 
 		parser.consume(TokenType::LParen);
 		parser.consume(TokenType::RParen);

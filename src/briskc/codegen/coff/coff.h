@@ -137,10 +137,12 @@ namespace brisk {
 			IMAGE_SYM_CLASS_NULL = 0,				// No storage class assigned.
 			IMAGE_SYM_CLASS_AUTOMATIC = 1,			// Automatic(stack) variable.The Value field specifies stack frame offset.
 
+			// External (public) symbol - this covers globals and externs
 			// Used by Microsoft tools for external symbols.The Value field indicates the size if the section number is IMAGE_SYM_UNDEFINED(0).
 			// If the section number is not 0, then the Value field specifies the offset within the section.
 			IMAGE_SYM_CLASS_EXTERNAL = 2, 
 			
+			// static (private) symbol
 			// The Value field specifies the offset of the symbol within the section.If the Value is 0, then the
 			// symbol represents a section name.
 			IMAGE_SYM_CLASS_STATIC = 3, 

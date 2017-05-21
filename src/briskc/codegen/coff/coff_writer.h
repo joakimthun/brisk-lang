@@ -25,7 +25,7 @@ namespace brisk {
 			CoffWriter(MACHINE machine);
 
 			void add_section(const std::string &name, SectionHeaderFlags flags, std::unique_ptr<ByteBuffer> content);
-			void add_symbol(const std::string &name, i16 scnum, u16 type, u8 sclass);
+			void add_symbol(const std::string &name, i16 scnum, SymbolTableMsEntryType type, SymbolTableEntryClass sclass);
 			void add_relocation(const std::string &section, const RelocationDirective &relocation);
 			void write_to_disk(const std::string &path);
 

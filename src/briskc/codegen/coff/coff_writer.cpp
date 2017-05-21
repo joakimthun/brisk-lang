@@ -37,7 +37,7 @@ namespace brisk {
 			sections_.insert(std::pair<std::string, std::unique_ptr<CoffSection>>(name, std::move(section)));
 		}
 
-		void CoffWriter::add_symbol(const std::string &name, i16 scnum, u16 type, u8 sclass)
+		void CoffWriter::add_symbol(const std::string &name, i16 scnum, SymbolTableMsEntryType type, SymbolTableEntryClass sclass)
 		{
 			auto ste = SymbolTableEntry{ 0 };
 			for (auto i = 0u; i < name.size(); i++)
@@ -49,8 +49,8 @@ namespace brisk {
 			}
 
 			ste.scnum = scnum;
-			ste.type = type;
-			ste.sclass = sclass;
+			ste.type = static_cast<u16>(type);
+			ste.sclass = static_cast<u8>(sclass);
 
 			symbols_.insert(std::pair<std::string, SymbolTableEntry>(name, ste));
 		}

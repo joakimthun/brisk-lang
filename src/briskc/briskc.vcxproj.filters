@@ -63,6 +63,9 @@
     <ClCompile Include="parsing\parsers\ret_parser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="codegen\amd64\register_allocator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lexing\lexer.h">
@@ -120,6 +123,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="parsing\parsers\ret_parser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="codegen\amd64\register_allocator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
