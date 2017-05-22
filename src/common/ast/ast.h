@@ -97,4 +97,21 @@ namespace brisk {
 
 		void accept(ASTVisitor &visitor) override;
 	};
+
+	struct VarDeclExpr : public Expr
+	{
+		bool mut = false;
+		StringView name;
+		std::unique_ptr<Expr> expr;
+
+		void accept(ASTVisitor &visitor) override;
+	};
+
+	struct FnCallExpr : public Expr
+	{
+		StringView name;
+		std::vector<std::unique_ptr<Expr>> args;
+
+		void accept(ASTVisitor &visitor) override;
+	};
 }

@@ -66,7 +66,10 @@ namespace brisk {
 
 	std::unique_ptr<Expr> BriskParser::parse_expr(u8 precedence)
 	{
-		auto expr_parser = grammar_.get_expr_parser(current_token_.type);
+		auto expr_parser = grammar_.get_ll2_parser(current_token_.type, lexer_.peek().type);
+
+		if (expr_parser == nullptr)
+			expr_parser = grammar_.get_expr_parser(current_token_.type);
 
 		if (expr_parser == nullptr)
 			throw ParsingException(current_token_);

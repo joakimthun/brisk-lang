@@ -26,6 +26,10 @@ namespace brisk {
 			return "Ret";
 		case TokenType::I32:
 			return "I32";
+		case TokenType::Let:
+			return "Let";
+		case TokenType::Mut:
+			return "Mut";
 		case TokenType::Identifier:
 			return "Identifier";
 		case TokenType::LBracket:
@@ -38,6 +42,8 @@ namespace brisk {
 			return "RParen";
 		case TokenType::RArrow:
 			return "RArrow";
+		case TokenType::Comma:
+			return "Comma";
 		default:
 			return "Unknown token type";;
 		}

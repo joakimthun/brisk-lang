@@ -155,10 +155,12 @@
     <ClCompile Include="parsing\brisk_parser.cpp" />
     <ClCompile Include="parsing\parsers\assignment_parser.cpp" />
     <ClCompile Include="parsing\parsers\bin_expr_parser.cpp" />
+    <ClCompile Include="parsing\parsers\fn_call_parser.cpp" />
     <ClCompile Include="parsing\parsers\fn_decl_parser.cpp" />
     <ClCompile Include="parsing\parsers\identifier_parser.cpp" />
     <ClCompile Include="parsing\parsers\literal_parser.cpp" />
     <ClCompile Include="parsing\parsers\ret_parser.cpp" />
+    <ClCompile Include="parsing\parsers\var_decl_parser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="codegen\amd64\generator.h" />
@@ -174,12 +176,14 @@
     <ClInclude Include="parsing\brisk_parser.h" />
     <ClInclude Include="parsing\parsers\assignment_parser.h" />
     <ClInclude Include="parsing\parsers\bin_expr_parser.h" />
+    <ClInclude Include="parsing\parsers\fn_call_parser.h" />
     <ClInclude Include="parsing\parsers\fn_decl_parser.h" />
     <ClInclude Include="parsing\parsers\identifier_parser.h" />
     <ClInclude Include="parsing\parsers\infix_parser.h" />
     <ClInclude Include="parsing\parsers\literal_parser.h" />
     <ClInclude Include="parsing\parsers\parser.h" />
     <ClInclude Include="parsing\parsers\ret_parser.h" />
+    <ClInclude Include="parsing\parsers\var_decl_parser.h" />
     <ClInclude Include="parsing\precedence.h" />
   </ItemGroup>
   <ItemGroup>

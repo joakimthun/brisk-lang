@@ -88,6 +88,16 @@ namespace brisk {
 			emitter_.emit_ret();
 		}
 
+		void Generator::visit(VarDeclExpr &expr)
+		{
+			std::cout << "VarDeclExpr" << std::endl;
+		}
+
+		void Generator::visit(FnCallExpr &expr)
+		{
+			std::cout << "FnCallExpr" << std::endl;
+		}
+
 		void Generator::write_to_disk(const std::string &path)
 		{
 			coff_writer_.add_section(".data", coff::SectionHeaderFlags::STYP_DATA, std::move(data_));

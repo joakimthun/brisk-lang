@@ -8,8 +8,6 @@ namespace brisk {
 
 	enum class TokenType : u16
 	{
-		Eof = 0,
-
 		// Operators
 		Plus,
 		Minus,
@@ -24,6 +22,8 @@ namespace brisk {
 		Fn,
 		Ret,
 		I32,
+		Let,
+		Mut,
 
 		// Misc
 		Identifier,
@@ -32,6 +32,8 @@ namespace brisk {
 		LParen,
 		RParen,
 		RArrow,
+		Comma,
+		Eof
 	};
 
 	std::string token_type_name(TokenType type);

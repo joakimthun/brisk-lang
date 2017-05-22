@@ -23,6 +23,8 @@ namespace brisk {
 		keywords_.insert(kwe("fn", TokenType::Fn));
 		keywords_.insert(kwe("ret", TokenType::Ret));
 		keywords_.insert(kwe("i32", TokenType::I32));
+		keywords_.insert(kwe("let", TokenType::Let));
+		keywords_.insert(kwe("mut", TokenType::Mut));
 	}
 
 	Token Lexer::next()
@@ -107,6 +109,10 @@ namespace brisk {
 		case ')': {
 			consume();
 			return create_token(TokenType::RParen, start_offset);
+		}
+		case ',': {
+			consume();
+			return create_token(TokenType::Comma, start_offset);
 		}
 		case '\n': {
 			consume_newline();

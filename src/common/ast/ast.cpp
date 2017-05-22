@@ -39,4 +39,14 @@ namespace brisk {
 		visitor.visit(*this);
 	}	
 
+	void VarDeclExpr::accept(ASTVisitor &visitor)
+	{
+		visitor.visit(*this);
+	}
+
+	void FnCallExpr::accept(ASTVisitor &visitor)
+	{
+		visitor.visit(*this);
+	}
+
 }

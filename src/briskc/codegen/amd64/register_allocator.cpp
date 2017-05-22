@@ -5,24 +5,29 @@
 namespace brisk {
 	namespace x64 {
 
+		constexpr auto arr_index(Register r)
+		{
+			return static_cast<u8>(r);
+		}
+
 		RegisterAllocator::RegisterAllocator()
 		{
-			allocated_[static_cast<u8>(Register::EAX)] = false;
-			allocated_[static_cast<u8>(Register::ECX)] = false;
-			allocated_[static_cast<u8>(Register::EDX)] = false;
-			allocated_[static_cast<u8>(Register::EBX)] = false;
-			allocated_[static_cast<u8>(Register::ESP)] = false;
-			allocated_[static_cast<u8>(Register::EBP)] = false;
-			allocated_[static_cast<u8>(Register::ESI)] = false;
-			allocated_[static_cast<u8>(Register::EDI)] = false;
-			allocated_[static_cast<u8>(Register::R8)]  = false;
-			allocated_[static_cast<u8>(Register::R9)]  = false;
-			allocated_[static_cast<u8>(Register::R10)] = false;
-			allocated_[static_cast<u8>(Register::R11)] = false;
-			allocated_[static_cast<u8>(Register::R12)] = false;
-			allocated_[static_cast<u8>(Register::R13)] = false;
-			allocated_[static_cast<u8>(Register::R14)] = false;
-			allocated_[static_cast<u8>(Register::R15)] = false;
+			allocated_[arr_index(Register::EAX)] = false;
+			allocated_[arr_index(Register::ECX)] = false;
+			allocated_[arr_index(Register::EDX)] = false;
+			allocated_[arr_index(Register::EBX)] = false;
+			allocated_[arr_index(Register::ESP)] = false;
+			allocated_[arr_index(Register::EBP)] = false;
+			allocated_[arr_index(Register::ESI)] = false;
+			allocated_[arr_index(Register::EDI)] = false;
+			allocated_[arr_index(Register::R8)]  = false;
+			allocated_[arr_index(Register::R9)]  = false;
+			allocated_[arr_index(Register::R10)] = false;
+			allocated_[arr_index(Register::R11)] = false;
+			allocated_[arr_index(Register::R12)] = false;
+			allocated_[arr_index(Register::R13)] = false;
+			allocated_[arr_index(Register::R14)] = false;
+			allocated_[arr_index(Register::R15)] = false;
 		}
 
 		Register RegisterAllocator::get_free()
@@ -42,7 +47,7 @@ namespace brisk {
 
 		void RegisterAllocator::free(Register reg)
 		{
-			allocated_[static_cast<u8>(reg)] = false;
+			allocated_[arr_index(reg)] = false;
 		}
 
 		Register RegisterAllocator::pop()

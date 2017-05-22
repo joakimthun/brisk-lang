@@ -1,3 +1,5 @@
 fn main() -> i32 {
+	puts(10, 11)
+	let x = 10
 	ret 5 + 5
 }

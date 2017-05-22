@@ -27,6 +27,8 @@ namespace brisk {
 			void visit(BlockExpr &expr) override;
 			void visit(FnDeclExpr &expr) override;
 			void visit(RetExpr &expr) override;
+			void visit(VarDeclExpr &expr) override;
+			void visit(FnCallExpr &expr) override;
 
 			void write_to_disk(const std::string &path);
 		private:
