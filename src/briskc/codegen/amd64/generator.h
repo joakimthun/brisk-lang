@@ -32,7 +32,10 @@ namespace brisk {
 
 			void write_to_disk(const std::string &path);
 		private:
-			void add_ext_fn_symbol(StringView &name);
+			u32 add_fn_symbol(StringView &name);
+			u32 add_ext_fn_symbol(const StringView &name);
+			u32 add_static_data_symbol();
+			void add_rel_reloc(u32 vaddr, u32 symndx);
 
 			Emitter emitter_;
 			std::unique_ptr<ByteBuffer> data_;

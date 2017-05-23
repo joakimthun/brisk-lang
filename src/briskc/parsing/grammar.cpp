@@ -67,6 +67,7 @@ namespace brisk {
 
 		// Expr
 		expr_parsers_[arr_index(TokenType::I32Literal)] = std::make_unique<LiteralParser>();
+		expr_parsers_[arr_index(TokenType::StrLiteral)] = std::make_unique<LiteralParser>();
 		expr_parsers_[arr_index(TokenType::Identifier)] = std::make_unique<IdentifierParser>();
 		expr_parsers_[arr_index(TokenType::Ret)] = std::make_unique<RetParser>();
 		expr_parsers_[arr_index(TokenType::Let)] = std::make_unique<VarDeclParser>();

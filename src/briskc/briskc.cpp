@@ -51,11 +51,11 @@ int main(int argc, char* argv[])
 		
 		auto emitter = x64::Emitter();
 
-		emitter.emit_sub64(x64::Register::ESP, 0x28);
+		emitter.emit_sub64(x64::Register::ESP, 0x20);
 		emitter.emit_lea64(x64::Register::ECX, 0);
 		emitter.emit_call();
 		emitter.emit_xor(x64::Register::EAX, x64::Register::EAX);
-		emitter.emit_add64(x64::Register::ESP, 0x28);
+		emitter.emit_add64(x64::Register::ESP, 0x20);
 		emitter.emit_ret();
 
 		writer.add_section(".code", coff::SectionHeaderFlags::STYP_TEXT, emitter.buffer());
@@ -79,7 +79,7 @@ int main(int argc, char* argv[])
 		writer.write_to_disk("C:/test/brisk.obj");
 
 		//coff::read("C:/test/main.obj");
-		coff::read("C:/test/brisk.obj");
+		coff::read("C:/test/brisk2.obj");
 
 		auto lexer = Lexer("test_files/test2.br");
 

@@ -56,6 +56,7 @@ namespace brisk {
 			float f;
 			double d;
 		} value;
+		StringView str_value;
 		Type type;
 
 		void accept(ASTVisitor &visitor) override;

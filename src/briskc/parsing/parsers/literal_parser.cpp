@@ -18,9 +18,15 @@ namespace brisk {
 		switch (parser.current_token().type)
 		{
 		case TokenType::I32Literal: {
-			expr->type = Type::I32;
+			expr->type = Type(TypeID::I32);
 			expr->value.i32 = parser.current_token().value.i32;
 			parser.consume(TokenType::I32Literal);
+			break;
+		}
+		case TokenType::StrLiteral: {
+			expr->type = Type(TypeID::U8, true);
+			expr->str_value = parser.current_token().raw_value;
+			parser.consume(TokenType::StrLiteral);
 			break;
 		}
 		default:

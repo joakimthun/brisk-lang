@@ -31,7 +31,9 @@ namespace brisk {
 			void emit4(u32 value);
 			void emit8(u64 value);
 
+			u32 current_buffer_offset();
 			std::unique_ptr<ByteBuffer> buffer();
+
 		private:
 			void emit_modrm(ModRM_Mod mod, Register rm);
 			void emit_modrm(ModRM_Mod mod, u8 rm);

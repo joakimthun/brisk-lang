@@ -114,6 +114,9 @@ namespace brisk {
 			consume();
 			return create_token(TokenType::Comma, start_offset);
 		}
+		case '"': {
+			return read_string(start_offset);
+		}
 		case '\n': {
 			consume_newline();
 			goto start;
@@ -274,5 +277,19 @@ namespace brisk {
 			consume();
 
 		return create_token(type, start_offset);
+	}
+
+	Token Lexer::read_string(u64 start_offset)
+	{
+		consume('"');
+		bool escaped = false;
+
+		while (current_.value != '"')
+		{
+			consume();
+		}
+
+		consume('"');
+		return create_token(TokenType::StrLiteral, start_offset);
 	}
 }

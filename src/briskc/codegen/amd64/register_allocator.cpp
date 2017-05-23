@@ -12,14 +12,14 @@ namespace brisk {
 
 		RegisterAllocator::RegisterAllocator()
 		{
-			allocated_[arr_index(Register::EAX)] = false;
-			allocated_[arr_index(Register::ECX)] = false;
-			allocated_[arr_index(Register::EDX)] = false;
-			allocated_[arr_index(Register::EBX)] = false;
-			allocated_[arr_index(Register::ESP)] = false;
-			allocated_[arr_index(Register::EBP)] = false;
-			allocated_[arr_index(Register::ESI)] = false;
-			allocated_[arr_index(Register::EDI)] = false;
+			allocated_[arr_index(Register::RAX)] = false;
+			allocated_[arr_index(Register::RCX)] = false;
+			allocated_[arr_index(Register::RDX)] = false;
+			allocated_[arr_index(Register::RBX)] = false;
+			allocated_[arr_index(Register::RSP)] = false;
+			allocated_[arr_index(Register::RBP)] = false;
+			allocated_[arr_index(Register::RSI)] = false;
+			allocated_[arr_index(Register::RDI)] = false;
 			allocated_[arr_index(Register::R8)]  = false;
 			allocated_[arr_index(Register::R9)]  = false;
 			allocated_[arr_index(Register::R10)] = false;

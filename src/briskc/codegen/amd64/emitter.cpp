@@ -148,6 +148,11 @@ namespace brisk {
 			}
 		}
 
+		u32 Emitter::current_buffer_offset()
+		{
+			return buffer_->length();
+		}
+
 		std::unique_ptr<ByteBuffer> Emitter::buffer()
 		{
 			return std::move(buffer_);

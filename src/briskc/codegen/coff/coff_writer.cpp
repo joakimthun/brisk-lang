@@ -28,16 +28,30 @@ namespace brisk {
 			}
 
 			sh.flags = static_cast<u32>(flags);
-			sh.size = content->length();
 
 			auto section = std::make_unique<CoffSection>();
 			section->header = sh;
-			section->content = std::move(content);
+
+			if (content != nullptr)
+			{
+				sh.size = content->length();
+				section->content = std::move(content);
+			}
 
 			sections_.insert(std::pair<std::string, std::unique_ptr<CoffSection>>(name, std::move(section)));
 		}
 
-		void CoffWriter::add_symbol(const std::string &name, i16 scnum, SymbolTableMsEntryType type, SymbolTableEntryClass sclass)
+		void CoffWriter::set_section_content(const std::string &section, std::unique_ptr<ByteBuffer> content)
+		{
+			auto it = sections_.find(section);
+			if (it != sections_.end())
+			{
+				auto s = it->second.get();
+				s->content.reset(content.release());
+			}
+		}
+
+		u32 CoffWriter::add_symbol(const std::string &name, i16 scnum, SymbolTableMsEntryType type, SymbolTableEntryClass sclass)
 		{
 			auto ste = SymbolTableEntry{ 0 };
 			for (auto i = 0u; i < name.size(); i++)
@@ -52,7 +66,8 @@ namespace brisk {
 			ste.type = static_cast<u16>(type);
 			ste.sclass = static_cast<u8>(sclass);
 
-			symbols_.insert(std::pair<std::string, SymbolTableEntry>(name, ste));
+			symbols_.push_back(ste);
+			return symbols_.size() - 1;
 		}
 
 		void CoffWriter::add_relocation(const std::string &section, const RelocationDirective &relocation)
@@ -76,6 +91,8 @@ namespace brisk {
 			auto section_content_size = 0u;
 			for (auto& s : sections_)
 			{
+				s.second->header.size = s.second->content->length();
+
 				section_content_size += s.second->content->length();
 				section_content_size += s.second->relocations.size() * sizeof(RelocationDirective);
 			}
@@ -113,7 +130,7 @@ namespace brisk {
 
 			for (auto& s : symbols_)
 			{
-				buffer.write(&s.second, sizeof(SymbolTableEntry));
+				buffer.write(&s, sizeof(SymbolTableEntry));
 			}
 
 			//for (auto& s : sections_)

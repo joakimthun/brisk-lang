@@ -4,7 +4,7 @@
 
 namespace brisk {
 
-	enum class Type : u16
+	enum class TypeID : u16
 	{
 		U8,
 		I8,
@@ -16,6 +16,16 @@ namespace brisk {
 		I64,
 		Float,
 		Double
+	};
+
+	struct Type
+	{
+		inline Type() {};
+		inline Type(TypeID id) : id(id), ptr(false) {}
+		inline Type(TypeID id, bool ptr) : id(id), ptr(ptr) {}
+
+		TypeID id;
+		bool ptr;
 	};
 
 }

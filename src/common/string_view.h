@@ -14,6 +14,7 @@ namespace brisk {
 
 		std::string to_string() const;
 		u32 length() const;
+		const u8 *data() const;
 	private:
 		u8 *data_;
 		u32 length_;

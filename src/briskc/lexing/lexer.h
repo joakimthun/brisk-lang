@@ -45,6 +45,7 @@ namespace brisk {
 		Token read_digit(u64 start_offset);
 		Token read_identifier(u64 start_offset);
 		Token read_keyword(u64 start_offset, u32 length, TokenType type);
+		Token read_string(u64 start_offset);
 
 		std::unique_ptr<File> file_;
 		u64 current_offset_;

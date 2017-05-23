@@ -31,4 +31,9 @@ namespace brisk {
 		return length_;
 	}
 
+	const u8 * StringView::data() const
+	{
+		return data_;
+	}
+
 }

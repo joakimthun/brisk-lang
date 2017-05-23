@@ -17,6 +17,7 @@ namespace brisk {
 
 		// Literals
 		I32Literal,
+		StrLiteral,
 
 		// Keywords
 		Fn,

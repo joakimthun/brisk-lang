@@ -12,19 +12,8 @@ namespace brisk {
 			coff_writer_(coff::MACHINE::IMAGE_FILE_MACHINE_AMD64),
 			data_(std::make_unique<ByteBuffer>())
 		{
-			data_->write((u8)'H');
-			data_->write((u8)'e');
-			data_->write((u8)'l');
-			data_->write((u8)'l');
-			data_->write((u8)'o');
-			data_->write((u8)' ');
-			data_->write((u8)'B');
-			data_->write((u8)'r');
-			data_->write((u8)'i');
-			data_->write((u8)'s');
-			data_->write((u8)'k');
-			data_->write((u8)'!');
-			data_->write((u8)'\0');
+			coff_writer_.add_section(".data", coff::SectionHeaderFlags::STYP_DATA, nullptr);
+			coff_writer_.add_section(".code", coff::SectionHeaderFlags::STYP_TEXT, nullptr);
 		}
 
 		void Generator::visit(Ast &ast)
@@ -37,10 +26,6 @@ namespace brisk {
 
 		void Generator::visit(BinExpr &expr)
 		{
-			//auto dest_reg = reg_allocator_.get_free();
-			//emitter_.emit_mov(dest_reg, 333);
-			//reg_allocator_.push(dest_reg);
-
 			expr.left->accept(*this);
 			auto left_reg = reg_allocator_.pop();
 			expr.right->accept(*this);
@@ -52,9 +37,25 @@ namespace brisk {
 
 		void Generator::visit(LiteralExpr &expr)
 		{
-			auto dest_reg = reg_allocator_.get_free();
-			emitter_.emit_mov(dest_reg, expr.value.i32);
-			reg_allocator_.push(dest_reg);
+			if (expr.type.id == TypeID::U8 && expr.type.ptr)
+			{
+				auto reg = reg_allocator_.get_free();
+				emitter_.emit_lea64(reg, 0);
+				auto symbol_index = add_static_data_symbol();
+				data_->write(expr.str_value.data(), expr.str_value.length());
+				data_->write(0);
+
+				// Subtract the 4 byte displacement from the buffer offset
+				add_rel_reloc(emitter_.current_buffer_offset() - 4, symbol_index);
+
+				reg_allocator_.push(reg);
+			}
+			else
+			{
+				auto dest_reg = reg_allocator_.get_free();
+				emitter_.emit_mov(dest_reg, expr.value.i32);
+				reg_allocator_.push(dest_reg);
+			}
 		}
 
 		void Generator::visit(IdentifierExpr &expr)
@@ -75,7 +76,7 @@ namespace brisk {
 
 		void Generator::visit(FnDeclExpr &expr)
 		{
-			add_ext_fn_symbol(expr.name);
+			add_fn_symbol(expr.name);
 			expr.body->accept(*this);
 		}
 
@@ -95,20 +96,52 @@ namespace brisk {
 
 		void Generator::visit(FnCallExpr &expr)
 		{
-			std::cout << "FnCallExpr" << std::endl;
+			// Integer arguments are passed in registers RCX, RDX, R8, and R9. Floating point arguments are passed in XMM0L, XMM1L, XMM2L, and XMM3L.
+			// In addition to these registers, RAX, R10, R11, XMM4, and XMM5 are considered volatile. 
+			emitter_.emit_sub64(x64::Register::ESP, 0x20);
+
+			for (auto& arg : expr.args)
+				arg->accept(*this);
+
+			emitter_.emit_call();
+
+			// Subtract the 4 byte displacement from the buffer offset
+			auto symbol_index = add_ext_fn_symbol(expr.name);
+			add_rel_reloc(emitter_.current_buffer_offset() - 4, symbol_index);
+			emitter_.emit_add64(x64::Register::ESP, 0x20);
 		}
 
 		void Generator::write_to_disk(const std::string &path)
 		{
-			coff_writer_.add_section(".data", coff::SectionHeaderFlags::STYP_DATA, std::move(data_));
-			coff_writer_.add_section(".code", coff::SectionHeaderFlags::STYP_TEXT, emitter_.buffer());
+			coff_writer_.set_section_content(".data", std::move(data_));
+			coff_writer_.set_section_content(".code", emitter_.buffer());
 			coff_writer_.write_to_disk(path);
 		}
 
-		void Generator::add_ext_fn_symbol(StringView &name)
+		u32 Generator::add_fn_symbol(StringView &name)
 		{
-			coff_writer_.add_symbol(name.to_string(), 0x2, coff::SymbolTableMsEntryType::IMAGE_SYM_DTYPE_FUNCTION, coff::SymbolTableEntryClass::IMAGE_SYM_CLASS_EXTERNAL);
+			return coff_writer_.add_symbol(name.to_string(), 0x2, coff::SymbolTableMsEntryType::IMAGE_SYM_DTYPE_FUNCTION, coff::SymbolTableEntryClass::IMAGE_SYM_CLASS_EXTERNAL);
 		}
 
+		u32 Generator::add_ext_fn_symbol(const StringView &name)
+		{
+			return coff_writer_.add_symbol(name.to_string(), 0x0, coff::SymbolTableMsEntryType::IMAGE_SYM_DTYPE_FUNCTION, coff::SymbolTableEntryClass::IMAGE_SYM_CLASS_EXTERNAL);
+		}
+
+		u32 Generator::add_static_data_symbol()
+		{
+			static auto i = 0;
+			auto name = "$d" + std::to_string(i++);
+			return coff_writer_.add_symbol(name, 0x1, coff::SymbolTableMsEntryType::IMAGE_SYM_TYPE_NULL, coff::SymbolTableEntryClass::IMAGE_SYM_CLASS_STATIC);
+		}
+
+		void Generator::add_rel_reloc(u32 vaddr, u32 symndx)
+		{
+			auto data_reloc = coff::RelocationDirective{ 0 };
+			data_reloc.vaddr = vaddr;
+			data_reloc.type = static_cast<u16>(coff::RelocationType::IMAGE_REL_AMD64_REL32);
+			data_reloc.symndx = symndx;
+			coff_writer_.add_relocation(".code", data_reloc);
+		}
 	}
 }
