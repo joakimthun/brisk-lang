@@ -40,8 +40,8 @@ namespace brisk {
 			if (expr.type.id == TypeID::U8 && expr.type.ptr)
 			{
 				auto reg = reg_allocator_.get_free();
-				emitter_.emit_lea64(reg, 0);
-				auto symbol_index = add_static_data_symbol();
+				emitter_.emit_lea64(Register::RCX, 0);
+				auto symbol_index = add_static_data_symbol(data_->length());
 				data_->write(expr.str_value.data(), expr.str_value.length());
 				data_->write(0);
 
@@ -71,7 +71,7 @@ namespace brisk {
 		void Generator::visit(FnDeclExpr &expr)
 		{
 			add_fn_symbol(expr.name, emitter_.current_buffer_offset());
-
+			emitter_.emit_sub64(x64::Register::ESP, 0x28);
 			for(auto& e : expr.body)
 				e->accept(*this);
 		}
@@ -82,6 +82,7 @@ namespace brisk {
 
 			auto src_reg = reg_allocator_.pop();
 			emitter_.emit_mov(Register::EAX, src_reg);
+			emitter_.emit_add64(x64::Register::ESP, 0x28);
 			emitter_.emit_ret();
 		}
 
@@ -94,8 +95,6 @@ namespace brisk {
 		{
 			// Integer arguments are passed in registers RCX, RDX, R8, and R9. Floating point arguments are passed in XMM0L, XMM1L, XMM2L, and XMM3L.
 			// In addition to these registers, RAX, R10, R11, XMM4, and XMM5 are considered volatile. 
-			emitter_.emit_sub64(x64::Register::ESP, 0x20);
-
 			for (auto& arg : expr.args)
 				arg->accept(*this);
 
@@ -104,7 +103,6 @@ namespace brisk {
 			// Subtract the 4 byte displacement from the buffer offset
 			auto symbol_index = add_ext_fn_symbol(expr.name);
 			add_rel_reloc(emitter_.current_buffer_offset() - 4, symbol_index);
-			emitter_.emit_add64(x64::Register::ESP, 0x20);
 		}
 
 		void Generator::write_to_disk(const std::string &path)
@@ -132,11 +130,11 @@ namespace brisk {
 			return coff_writer_.add_symbol(name.to_string(), 0x0, coff::SymbolTableMsEntryType::IMAGE_SYM_DTYPE_FUNCTION, coff::SymbolTableEntryClass::IMAGE_SYM_CLASS_EXTERNAL);
 		}
 
-		u32 Generator::add_static_data_symbol()
+		u32 Generator::add_static_data_symbol(u32 value)
 		{
 			static auto i = 0;
 			auto name = "$d" + std::to_string(i++);
-			return coff_writer_.add_symbol(name, 0x1, coff::SymbolTableMsEntryType::IMAGE_SYM_TYPE_NULL, coff::SymbolTableEntryClass::IMAGE_SYM_CLASS_STATIC);
+			return coff_writer_.add_symbol(name, 0x1, coff::SymbolTableMsEntryType::IMAGE_SYM_TYPE_NULL, coff::SymbolTableEntryClass::IMAGE_SYM_CLASS_STATIC, value);
 		}
 
 		void Generator::add_rel_reloc(u32 vaddr, u32 symndx)

@@ -4,6 +4,7 @@ fn myfn() -> i32 {
 }
 
 fn main() -> i32 {
+	puts("Hello Brisk!")
 	myfn()
 	ret 0
 }

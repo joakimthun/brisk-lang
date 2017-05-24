@@ -42,7 +42,7 @@ namespace brisk {
 		private:
 			u32 add_fn_symbol(StringView &name, u32 value);
 			u32 add_ext_fn_symbol(const StringView &name);
-			u32 add_static_data_symbol();
+			u32 add_static_data_symbol(u32 value);
 			void add_rel_reloc(u32 vaddr, u32 symndx);
 			find_symbol_result find_added_symbol(const StringView &name);
 

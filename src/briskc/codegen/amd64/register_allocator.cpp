@@ -12,11 +12,11 @@ namespace brisk {
 
 		RegisterAllocator::RegisterAllocator()
 		{
-			allocated_[arr_index(Register::RAX)] = false;
+			allocated_[arr_index(Register::RAX)] = true;
 			allocated_[arr_index(Register::RCX)] = false;
 			allocated_[arr_index(Register::RDX)] = false;
 			allocated_[arr_index(Register::RBX)] = false;
-			allocated_[arr_index(Register::RSP)] = false;
+			allocated_[arr_index(Register::RSP)] = true;
 			allocated_[arr_index(Register::RBP)] = false;
 			allocated_[arr_index(Register::RSI)] = false;
 			allocated_[arr_index(Register::RDI)] = false;
@@ -33,7 +33,7 @@ namespace brisk {
 		Register RegisterAllocator::get_free()
 		{
 			// TODO: Handle running out of registers
-			for (u8 i = 1; i < allocated_.size(); i++)
+			for (u8 i = 0; i < allocated_.size(); i++)
 			{
 				if (!allocated_[i])
 				{
