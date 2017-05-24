@@ -9,7 +9,8 @@ namespace brisk {
 
 	BriskParser::BriskParser(const std::string &filepath)
 		:
-		lexer_(filepath)
+		lexer_(filepath),
+		current_scope_(nullptr)
 	{
 		consume();
 	}
@@ -18,11 +19,14 @@ namespace brisk {
 	{
 		auto ast = std::make_unique<Ast>();
 		//ast->file = lexer_.
+		push_scope(&ast->symbol_table);
 
 		while (current_token_.type != TokenType::Eof)
 		{
 			ast->exprs.push_back(parse_top_expr());
 		}
+
+		pop_scope();
 
 		return ast;
 	}
@@ -86,6 +90,27 @@ namespace brisk {
 		}
 
 		return left;
+	}
+
+	SymbolTable *BriskParser::current_scope()
+	{
+		if (current_scope_ == nullptr)
+			throw BriskException("Current scope is null!");
+
+		return current_scope_;
+	}
+
+	void BriskParser::push_scope(SymbolTable *scope)
+	{
+		current_scope_ = scope;
+	}
+
+	void BriskParser::pop_scope()
+	{
+		if (current_scope_ == nullptr)
+			throw BriskException("Current scope is null!");
+
+		current_scope_ = current_scope_->parent();
 	}
 
 	u8 BriskParser::get_precedence()

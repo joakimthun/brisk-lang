@@ -8,6 +8,7 @@
 #include "../token.h"
 #include "../type.h"
 #include "../string_view.h"
+#include "symbols.h"
 
 namespace brisk {
 
@@ -26,10 +27,20 @@ namespace brisk {
 		inline virtual ~Expr() {};
 	};
 
+	struct Block : public Expr
+	{
+		inline Block(SymbolTable *parent) : symbol_table(parent) {}
+		inline virtual ~Block() {};
+		SymbolTable symbol_table;
+	};
+
 	struct Ast
 	{
+		inline Ast() : symbol_table(nullptr) {}
+
 		std::string file;
 		std::vector<std::unique_ptr<Node>> exprs;
+		SymbolTable symbol_table;
 	};
 
 	struct BinExpr : public Expr
@@ -77,17 +88,12 @@ namespace brisk {
 		void accept(ASTVisitor &visitor) override;
 	};
 
-	struct BlockExpr : public Expr
+	struct FnDeclExpr : public Block
 	{
-		std::vector<std::unique_ptr<Node>> exprs;
+		inline FnDeclExpr(SymbolTable *parent) : Block(parent) {}
 
-		void accept(ASTVisitor &visitor) override;
-	};
-
-	struct FnDeclExpr : public Expr
-	{
 		StringView name;
-		std::unique_ptr<BlockExpr> body;
+		std::vector<std::unique_ptr<Expr>> body;
 
 		void accept(ASTVisitor &visitor) override;
 	};

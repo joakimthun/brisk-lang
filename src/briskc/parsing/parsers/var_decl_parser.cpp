@@ -25,6 +25,8 @@ namespace brisk {
 
 		expr->end = parser.current_token();
 
+		parser.current_scope()->add_var(expr.get());
+
 		return expr;
 	}
 

@@ -7,6 +7,7 @@
 #include "../lexing/lexer.h"
 #include "ast/ast.h"
 #include "grammar.h"
+#include "ast/symbols.h"
 
 namespace brisk {
 
@@ -24,12 +25,17 @@ namespace brisk {
 		std::unique_ptr<Expr> parse_expr();
 		std::unique_ptr<Expr> parse_expr(u8 precedence);
 
+		SymbolTable *current_scope();
+		void push_scope(SymbolTable *scope);
+		void pop_scope();
+
 	private:
 		u8 get_precedence();
 
 		Lexer lexer_;
 		Token current_token_;
 		Grammar grammar_;
+		SymbolTable *current_scope_;
 	};
 }
 

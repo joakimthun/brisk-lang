@@ -9,8 +9,8 @@ namespace brisk {
 	{
 		parser.consume(TokenType::Fn);
 
-		auto expr = std::make_unique<FnDeclExpr>();
-		expr->body = std::make_unique<BlockExpr>();
+		auto expr = std::make_unique<FnDeclExpr>(parser.current_scope());
+		parser.push_scope(&expr->symbol_table);
 
 		expr->start = parser.current_token();
 
@@ -21,14 +21,20 @@ namespace brisk {
 		parser.consume(TokenType::RParen);
 
 		parser.consume(TokenType::RArrow);
-		parser.consume(TokenType::I32);
+
+		// TODO: Validate this consume
+		parser.consume();
+
 		parser.consume(TokenType::LBracket);
 
 		while(parser.current_token().type != TokenType::RBracket)
-			expr->body->exprs.push_back(parser.parse_expr());
+			expr->body.push_back(parser.parse_expr());
 
 		parser.consume(TokenType::RBracket);
 		expr->end = parser.current_token();
+
+		parser.pop_scope();
+		parser.current_scope()->add_fn(expr.get());
 
 		return expr;
 	}

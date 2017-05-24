@@ -1,4 +1,9 @@
+fn myfn() -> i32 {
+	puts("Hello myfn!")
+	ret 0
+}
+
 fn main() -> i32 {
-	puts("Hello!")
+	myfn()
 	ret 0
 }

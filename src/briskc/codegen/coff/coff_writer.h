@@ -26,7 +26,7 @@ namespace brisk {
 
 			void add_section(const std::string &name, SectionHeaderFlags flags, std::unique_ptr<ByteBuffer> content);
 			void set_section_content(const std::string &section, std::unique_ptr<ByteBuffer> content);
-			u32 add_symbol(const std::string &name, i16 scnum, SymbolTableMsEntryType type, SymbolTableEntryClass sclass);
+			u32 add_symbol(const std::string &name, i16 scnum, SymbolTableMsEntryType type, SymbolTableEntryClass sclass, u32 value = 0);
 			void add_relocation(const std::string &section, const RelocationDirective &relocation);
 			void write_to_disk(const std::string &path);
 

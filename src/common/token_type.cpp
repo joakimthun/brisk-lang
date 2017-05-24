@@ -26,12 +26,14 @@ namespace brisk {
 			return "Fn";
 		case TokenType::Ret:
 			return "Ret";
-		case TokenType::I32:
-			return "I32";
 		case TokenType::Let:
 			return "Let";
 		case TokenType::Mut:
 			return "Mut";
+		case TokenType::I32:
+			return "I32";
+		case TokenType::Void:
+			return "Void";
 		case TokenType::Identifier:
 			return "Identifier";
 		case TokenType::LBracket:

@@ -24,11 +24,6 @@ namespace brisk {
 		visitor.visit(*this);
 	}
 
-	void BlockExpr::accept(ASTVisitor &visitor)
-	{
-		visitor.visit(*this);
-	}
-
 	void FnDeclExpr::accept(ASTVisitor &visitor)
 	{
 		visitor.visit(*this);

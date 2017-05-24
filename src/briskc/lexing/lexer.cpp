@@ -22,9 +22,10 @@ namespace brisk {
 		// Keywords
 		keywords_.insert(kwe("fn", TokenType::Fn));
 		keywords_.insert(kwe("ret", TokenType::Ret));
-		keywords_.insert(kwe("i32", TokenType::I32));
 		keywords_.insert(kwe("let", TokenType::Let));
 		keywords_.insert(kwe("mut", TokenType::Mut));
+
+		keywords_.insert(kwe("void", TokenType::Void));
 	}
 
 	Token Lexer::next()

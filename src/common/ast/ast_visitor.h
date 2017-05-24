@@ -11,7 +11,6 @@ namespace brisk {
 		inline virtual void visit(LiteralExpr &expr) {}
 		inline virtual void visit(IdentifierExpr &expr) {}
 		inline virtual void visit(AssignExpr &expr) {}
-		inline virtual void visit(BlockExpr &expr) {}
 		inline virtual void visit(FnDeclExpr &expr) {}
 		inline virtual void visit(RetExpr &expr) {}
 		inline virtual void visit(VarDeclExpr &expr) {}

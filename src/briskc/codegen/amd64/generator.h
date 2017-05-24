@@ -2,6 +2,7 @@
 
 #include <string>
 #include <memory>
+#include <unordered_map>
 
 #include "ast/ast_visitor.h"
 #include "../coff/coff.h"
@@ -14,6 +15,14 @@
 namespace brisk {
 	namespace x64 {
 
+		struct AddedSymbolInfo
+		{
+			u32 sym_table_index;
+		};
+
+		typedef std::pair<std::string, AddedSymbolInfo> added_sym_pair;
+		typedef std::pair<bool, u32> find_symbol_result;
+
 		class Generator : public ASTVisitor
 		{
 		public:
@@ -24,7 +33,6 @@ namespace brisk {
 			void visit(LiteralExpr &expr) override;
 			void visit(IdentifierExpr &expr) override;
 			void visit(AssignExpr &expr) override;
-			void visit(BlockExpr &expr) override;
 			void visit(FnDeclExpr &expr) override;
 			void visit(RetExpr &expr) override;
 			void visit(VarDeclExpr &expr) override;
@@ -32,15 +40,17 @@ namespace brisk {
 
 			void write_to_disk(const std::string &path);
 		private:
-			u32 add_fn_symbol(StringView &name);
+			u32 add_fn_symbol(StringView &name, u32 value);
 			u32 add_ext_fn_symbol(const StringView &name);
 			u32 add_static_data_symbol();
 			void add_rel_reloc(u32 vaddr, u32 symndx);
+			find_symbol_result find_added_symbol(const StringView &name);
 
 			Emitter emitter_;
 			std::unique_ptr<ByteBuffer> data_;
 			RegisterAllocator reg_allocator_;
 			coff::CoffWriter coff_writer_;
+			std::unordered_map<std::string, AddedSymbolInfo> added_symbols_;
 		};
 
 	}

@@ -22,9 +22,11 @@ namespace brisk {
 		// Keywords
 		Fn,
 		Ret,
-		I32,
 		Let,
 		Mut,
+
+		I32,
+		Void,
 
 		// Misc
 		Identifier,

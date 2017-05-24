@@ -51,7 +51,7 @@ namespace brisk {
 			}
 		}
 
-		u32 CoffWriter::add_symbol(const std::string &name, i16 scnum, SymbolTableMsEntryType type, SymbolTableEntryClass sclass)
+		u32 CoffWriter::add_symbol(const std::string &name, i16 scnum, SymbolTableMsEntryType type, SymbolTableEntryClass sclass, u32 value)
 		{
 			auto ste = SymbolTableEntry{ 0 };
 			for (auto i = 0u; i < name.size(); i++)
@@ -62,6 +62,7 @@ namespace brisk {
 				ste.entry.name[i] = name[i];
 			}
 
+			ste.value = value;
 			ste.scnum = scnum;
 			ste.type = static_cast<u16>(type);
 			ste.sclass = static_cast<u8>(sclass);

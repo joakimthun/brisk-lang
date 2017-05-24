@@ -78,8 +78,8 @@ int main(int argc, char* argv[])
 
 		writer.write_to_disk("C:/test/brisk.obj");
 
-		//coff::read("C:/test/main.obj");
-		coff::read("C:/test/brisk2.obj");
+		coff::read("C:/test/main.obj");
+		//coff::read("C:/test/brisk2.obj");
 
 		auto lexer = Lexer("test_files/test2.br");
 

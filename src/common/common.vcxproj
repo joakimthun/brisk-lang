@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="ast\ast.h" />
     <ClInclude Include="ast\ast_visitor.h" />
+    <ClInclude Include="ast\symbols.h" />
     <ClInclude Include="byte_buffer.h" />
     <ClInclude Include="string_view.h" />
     <ClInclude Include="token.h" />
@@ -36,6 +37,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ast\ast.cpp" />
+    <ClCompile Include="ast\symbols.cpp" />
     <ClCompile Include="brisk_exception.cpp" />
     <ClCompile Include="byte_buffer.cpp" />
     <ClCompile Include="file.cpp" />

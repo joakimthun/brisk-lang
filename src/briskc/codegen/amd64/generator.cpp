@@ -68,16 +68,12 @@ namespace brisk {
 			std::cout << "AssignExpr" << std::endl;
 		}
 
-		void Generator::visit(BlockExpr &expr)
-		{
-			for (auto& e : expr.exprs)
-				e->accept(*this);
-		}
-
 		void Generator::visit(FnDeclExpr &expr)
 		{
-			add_fn_symbol(expr.name);
-			expr.body->accept(*this);
+			add_fn_symbol(expr.name, emitter_.current_buffer_offset());
+
+			for(auto& e : expr.body)
+				e->accept(*this);
 		}
 
 		void Generator::visit(RetExpr &expr)
@@ -118,13 +114,21 @@ namespace brisk {
 			coff_writer_.write_to_disk(path);
 		}
 
-		u32 Generator::add_fn_symbol(StringView &name)
+		u32 Generator::add_fn_symbol(StringView &name, u32 value)
 		{
-			return coff_writer_.add_symbol(name.to_string(), 0x2, coff::SymbolTableMsEntryType::IMAGE_SYM_DTYPE_FUNCTION, coff::SymbolTableEntryClass::IMAGE_SYM_CLASS_EXTERNAL);
+			auto result = find_added_symbol(name);
+			if (result.first)
+				return result.second;
+
+			return coff_writer_.add_symbol(name.to_string(), 0x2, coff::SymbolTableMsEntryType::IMAGE_SYM_DTYPE_FUNCTION, coff::SymbolTableEntryClass::IMAGE_SYM_CLASS_EXTERNAL, value);
 		}
 
 		u32 Generator::add_ext_fn_symbol(const StringView &name)
 		{
+			auto result = find_added_symbol(name);
+			if (result.first)
+				return result.second;
+
 			return coff_writer_.add_symbol(name.to_string(), 0x0, coff::SymbolTableMsEntryType::IMAGE_SYM_DTYPE_FUNCTION, coff::SymbolTableEntryClass::IMAGE_SYM_CLASS_EXTERNAL);
 		}
 
@@ -142,6 +146,17 @@ namespace brisk {
 			data_reloc.type = static_cast<u16>(coff::RelocationType::IMAGE_REL_AMD64_REL32);
 			data_reloc.symndx = symndx;
 			coff_writer_.add_relocation(".code", data_reloc);
+		}
+
+		find_symbol_result Generator::find_added_symbol(const StringView &name)
+		{
+			auto it = added_symbols_.find(name.to_string());
+			if (it != added_symbols_.end())
+			{
+				return find_symbol_result(true, it->second.sym_table_index);
+			}
+
+			return find_symbol_result(false, 0);
 		}
 	}
 }
