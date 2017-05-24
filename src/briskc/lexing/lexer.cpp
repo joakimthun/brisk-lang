@@ -290,7 +290,9 @@ namespace brisk {
 			consume();
 		}
 
+		auto token = create_token(TokenType::StrLiteral, start_offset + 1);
 		consume('"');
-		return create_token(TokenType::StrLiteral, start_offset);
+
+		return token;
 	}
 }
