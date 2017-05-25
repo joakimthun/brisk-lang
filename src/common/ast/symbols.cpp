@@ -6,7 +6,7 @@ namespace brisk {
 
 	typedef std::pair<std::string, std::unique_ptr<Symbol>> sym_entry;
 
-	SymbolTable::SymbolTable(SymbolTable * parent)
+	SymbolTable::SymbolTable(SymbolTable *parent)
 		:
 		parent_(parent)
 	{

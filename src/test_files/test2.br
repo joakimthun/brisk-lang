@@ -1,11 +1,13 @@
 fn myfn() -> i32 {
+	let x = 10
 	puts("Hello myfn!")
 	ret 0
 }
 
 fn main() -> i32 {
 	let x = 10
+	let y = 1 + x
 	puts("Hello Brisk!")
 	myfn()
-	ret 0
+	ret y
 }

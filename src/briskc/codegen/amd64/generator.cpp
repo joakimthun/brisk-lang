@@ -10,10 +10,12 @@ namespace brisk {
 		Generator::Generator()
 			:
 			coff_writer_(coff::MACHINE::IMAGE_FILE_MACHINE_AMD64),
-			data_(std::make_unique<ByteBuffer>())
+			data_(std::make_unique<ByteBuffer>()),
+			stack_allocator_(emitter_)
 		{
 			coff_writer_.add_section(".data", coff::SectionHeaderFlags::STYP_DATA, nullptr);
 			coff_writer_.add_section(".code", coff::SectionHeaderFlags::STYP_TEXT, nullptr);
+			addr_tables_.push(std::make_unique<AddrTable>(nullptr));
 		}
 
 		void Generator::visit(Ast &ast)
@@ -60,7 +62,10 @@ namespace brisk {
 
 		void Generator::visit(IdentifierExpr &expr)
 		{
-			std::cout << "IdentifierExpr" << std::endl;
+			auto rsp_rel_addr = find_addr_entry(expr.name);
+			auto dest_reg = reg_allocator_.get_free();
+			emitter_.emit_spd_mov(dest_reg, rsp_rel_addr);
+			reg_allocator_.push(dest_reg);
 		}
 
 		void Generator::visit(AssignExpr &expr)
@@ -70,10 +75,17 @@ namespace brisk {
 
 		void Generator::visit(FnDeclExpr &expr)
 		{
+			push_addr_table();
 			add_fn_symbol(expr.name, emitter_.current_buffer_offset());
-			emitter_.emit_sub64(x64::Register::ESP, 0x28);
+			stack_allocator_.reserve(expr);
+			stack_allocator_.reset();
+
 			for(auto& e : expr.body)
 				e->accept(*this);
+
+			stack_allocator_.free(expr);
+			emitter_.emit_ret();
+			pop_addr_table();
 		}
 
 		void Generator::visit(RetExpr &expr)
@@ -81,15 +93,18 @@ namespace brisk {
 			expr.expr->accept(*this);
 
 			auto src_reg = reg_allocator_.pop();
+			// Just move the return value into RAX/EAX, ret will be emitted when emitting the function
 			emitter_.emit_mov(Register::EAX, src_reg);
-			emitter_.emit_add64(x64::Register::ESP, 0x28);
-			emitter_.emit_ret();
 		}
 
 		void Generator::visit(VarDeclExpr &expr)
 		{
-			emitter_.emit_mov(0x24, 10);
-			std::cout << "VarDeclExpr" << std::endl;
+			expr.expr->accept(*this);
+			auto value_reg = reg_allocator_.pop();
+			auto sp_rel_addr = stack_allocator_.reserve(4);
+
+			emitter_.emit_spd_mov(sp_rel_addr, value_reg);
+			add_addr_entry(expr.name, sp_rel_addr);
 		}
 
 		void Generator::visit(FnCallExpr &expr)
@@ -156,6 +171,27 @@ namespace brisk {
 			}
 
 			return find_symbol_result(false, 0);
+		}
+
+		void Generator::add_addr_entry(const StringView &name, u64 sp_rel_addr)
+		{
+			addr_tables_.top()->add(name, sp_rel_addr);
+		}
+
+		u64 Generator::find_addr_entry(const StringView &name)
+		{
+			return addr_tables_.top()->find(name).sp_rel_addr;
+		}
+
+		void Generator::push_addr_table()
+		{
+			auto parent = addr_tables_.top().get();
+			addr_tables_.push(std::make_unique<AddrTable>(parent));
+		}
+
+		void Generator::pop_addr_table()
+		{
+			addr_tables_.pop();
 		}
 	}
 }

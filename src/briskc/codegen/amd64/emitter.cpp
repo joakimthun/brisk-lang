@@ -32,6 +32,15 @@ namespace brisk {
 			emit(value);
 		}
 
+		void Emitter::emit_add64(Register destination, u32 value)
+		{
+			// REX.W + 81 /0 id
+			emit_rex(REX::W);
+			emit(0x81);
+			emit_modrm(ModRM_Mod::RegisterAddr, destination);
+			emit4(value);
+		}
+
 		void Emitter::emit_sub(Register destination, u8 value)
 		{
 			// 83 /5 ib
@@ -47,6 +56,15 @@ namespace brisk {
 			emit(0x83);
 			emit_modrm(ModRM_Mod::RegisterAddr, 0x5, (u8)destination);
 			emit(value);
+		}
+
+		void Emitter::emit_sub64(Register destination, u32 value)
+		{
+			// REX.W + 81 / 5 id
+			emit_rex(REX::W);
+			emit(0x81);
+			emit_modrm(ModRM_Mod::RegisterAddr, 0x5, (u8)destination);
+			emit4(value);
 		}
 
 		void Emitter::emit_mov64(Register destination, u64 value)
@@ -71,7 +89,7 @@ namespace brisk {
 			emit_modrm(ModRM_Mod::RegisterAddr, source, destination);
 		}
 
-		void Emitter::emit_mov(u8 displacement, u32 value)
+		void Emitter::emit_spd_mov(u8 displacement, u32 value)
 		{
 			// C7 /0 id
 			emit(0xc7);
@@ -79,6 +97,24 @@ namespace brisk {
 			emit_sib(SIBScale::X1, Register::RSP, Register::RSP);
 			emit(displacement);
 			emit4(value);
+		}
+
+		void Emitter::emit_spd_mov(Register destination, u8 displacement)
+		{
+			//8B /r
+			emit(0x8b);
+			emit_modrm(ModRM_Mod::Displacement1, destination, Register::RSP);
+			emit_sib(SIBScale::X1, Register::RSP, Register::RSP);
+			emit(displacement);
+		}
+
+		void Emitter::emit_spd_mov(u8 displacement, Register source)
+		{
+			// 89 /r
+			emit(0x89);
+			emit_modrm(ModRM_Mod::Displacement1, source, Register::RSP);
+			emit_sib(SIBScale::X1, Register::RSP, Register::RSP);
+			emit(displacement);
 		}
 
 		void Emitter::emit_lea64(Register destination, u32 displacement)

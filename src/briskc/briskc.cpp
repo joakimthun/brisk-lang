@@ -51,11 +51,11 @@ int main(int argc, char* argv[])
 		
 		auto emitter = x64::Emitter();
 
-		emitter.emit_sub64(x64::Register::ESP, 0x20);
+		emitter.emit_sub64(x64::Register::ESP, (u8)0x20);
 		emitter.emit_lea64(x64::Register::ECX, 0);
 		emitter.emit_call();
 		emitter.emit_xor(x64::Register::EAX, x64::Register::EAX);
-		emitter.emit_add64(x64::Register::ESP, 0x20);
+		emitter.emit_add64(x64::Register::ESP, (u8)0x20);
 		emitter.emit_ret();
 
 		writer.add_section(".code", coff::SectionHeaderFlags::STYP_TEXT, emitter.buffer());
