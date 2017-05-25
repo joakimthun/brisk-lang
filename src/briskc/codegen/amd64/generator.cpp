@@ -20,8 +20,6 @@ namespace brisk {
 
 		void Generator::visit(Ast &ast)
 		{
-			std::cout << "Ast" << std::endl;
-
 			for (auto& e : ast.exprs)
 				e->accept(*this);
 		}

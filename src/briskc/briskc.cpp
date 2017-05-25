@@ -35,6 +35,7 @@ int main(int argc, char* argv[])
 			t = lexer.next();
 		}
 
+		std::cout << std::endl;
 		std::cout << "Compiling..." << std::endl;
 		auto parser = BriskParser("test_files/test2.br");
 		auto ast = parser.parse();
