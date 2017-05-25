@@ -1,6 +1,6 @@
 #include <iostream>
-
 #include <memory>
+#include <cstdlib>
 
 #include "brisk_exception.h"
 #include "lexing/lexer.h"
@@ -15,16 +15,14 @@ using namespace brisk;
 
 extern "C" void asm_proc();
 
-// link /DEFAULTLIB:"LIBCMT" /MACHINE:X64 brisk.obj
-
 int main(int argc, char* argv[])
 {
 	try
 	{
 		//asm_proc();
 
-		coff::read("C:/test/main.obj");
-		//coff::read("C:/test/brisk2.obj");
+		//coff::read("C:/test/main.obj");
+		//coff::read("C:/test/brisk.obj");
 
 		auto lexer = Lexer("test_files/test2.br");
 
@@ -37,13 +35,23 @@ int main(int argc, char* argv[])
 			t = lexer.next();
 		}
 
+		std::cout << "Compiling..." << std::endl;
 		auto parser = BriskParser("test_files/test2.br");
 		auto ast = parser.parse();
 
 		auto x64gen = x64::Generator();
 		x64gen.visit(*ast);
 
-		x64gen.write_to_disk("C:/test/brisk2.obj");
+		x64gen.write_to_disk("C:/test/brisk.obj");
+
+		std::cout << std::endl;
+		std::cout << std::endl;
+
+		std::cout << "Linking..." << std::endl;
+		std::system("link /DEFAULTLIB:\"LIBCMT\" /MACHINE:X64 /OUT:c:/test/brisk.exe C:/test/brisk.obj");
+
+		std::cout << "Running..." << std::endl;
+		std::system("C:/test/brisk.exe");
 	}
 	catch (const BriskException& ex)
 	{
