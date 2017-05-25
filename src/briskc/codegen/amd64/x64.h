@@ -42,5 +42,13 @@ namespace brisk {
 			X = 2,	// This 1-bit value is an extension to the SIB.index field.
 			B = 3	// This 1-bit value is an extension to the MODRM.rm field or the SIB.base field.
 		};
+
+		enum class SIBScale : u8 
+		{
+			X1 = 0,
+			X2 = 1,
+			X3 = 3,
+			X4 = 4
+		};
 	}
 }

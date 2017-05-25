@@ -88,6 +88,7 @@ namespace brisk {
 
 		void Generator::visit(VarDeclExpr &expr)
 		{
+			emitter_.emit_mov(0x24, 10);
 			std::cout << "VarDeclExpr" << std::endl;
 		}
 

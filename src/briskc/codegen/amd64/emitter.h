@@ -22,6 +22,7 @@ namespace brisk {
 			void emit_mov64(Register destination, u64 value);
 			void emit_mov(Register destination, u32 value);
 			void emit_mov(Register destination, Register source);
+			void emit_mov(u8 displacement, u32 value);
 			void emit_lea64(Register destination, u32 displacement);
 			void emit_xor(Register destination, Register source);
 			void emit_ret();
@@ -38,7 +39,11 @@ namespace brisk {
 			void emit_modrm(ModRM_Mod mod, Register rm);
 			void emit_modrm(ModRM_Mod mod, u8 rm);
 			void emit_modrm(ModRM_Mod mod, Register reg, Register rm);
+			void emit_modrm(ModRM_Mod mod, u8 reg, Register rm);
 			void emit_modrm(ModRM_Mod mod, u8 reg, u8 rm);
+
+			void emit_sib(SIBScale scale, Register index, Register base);
+			void emit_sib(SIBScale scale, u8 index, u8 base);
 
 			std::unique_ptr<ByteBuffer> buffer_;
 		};
