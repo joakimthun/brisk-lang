@@ -45,9 +45,6 @@ int main(int argc, char* argv[])
 
 		x64gen.write_to_disk("C:/test/brisk.obj");
 
-		std::cout << std::endl;
-		std::cout << std::endl;
-
 		std::cout << "Linking..." << std::endl;
 		std::system("link /DEFAULTLIB:\"LIBCMT\" /MACHINE:X64 /OUT:c:/test/brisk.exe C:/test/brisk.obj");
 

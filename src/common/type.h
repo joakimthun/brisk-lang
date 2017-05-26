@@ -1,6 +1,7 @@
 #pragma once
 
 #include "typedef.h"
+#include "token_type.h"
 
 namespace brisk {
 
@@ -28,4 +29,5 @@ namespace brisk {
 		bool ptr;
 	};
 
+	Type type_from_token(TokenType token);
 }

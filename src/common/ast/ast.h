@@ -88,11 +88,20 @@ namespace brisk {
 		void accept(ASTVisitor &visitor) override;
 	};
 
+	struct FnArg
+	{
+		inline FnArg(const StringView &name, const Type &type) : name(name), type(type) {}
+		StringView name;
+		Type type;
+	};
+
 	struct FnDeclExpr : public Block
 	{
 		inline FnDeclExpr(SymbolTable *parent) : Block(parent) {}
 
 		StringView name;
+		Type return_type;
+		std::vector<std::unique_ptr<FnArg>> args;
 		std::vector<std::unique_ptr<Expr>> body;
 
 		void accept(ASTVisitor &visitor) override;

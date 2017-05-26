@@ -1,4 +1,4 @@
-fn myfn() -> i32 {
+fn myfn(i32 arg) -> i32 {
 	let x = 10
 	puts("Hello myfn!")
 	ret 0

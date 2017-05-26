@@ -26,6 +26,7 @@ namespace brisk {
 		keywords_.insert(kwe("mut", TokenType::Mut));
 
 		keywords_.insert(kwe("void", TokenType::Void));
+		keywords_.insert(kwe("i32", TokenType::I32));
 	}
 
 	Token Lexer::next()

@@ -2,6 +2,7 @@
 
 #include "../brisk_parser.h"
 #include "ast/ast.h"
+#include "type.h"
 
 namespace brisk {
 
@@ -18,11 +19,25 @@ namespace brisk {
 		parser.consume(TokenType::Identifier);
 
 		parser.consume(TokenType::LParen);
+
+		while (parser.current_token().type != TokenType::RParen)
+		{
+			const auto arg_type = type_from_token(parser.current_token().type);
+			parser.consume();
+			const auto arg_name = parser.current_token().raw_value;
+			parser.consume(TokenType::Identifier);
+
+			expr->args.push_back(std::make_unique<FnArg>(arg_name, arg_type));
+
+			if (parser.current_token().type == TokenType::Comma)
+				parser.consume(TokenType::Comma);
+		}
+
 		parser.consume(TokenType::RParen);
 
 		parser.consume(TokenType::RArrow);
 
-		// TODO: Validate this consume
+		expr->return_type = type_from_token(parser.current_token().type);
 		parser.consume();
 
 		parser.consume(TokenType::LBracket);
