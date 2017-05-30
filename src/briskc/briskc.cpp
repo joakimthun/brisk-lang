@@ -13,6 +13,8 @@
 
 using namespace brisk;
 
+#define DISASM 1
+
 extern "C" void asm_proc();
 
 int main(int argc, char* argv[])
@@ -47,6 +49,12 @@ int main(int argc, char* argv[])
 
 		std::cout << "Linking..." << std::endl;
 		std::system("link /DEFAULTLIB:\"LIBCMT\" /MACHINE:X64 /OUT:c:/test/brisk.exe C:/test/brisk.obj");
+
+#if DISASM == 1
+		std::cout << "Disasm..." << std::endl;
+		std::system("dumpbin /disasm C:/test/brisk.obj");
+		std::cout << std::endl;
+#endif
 
 		std::cout << "Running..." << std::endl;
 		std::system("C:/test/brisk.exe");
