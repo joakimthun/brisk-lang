@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "ast/ast.h"
+#include "brisk_exception.h"
 
 namespace brisk {
 	namespace x64 {
@@ -77,6 +78,8 @@ namespace brisk {
 			add_fn_symbol(expr.name, emitter_.current_buffer_offset());
 			stack_allocator_.reserve(expr);
 			stack_allocator_.reset();
+			
+			store_fn_args(expr);
 
 			for(auto& e : expr.body)
 				e->accept(*this);
@@ -124,6 +127,36 @@ namespace brisk {
 			coff_writer_.set_section_content(".data", std::move(data_));
 			coff_writer_.set_section_content(".code", emitter_.buffer());
 			coff_writer_.write_to_disk(path);
+		}
+
+		void Generator::store_fn_args(FnDeclExpr &expr)
+		{
+			// Base args RSP offset
+			const u8 base = 0x8;
+
+			for (auto i = 0u; i < expr.args.size(); i++)
+			{
+				if (i == 0)
+				{
+					emitter_.emit_spd_mov(base, Register::ECX);
+				}
+				else if(i == 1)
+				{
+					emitter_.emit_spd_mov(base * 2, Register::EDX);
+				}
+				else if (i == 2)
+				{
+					emitter_.emit_spd_mov(base * 3, Register::R8);
+				}
+				else if (i == 3)
+				{
+					emitter_.emit_spd_mov(base * 4, Register::R9);
+				}
+				else
+				{
+					throw BriskException("Generator::store_fn_args: Need to handle stack args...");
+				}
+			}
 		}
 
 		u32 Generator::add_fn_symbol(StringView &name, u32 value)

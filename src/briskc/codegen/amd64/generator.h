@@ -43,6 +43,8 @@ namespace brisk {
 
 			void write_to_disk(const std::string &path);
 		private:
+			void store_fn_args(FnDeclExpr &expr);
+
 			u32 add_fn_symbol(StringView &name, u32 value);
 			u32 add_ext_fn_symbol(const StringView &name);
 			u32 add_static_data_symbol(u32 value);

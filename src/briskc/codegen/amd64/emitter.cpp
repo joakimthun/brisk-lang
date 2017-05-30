@@ -110,6 +110,9 @@ namespace brisk {
 
 		void Emitter::emit_spd_mov(u8 displacement, Register source)
 		{
+			if (source > Register::RDI)
+				emit_rex(REX::R);
+
 			// 89 /r
 			emit(0x89);
 			emit_modrm(ModRM_Mod::Displacement1, source, Register::RSP);
