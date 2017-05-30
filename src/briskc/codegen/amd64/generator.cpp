@@ -131,32 +131,42 @@ namespace brisk {
 
 		void Generator::store_fn_args(FnDeclExpr &expr)
 		{
+			if (expr.args.size() == 0)
+				return;
+
 			// Base args RSP offset
 			const u8 base = 0x8;
-			const i16 start_index = expr.args.size() > 0 ? expr.args.size() - 1 : 0;
 			
-			for (auto i = start_index; i >= 0; i--)
+			for (i64 i = expr.args.size() - 1; i >= 0; i--)
 			{
+				const auto& arg = expr.args[i];
+				u8 sp_rel_addr = base;
+
 				if (i == 0)
 				{
-					emitter_.emit_spd_mov(base, Register::ECX);
+					emitter_.emit_spd_mov(sp_rel_addr, Register::ECX);
 				}
 				else if(i == 1)
 				{
-					emitter_.emit_spd_mov(base * 2, Register::EDX);
+					sp_rel_addr *= 2;
+					emitter_.emit_spd_mov(sp_rel_addr, Register::EDX);
 				}
 				else if (i == 2)
 				{
-					emitter_.emit_spd_mov(base * 3, Register::R8);
+					sp_rel_addr *= 3;
+					emitter_.emit_spd_mov(sp_rel_addr, Register::R8);
 				}
 				else if (i == 3)
 				{
-					emitter_.emit_spd_mov(base * 4, Register::R9);
+					sp_rel_addr *= 4;
+					emitter_.emit_spd_mov(sp_rel_addr, Register::R9);
 				}
 				else
 				{
 					throw BriskException("Generator::store_fn_args: Need to handle stack args...");
 				}
+
+				add_addr_entry(arg->name, sp_rel_addr);
 			}
 		}
 
