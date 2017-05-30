@@ -50,7 +50,7 @@ int main(int argc, char* argv[])
 		std::cout << "Linking..." << std::endl;
 		std::system("link /DEFAULTLIB:\"LIBCMT\" /MACHINE:X64 /OUT:c:/test/brisk.exe C:/test/brisk.obj");
 
-#if DISASM == 1
+#if DISASM
 		std::cout << "Disasm..." << std::endl;
 		std::system("dumpbin /disasm C:/test/brisk.obj");
 		std::cout << std::endl;
