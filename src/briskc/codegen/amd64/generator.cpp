@@ -133,8 +133,9 @@ namespace brisk {
 		{
 			// Base args RSP offset
 			const u8 base = 0x8;
-
-			for (auto i = 0u; i < expr.args.size(); i++)
+			const i16 start_index = expr.args.size() > 0 ? expr.args.size() - 1 : 0;
+			
+			for (auto i = start_index; i >= 0; i--)
 			{
 				if (i == 0)
 				{
