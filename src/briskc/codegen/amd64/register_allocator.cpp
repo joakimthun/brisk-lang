@@ -11,6 +11,8 @@ namespace brisk {
 		}
 
 		RegisterAllocator::RegisterAllocator()
+			:
+			mode_(RegisterAllocatorMode::None)
 		{
 			allocated_[arr_index(Register::RAX)] = true;
 			allocated_[arr_index(Register::RCX)] = false;
@@ -32,6 +34,25 @@ namespace brisk {
 
 		Register RegisterAllocator::get_free()
 		{
+			if (mode_ == RegisterAllocatorMode::Call)
+			{
+				Register reg;
+
+				if (!allocated_[arr_index(Register::RCX)])
+					reg = Register::RCX;
+				else if (!allocated_[arr_index(Register::RDX)])
+					reg = Register::RDX;
+				else if (!allocated_[arr_index(Register::R8)])
+					reg = Register::R8;
+				else if (!allocated_[arr_index(Register::R9)])
+					reg = Register::R9;
+				else
+					throw BriskException("RegisterAllocator::get_free: Need to handle stack args...");
+
+				allocated_[arr_index(reg)] = true;
+				return reg;
+			}
+
 			// TODO: Handle running out of registers
 			for (u8 i = 0; i < allocated_.size(); i++)
 			{
@@ -48,6 +69,22 @@ namespace brisk {
 		void RegisterAllocator::free(Register reg)
 		{
 			allocated_[arr_index(reg)] = false;
+		}
+
+		void RegisterAllocator::prepare_call()
+		{
+			mode_ = RegisterAllocatorMode::Call;
+
+			// TODO: Handle if some/all of these are in use
+			allocated_[arr_index(Register::RCX)] = false;
+			allocated_[arr_index(Register::RDX)] = false;
+			allocated_[arr_index(Register::R8)] = false;
+			allocated_[arr_index(Register::R9)] = false;
+		}
+
+		void RegisterAllocator::end_call_prepare()
+		{
+			mode_ = RegisterAllocatorMode::None;
 		}
 
 		Register RegisterAllocator::pop()

@@ -8,6 +8,6 @@ fn main() -> i32 {
 	let x = 10
 	let y = 1 + x
 	puts("Hello Brisk!!!")
-	myfn()
+	myfn(1,2)
 	ret y
 }

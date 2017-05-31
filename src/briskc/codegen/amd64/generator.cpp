@@ -41,7 +41,7 @@ namespace brisk {
 			if (expr.type.id == TypeID::U8 && expr.type.ptr)
 			{
 				auto reg = reg_allocator_.get_free();
-				emitter_.emit_lea64(Register::RCX, 0);
+				emitter_.emit_lea64(reg, 0);
 				auto symbol_index = add_static_data_symbol(data_->length());
 				data_->write(expr.str_value.data(), expr.str_value.length());
 				data_->write(0);
@@ -112,8 +112,12 @@ namespace brisk {
 		{
 			// Integer arguments are passed in registers RCX, RDX, R8, and R9. Floating point arguments are passed in XMM0L, XMM1L, XMM2L, and XMM3L.
 			// In addition to these registers, RAX, R10, R11, XMM4, and XMM5 are considered volatile. 
+			reg_allocator_.prepare_call();
+
 			for (auto& arg : expr.args)
 				arg->accept(*this);
+
+			reg_allocator_.end_call_prepare();
 
 			emitter_.emit_call();
 
