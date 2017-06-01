@@ -1,7 +1,8 @@
 ## Hello Brisk!
 ```
 fn main() -> i32 {
-  puts("Hello Brisk!")
+  let str = "Hello Brisk!"
+  puts(str)
   ret 0
 }
 ```
