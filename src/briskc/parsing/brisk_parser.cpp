@@ -18,7 +18,7 @@ namespace brisk {
 	std::unique_ptr<Ast> BriskParser::parse()
 	{
 		auto ast = std::make_unique<Ast>();
-		//ast->file = lexer_.
+		ast->file = lexer_.file().path;
 		push_scope(&ast->symbol_table);
 		parse_pkg(*ast);
 

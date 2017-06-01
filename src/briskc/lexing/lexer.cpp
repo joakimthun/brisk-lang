@@ -60,6 +60,11 @@ namespace brisk {
 		return peek_queue_.back();
 	}
 
+	const File &Lexer::file()
+	{
+		return *file_;
+	}
+
 	Token Lexer::next_internal()
 	{
 		start:

@@ -27,6 +27,7 @@ namespace brisk {
 
 		Token next();
 		const Token &peek(u16 offset = 1);
+		const File &file();
 
 	private:
 		Token next_internal();
