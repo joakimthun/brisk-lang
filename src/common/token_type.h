@@ -24,6 +24,7 @@ namespace brisk {
 		Ret,
 		Let,
 		Mut,
+		Pkg,
 
 		I32,
 		Void,

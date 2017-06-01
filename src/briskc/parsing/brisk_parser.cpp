@@ -20,6 +20,7 @@ namespace brisk {
 		auto ast = std::make_unique<Ast>();
 		//ast->file = lexer_.
 		push_scope(&ast->symbol_table);
+		parse_pkg(*ast);
 
 		while (current_token_.type != TokenType::Eof)
 		{
@@ -120,6 +121,13 @@ namespace brisk {
 			return infix_parser->precedence();
 
 		return 0;
+	}
+
+	void BriskParser::parse_pkg(Ast & ast)
+	{
+		consume(TokenType::Pkg);
+		ast.pkg_name = current_token_.raw_value;
+		consume(TokenType::Identifier);
 	}
 
 }

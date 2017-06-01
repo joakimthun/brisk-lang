@@ -39,6 +39,7 @@ namespace brisk {
 		inline Ast() : symbol_table(nullptr) {}
 
 		std::string file;
+		StringView pkg_name;
 		std::vector<std::unique_ptr<Node>> exprs;
 		SymbolTable symbol_table;
 	};

@@ -30,6 +30,8 @@ namespace brisk {
 			return "Let";
 		case TokenType::Mut:
 			return "Mut";
+		case TokenType::Pkg:
+			return "Pkg";
 		case TokenType::I32:
 			return "I32";
 		case TokenType::Void:

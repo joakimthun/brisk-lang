@@ -31,6 +31,7 @@ namespace brisk {
 
 	private:
 		u8 get_precedence();
+		void parse_pkg(Ast &ast);
 
 		Lexer lexer_;
 		Token current_token_;
