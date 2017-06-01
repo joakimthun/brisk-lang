@@ -90,6 +90,20 @@ namespace brisk {
 		}
 		case '/': {
 			consume();
+
+			if (consume('/'))
+			{
+				while (current_.value != '\n')
+				{
+					if (current_.eof || (current_offset_ >= file_->length))
+						break;
+
+					consume();
+				}
+
+				goto start;
+			}
+
 			return create_token(TokenType::Slash, start_offset);
 		}
 		case '=': {
