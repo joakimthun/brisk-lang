@@ -5,6 +5,7 @@
 #include "brisk_exception.h"
 #include "lexing/lexer.h"
 #include "parsing/brisk_parser.h"
+#include "types/type_table.h"
 
 #include "codegen/coff/coff.h"
 #include "codegen/coff/coff_writer.h"
@@ -21,8 +22,10 @@ int main(int argc, char* argv[])
 {
 	try
 	{
+		auto type_table = TypeTable();
+
 		std::cout << "Compiling..." << std::endl;
-		auto parser = BriskParser("test_files/test2.br");
+		auto parser = BriskParser("test_files/test2.br", type_table);
 		auto ast = parser.parse();
 
 		auto x64gen = x64::Generator();

@@ -7,10 +7,11 @@
 
 namespace brisk {
 
-	BriskParser::BriskParser(const std::string &filepath)
+	BriskParser::BriskParser(const std::string &filepath, TypeTable &type_table)
 		:
 		lexer_(filepath),
-		current_scope_(nullptr)
+		current_scope_(nullptr),
+		type_table_(type_table)
 	{
 		consume();
 	}
@@ -28,6 +29,9 @@ namespace brisk {
 		}
 
 		pop_scope();
+
+		for (auto &call : defered_calls_)
+			call();
 
 		return ast;
 	}
@@ -117,6 +121,11 @@ namespace brisk {
 	TypeTable &BriskParser::type_table()
 	{
 		return type_table_;
+	}
+
+	void BriskParser::defer(std::function<void()> fn)
+	{
+		defered_calls_.push_back(fn);
 	}
 
 	u8 BriskParser::get_precedence()

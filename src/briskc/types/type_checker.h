@@ -15,7 +15,6 @@ namespace brisk {
 		public:
 			TypeChecker();
 
-			void visit(Ast &ast) override;
 			void visit(BinExpr &expr) override;
 			void visit(LiteralExpr &expr) override;
 			void visit(IdentifierExpr &expr) override;

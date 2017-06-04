@@ -8,11 +8,6 @@ namespace brisk {
 
 		TypeChecker::TypeChecker() {}
 
-		void TypeChecker::visit(Ast &ast)
-		{
-			
-		}
-
 		void TypeChecker::visit(BinExpr &expr)
 		{
 			

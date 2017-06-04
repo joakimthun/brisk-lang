@@ -80,6 +80,21 @@ namespace brisk {
 		inline bool is_ptr() const override { return false; }
 	};
 
+	struct FnDeclExpr;
+
+	class FnType : public Type
+	{
+	public:
+		inline FnType(const std::string &name, const FnDeclExpr &decl_expr) : Type(name, TypeID::Fn), decl_expr(decl_expr) {}
+		inline u64 size() const override
+		{
+			return 8;
+		}
+
+		inline bool is_ptr() const override { return false; }
+		const FnDeclExpr &decl_expr;
+	};
+
 	class PtrType : public Type
 	{
 	public:

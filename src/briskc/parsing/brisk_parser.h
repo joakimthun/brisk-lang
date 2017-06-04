@@ -2,6 +2,8 @@
 
 #include <string>
 #include <memory>
+#include <vector>
+#include <functional>
 
 #include "typedef.h"
 #include "../lexing/lexer.h"
@@ -15,7 +17,7 @@ namespace brisk {
 	class BriskParser
 	{
 	public:
-		BriskParser(const std::string &filepath);
+		BriskParser(const std::string &filepath, TypeTable &type_table);
 
 		std::unique_ptr<Ast> parse();
 		const Token &current_token();
@@ -32,6 +34,8 @@ namespace brisk {
 
 		TypeTable &type_table();
 
+		void defer(std::function<void()> fn);
+
 	private:
 		u8 get_precedence();
 		void parse_pkg(Ast &ast);
@@ -40,7 +44,8 @@ namespace brisk {
 		Token current_token_;
 		Grammar grammar_;
 		SymbolTable *current_scope_;
-		TypeTable type_table_;
+		TypeTable &type_table_;
+		std::vector<std::function<void()>> defered_calls_;
 	};
 }
 
