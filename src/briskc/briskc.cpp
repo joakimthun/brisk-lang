@@ -21,23 +21,6 @@ int main(int argc, char* argv[])
 {
 	try
 	{
-		//asm_proc();
-
-		//coff::read("C:/test/main.obj");
-		//coff::read("C:/test/brisk.obj");
-
-		//auto lexer = Lexer("test_files/test2.br");
-		//
-		//auto t = lexer.next();
-		//while (t.type != TokenType::Eof)
-		//{
-		//	std::cout << "Value: '" << t.raw_value.to_string();
-		//	std::cout << "' Length: " << t.raw_value.length() << " Start col: " << t.column_start << " End col: " << t.column_end << " Row: " << t.row << std::endl;
-		//
-		//	t = lexer.next();
-		//}
-
-		std::cout << std::endl;
 		std::cout << "Compiling..." << std::endl;
 		auto parser = BriskParser("test_files/test2.br");
 		auto ast = parser.parse();
