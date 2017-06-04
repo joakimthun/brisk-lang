@@ -95,8 +95,5 @@
     <ClCompile Include="ast\symbols.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="type.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

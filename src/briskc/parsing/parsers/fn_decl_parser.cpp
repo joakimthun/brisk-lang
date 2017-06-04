@@ -2,7 +2,7 @@
 
 #include "../brisk_parser.h"
 #include "ast/ast.h"
-#include "type.h"
+#include "../../types/type_util.h"
 
 namespace brisk {
 
@@ -22,7 +22,7 @@ namespace brisk {
 
 		while (parser.current_token().type != TokenType::RParen)
 		{
-			const auto arg_type = type_from_token(parser.current_token().type);
+			const auto arg_type = type_from_token(parser.type_table(), parser.current_token().type, false);
 			parser.consume();
 			const auto arg_name = parser.current_token().raw_value;
 			parser.consume(TokenType::Identifier);
@@ -37,7 +37,7 @@ namespace brisk {
 
 		parser.consume(TokenType::RArrow);
 
-		expr->return_type = type_from_token(parser.current_token().type);
+		expr->return_type = type_from_token(parser.type_table(), parser.current_token().type, false);
 		parser.consume();
 
 		parser.consume(TokenType::LBracket);

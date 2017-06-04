@@ -69,7 +69,7 @@ namespace brisk {
 			double d;
 		} value;
 		StringView str_value;
-		Type type;
+		const Type *type;
 
 		void accept(ASTVisitor &visitor) override;
 	};
@@ -91,9 +91,9 @@ namespace brisk {
 
 	struct FnArg
 	{
-		inline FnArg(const StringView &name, const Type &type) : name(name), type(type) {}
+		inline FnArg(const StringView &name, const Type *type) : name(name), type(type) {}
 		StringView name;
-		Type type;
+		const Type *type;
 	};
 
 	struct FnDeclExpr : public Block
@@ -101,7 +101,7 @@ namespace brisk {
 		inline FnDeclExpr(SymbolTable *parent) : Block(parent) {}
 
 		StringView name;
-		Type return_type;
+		const Type *return_type;
 		std::vector<std::unique_ptr<FnArg>> args;
 		std::vector<std::unique_ptr<Expr>> body;
 

@@ -143,6 +143,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="briskc.cpp" />
+    <ClCompile Include="types\type_checker.cpp" />
     <ClCompile Include="codegen\addr_table.cpp" />
     <ClCompile Include="codegen\amd64\generator.cpp" />
     <ClCompile Include="codegen\amd64\register_allocator.cpp" />
@@ -163,8 +164,11 @@
     <ClCompile Include="parsing\parsers\literal_parser.cpp" />
     <ClCompile Include="parsing\parsers\ret_parser.cpp" />
     <ClCompile Include="parsing\parsers\var_decl_parser.cpp" />
+    <ClCompile Include="types\type_table.cpp" />
+    <ClCompile Include="types\type_util.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="types\type_checker.h" />
     <ClInclude Include="codegen\addr_table.h" />
     <ClInclude Include="codegen\amd64\generator.h" />
     <ClInclude Include="codegen\amd64\register_allocator.h" />
@@ -189,6 +193,8 @@
     <ClInclude Include="parsing\parsers\ret_parser.h" />
     <ClInclude Include="parsing\parsers\var_decl_parser.h" />
     <ClInclude Include="parsing\precedence.h" />
+    <ClInclude Include="types\type_table.h" />
+    <ClInclude Include="types\type_util.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\common\common.vcxproj">

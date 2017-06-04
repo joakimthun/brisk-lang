@@ -78,6 +78,15 @@
     <ClCompile Include="codegen\addr_table.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="types\type_checker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="types\type_table.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="types\type_util.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lexing\lexer.h">
@@ -150,6 +159,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="codegen\addr_table.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="types\type_checker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="types\type_table.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="types\type_util.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

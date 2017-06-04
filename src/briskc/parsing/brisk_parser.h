@@ -8,6 +8,7 @@
 #include "ast/ast.h"
 #include "grammar.h"
 #include "ast/symbols.h"
+#include "../types/type_table.h"
 
 namespace brisk {
 
@@ -29,6 +30,8 @@ namespace brisk {
 		void push_scope(SymbolTable *scope);
 		void pop_scope();
 
+		TypeTable &type_table();
+
 	private:
 		u8 get_precedence();
 		void parse_pkg(Ast &ast);
@@ -37,6 +40,7 @@ namespace brisk {
 		Token current_token_;
 		Grammar grammar_;
 		SymbolTable *current_scope_;
+		TypeTable type_table_;
 	};
 }
 

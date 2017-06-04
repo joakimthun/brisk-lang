@@ -44,7 +44,6 @@
     <ClCompile Include="string_view.cpp" />
     <ClCompile Include="token.cpp" />
     <ClCompile Include="token_type.cpp" />
-    <ClCompile Include="type.cpp" />
     <ClCompile Include="utf8.cpp" />
     <ClCompile Include="util.cpp" />
     <ClCompile Include="win32.cpp" />

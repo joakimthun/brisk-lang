@@ -114,6 +114,11 @@ namespace brisk {
 		current_scope_ = current_scope_->parent();
 	}
 
+	TypeTable &BriskParser::type_table()
+	{
+		return type_table_;
+	}
+
 	u8 BriskParser::get_precedence()
 	{
 		auto infix_parser = grammar_.get_infix_parser(current_token_.type);

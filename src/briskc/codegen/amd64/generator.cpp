@@ -38,7 +38,7 @@ namespace brisk {
 
 		void Generator::visit(LiteralExpr &expr)
 		{
-			if (expr.type.id == TypeID::U8 && expr.type.ptr)
+			if (expr.type->id() == TypeID::U8 && expr.type->is_ptr())
 			{
 				auto reg = reg_allocator_.get_free();
 				emitter_.emit_lea64(reg, 0);
