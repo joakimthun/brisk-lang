@@ -1,7 +1,5 @@
 pkg main
 
-ext fn puts() -> void
-
 fn myfn(i32 arg1, i32 arg2, i32 arg3, i32 arg4) -> i32 {
 	let x = 10
 	puts("Hello myfn!")
@@ -15,3 +13,5 @@ fn main() -> i32 {
 	myfn(1,2,3,4)
 	ret 0
 }
+
+ext fn puts() -> void
