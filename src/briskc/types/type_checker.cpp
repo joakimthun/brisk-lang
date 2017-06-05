@@ -4,48 +4,62 @@
 #include "brisk_exception.h"
 
 namespace brisk {
-	namespace x64 {
 
-		TypeChecker::TypeChecker() {}
+	TypeChecker::TypeChecker() {}
 
-		void TypeChecker::visit(BinExpr &expr)
-		{
-			
-		}
+	void TypeChecker::visit(Ast &ast)
+	{
+		for (auto& e : ast.exprs)
+			e->accept(*this);
+	}
 
-		void TypeChecker::visit(LiteralExpr &expr)
-		{
-			
-		}
+	void TypeChecker::visit(BinExpr &expr)
+	{
+		expr.left->accept(*this);
+		expr.right->accept(*this);
 
-		void TypeChecker::visit(IdentifierExpr &expr)
-		{
-			
-		}
+		auto left_type = expr.left->type;
+		auto right_type = expr.right->type;
 
-		void TypeChecker::visit(AssignExpr &expr)
-		{
-			
-		}
+		if (left_type->id() != right_type->id())
+			throw BriskException("BinExpr: left_type->id != right_type->id");
+	}
 
-		void TypeChecker::visit(FnDeclExpr &expr)
-		{
-			
-		}
+	void TypeChecker::visit(IdentifierExpr &expr)
+	{
 
-		void TypeChecker::visit(RetExpr &expr)
-		{
-			
-		}
+	}
 
-		void TypeChecker::visit(VarDeclExpr &expr)
-		{
-			
-		}
+	void TypeChecker::visit(AssignExpr &expr)
+	{
+		expr.left->accept(*this);
+		expr.right->accept(*this);
 
-		void TypeChecker::visit(FnCallExpr &expr)
-		{
-			
-		}
+		auto left_type = expr.left->type;
+		auto right_type = expr.right->type;
+
+		if (left_type->id() != right_type->id())
+			throw BriskException("AssignExpr: left_type->id != right_type->id");
+	}
+
+	void TypeChecker::visit(FnDeclExpr &expr)
+	{
+		for (auto& e : expr.body)
+			e->accept(*this);
+	}
+
+	void TypeChecker::visit(RetExpr &expr)
+	{
+
+	}
+
+	void TypeChecker::visit(VarDeclExpr &expr)
+	{
+		expr.expr->accept(*this);
+	}
+
+	void TypeChecker::visit(FnCallExpr &expr)
+	{
+
 	}
 }

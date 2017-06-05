@@ -5,6 +5,7 @@
 #include <unordered_map>
 
 #include "../typedef.h"
+#include "../type.h"
 
 namespace brisk {
 
@@ -12,17 +13,19 @@ namespace brisk {
 	{
 		Var,
 		Fn,
-		Type
+		FnArg
 	};
 
 	struct Symbol
 	{
 		inline virtual ~Symbol() {}
 		virtual SymbolType type() = 0;
+		virtual const Type *expr_type() = 0;
 	};
 
 	struct VarDeclExpr;
 	struct FnDeclExpr;
+	struct FnArgExpr;
 
 	struct VarSymbol : public Symbol
 	{
@@ -33,6 +36,8 @@ namespace brisk {
 		{
 			return SymbolType::Var;
 		}
+
+		const Type *expr_type() override;
 	};
 
 	struct FnSymbol : public Symbol
@@ -44,6 +49,21 @@ namespace brisk {
 		{
 			return SymbolType::Fn;
 		}
+
+		const Type *expr_type() override;
+	};
+
+	struct FnArgSymbol : public Symbol
+	{
+		inline FnArgSymbol(FnArgExpr *expr) : expr(expr) {}
+		FnArgExpr *expr;
+
+		inline SymbolType type() override
+		{
+			return SymbolType::FnArg;
+		}
+
+		const Type *expr_type() override;
 	};
 
 	class SymbolTable
@@ -54,10 +74,11 @@ namespace brisk {
 		bool root();
 		SymbolTable *parent();
 		void add_fn(FnDeclExpr *expr);
+		void add_fn_arg(FnArgExpr *expr);
 		void add_var(VarDeclExpr *expr);
 
 		template<class TSymbol>
-		inline TSymbol *find(std::string name)
+		inline TSymbol *find(const std::string &name)
 		{
 			static_assert(std::is_base_of<Symbol, TSymbol>::value, "TComponent must inherit from Symbol");
 
@@ -70,7 +91,7 @@ namespace brisk {
 			if (root())
 				return nullptr;
 
-			return parent_->find(name);
+			return parent_->find<TSymbol>(name);
 		}
 
 	private:

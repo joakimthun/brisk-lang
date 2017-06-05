@@ -28,10 +28,31 @@ namespace brisk {
 		symbols_.insert(sym_entry(expr->name.to_string(), std::make_unique<FnSymbol>(expr)));
 	}
 
+	void SymbolTable::add_fn_arg(FnArgExpr *expr)
+	{
+		// TODO: Validate unique
+		symbols_.insert(sym_entry(expr->name.to_string(), std::make_unique<FnArgSymbol>(expr)));
+	}
+
 	void SymbolTable::add_var(VarDeclExpr *expr)
 	{
 		// TODO: Validate unique
 		symbols_.insert(sym_entry(expr->name.to_string(), std::make_unique<VarSymbol>(expr)));
+	}
+
+	const Type *VarSymbol::expr_type()
+	{
+		return expr->type;
+	}
+
+	const Type *FnSymbol::expr_type()
+	{
+		return expr->type;
+	}
+
+	const Type *FnArgSymbol::expr_type()
+	{
+		return expr->type;
 	}
 
 }

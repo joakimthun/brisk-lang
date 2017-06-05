@@ -40,12 +40,21 @@ namespace brisk {
 			auto arg_expr = std::make_unique<FnArgExpr>();
 			arg_expr->start = parser.current_token();
 
-			arg_expr->type = type_from_token(parser.type_table(), parser.current_token().type, false);
+			auto type_token = parser.current_token().type;
 			parser.consume();
+
 			arg_expr->name = parser.current_token().raw_value;
 			parser.consume(TokenType::Identifier);
 
 			arg_expr->end = parser.current_token();
+
+			parser.current_scope()->add_fn_arg(arg_expr.get());
+
+			auto raw_arg_expr_ptr = arg_expr.get();
+			parser.defer([raw_arg_expr_ptr, type_token](auto &parser) {
+				raw_arg_expr_ptr->type = type_from_token(parser.type_table(), type_token, false);
+			});
+
 			expr->args.push_back(std::move(arg_expr));
 
 			if (parser.current_token().type == TokenType::Comma)

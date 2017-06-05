@@ -6,6 +6,7 @@
 #include "lexing/lexer.h"
 #include "parsing/brisk_parser.h"
 #include "types/type_table.h"
+#include "types/type_checker.h"
 
 #include "codegen/coff/coff.h"
 #include "codegen/coff/coff_writer.h"
@@ -27,6 +28,9 @@ int main(int argc, char* argv[])
 		std::cout << "Compiling..." << std::endl;
 		auto parser = BriskParser("test_files/test2.br", type_table);
 		auto ast = parser.parse();
+
+		auto type_checker = TypeChecker();
+		type_checker.visit(*ast);
 
 		auto x64gen = x64::Generator();
 		x64gen.visit(*ast);

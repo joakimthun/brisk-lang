@@ -27,7 +27,7 @@ namespace brisk {
 		auto raw_expr_ptr = expr.get();
 
 		parser.defer([raw_expr_ptr](auto &parser) {
-			auto callee = raw_expr_ptr->callee = parser.type_table().get<FnType>(raw_expr_ptr->name, false);
+			auto callee = parser.type_table().get<FnType>(raw_expr_ptr->name, false);
 			if(callee == nullptr)
 				throw ParsingException("No function with the name '" + raw_expr_ptr->name.to_string() + "' has been defined");
 
