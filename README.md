@@ -2,6 +2,8 @@
 ```
 pkg main
 
+ext fn puts() -> void
+
 fn main() -> i32 {
   let str = "Hello World!"
   puts(str)
