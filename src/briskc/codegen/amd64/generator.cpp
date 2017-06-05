@@ -74,6 +74,9 @@ namespace brisk {
 
 		void Generator::visit(FnDeclExpr &expr)
 		{
+			if (expr.ext)
+				return;
+
 			push_addr_table();
 			add_fn_symbol(expr.name, emitter_.current_buffer_offset());
 			stack_allocator_.reserve(expr);

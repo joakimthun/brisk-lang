@@ -6,11 +6,26 @@
 
 namespace brisk {
 
+	FnDeclParser::FnDeclParser()
+		:
+		ext_(false)
+	{
+	}
+
+	FnDeclParser::FnDeclParser(bool ext)
+		:
+		ext_(ext)
+	{
+	}
+
 	std::unique_ptr<Expr> FnDeclParser::parse(BriskParser &parser)
 	{
+		if (ext_)
+			parser.consume(TokenType::Ext);
+
 		parser.consume(TokenType::Fn);
 
-		auto expr = std::make_unique<FnDeclExpr>(parser.current_scope());
+		auto expr = std::make_unique<FnDeclExpr>(parser.current_scope(), ext_);
 		parser.push_scope(&expr->symbol_table);
 
 		expr->start = parser.current_token();
@@ -44,6 +59,11 @@ namespace brisk {
 		expr->return_type = type_from_token(parser.type_table(), parser.current_token().type, false);
 		parser.consume();
 
+		parser.type_table().add(expr->name, std::make_unique<FnType>(expr->name, *expr));
+
+		if (ext_)
+			return expr;
+
 		parser.consume(TokenType::LBracket);
 
 		while(parser.current_token().type != TokenType::RBracket)
@@ -54,6 +74,7 @@ namespace brisk {
 
 		parser.pop_scope();
 		parser.current_scope()->add_fn(expr.get());
+
 
 		return expr;
 	}

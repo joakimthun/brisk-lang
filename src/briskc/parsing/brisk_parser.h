@@ -34,7 +34,7 @@ namespace brisk {
 
 		TypeTable &type_table();
 
-		void defer(std::function<void()> fn);
+		void defer(std::function<void(BriskParser &parser)> fn);
 
 	private:
 		u8 get_precedence();
@@ -45,7 +45,7 @@ namespace brisk {
 		Grammar grammar_;
 		SymbolTable *current_scope_;
 		TypeTable &type_table_;
-		std::vector<std::function<void()>> defered_calls_;
+		std::vector<std::function<void(BriskParser &parser)>> defered_calls_;
 	};
 }
 

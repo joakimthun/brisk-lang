@@ -25,6 +25,7 @@ namespace brisk {
 		keywords_.insert(kwe("let", TokenType::Let));
 		keywords_.insert(kwe("mut", TokenType::Mut));
 		keywords_.insert(kwe("pkg", TokenType::Pkg));
+		keywords_.insert(kwe("ext", TokenType::Ext));
 
 		keywords_.insert(kwe("void", TokenType::Void));
 		keywords_.insert(kwe("i32", TokenType::I32));

@@ -20,6 +20,17 @@ namespace brisk {
 		const Type *get(const StringView &name, bool ptr);
 		const Type *get(const std::string &name, bool ptr);
 
+		template<class TType>
+		inline const TType *get(const StringView &name, bool ptr)
+		{
+			static_assert(std::is_base_of<Type, TType>::value, "TType must inherit from Type");
+			auto type = get(name, ptr);
+			if (type != nullptr)
+				return static_cast<const TType*>(type);
+
+			return nullptr;
+		}
+
 	private:
 		std::string get_internal_name(const std::string &name, bool ptr);
 

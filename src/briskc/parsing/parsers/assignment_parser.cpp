@@ -14,6 +14,11 @@ namespace brisk {
 		expr->right = parser.parse_expr(precedence());
 		expr->end = parser.current_token();
 
+		auto raw_expr_ptr = expr.get();
+		parser.defer([raw_expr_ptr](auto &parser) {
+			raw_expr_ptr->type = raw_expr_ptr->left->type;
+		});
+
 		return expr;
 	}
 

@@ -50,8 +50,23 @@ namespace brisk {
 		return nullptr;
 	}
 
+	Parser *Grammar::get_top_ll2_parser(TokenType t1, TokenType t2)
+	{
+		const auto key = ll2_key(t1, t2);
+		auto it = top_ll2_parsers_.find(key);
+		if (it != top_ll2_parsers_.end())
+		{
+			return it->second.get();
+		}
+
+		return nullptr;
+	}
+
 	void Grammar::init()
 	{
+		// Top LL2 parsers
+		top_ll2_parsers_.insert(ll2_pair(ll2_key(TokenType::Ext, TokenType::Fn), std::make_unique<FnDeclParser>(true)));
+
 		// LL2 parsers
 		ll2_parsers_.insert(ll2_pair(ll2_key(TokenType::Identifier, TokenType::LParen), std::make_unique<FnCallParser>()));
 

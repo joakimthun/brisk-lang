@@ -2,6 +2,7 @@
 
 #include "ast/ast.h"
 #include "../brisk_parser.h"
+#include "../../exceptions/parsing_exception.h"
 
 namespace brisk {
 
@@ -22,6 +23,21 @@ namespace brisk {
 
 		expr->end = parser.current_token();
 		parser.consume(TokenType::RParen);
+
+		auto raw_expr_ptr = expr.get();
+
+		parser.defer([raw_expr_ptr](auto &parser) {
+			auto callee = raw_expr_ptr->callee = parser.type_table().get<FnType>(raw_expr_ptr->name, false);
+			if(callee == nullptr)
+				throw ParsingException("No function with the name '" + raw_expr_ptr->name.to_string() + "' has been defined");
+
+			raw_expr_ptr->callee = callee;
+		});
+		
+		parser.defer([raw_expr_ptr](auto &parser) {
+			auto callee = raw_expr_ptr->callee;
+			raw_expr_ptr->type = callee->decl_expr.return_type;
+		});
 
 		return expr;
 	}

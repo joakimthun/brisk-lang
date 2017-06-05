@@ -39,7 +39,6 @@ namespace brisk {
 	protected:
 		std::string name_;
 		TypeID id_;
-		bool is_ptr_;
 	};
 
 	class PrimitiveType : public Type
@@ -86,11 +85,8 @@ namespace brisk {
 	{
 	public:
 		inline FnType(const std::string &name, const FnDeclExpr &decl_expr) : Type(name, TypeID::Fn), decl_expr(decl_expr) {}
-		inline u64 size() const override
-		{
-			return 8;
-		}
-
+		inline FnType(const StringView &name, const FnDeclExpr &decl_expr) : Type(name.to_string(), TypeID::Fn), decl_expr(decl_expr) {}
+		inline u64 size() const override { return 8; }
 		inline bool is_ptr() const override { return false; }
 		const FnDeclExpr &decl_expr;
 	};

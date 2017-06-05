@@ -15,6 +15,8 @@ namespace brisk {
 		expr->expr = parser.parse_expr();
 		expr->end = parser.current_token();
 
+		expr->type = expr->expr->type;
+
 		return expr;
 	}
 

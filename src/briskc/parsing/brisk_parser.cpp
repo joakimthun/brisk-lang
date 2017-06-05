@@ -31,7 +31,7 @@ namespace brisk {
 		pop_scope();
 
 		for (auto &call : defered_calls_)
-			call();
+			call(*this);
 
 		return ast;
 	}
@@ -61,7 +61,11 @@ namespace brisk {
 
 	std::unique_ptr<Expr> BriskParser::parse_top_expr()
 	{
-		auto parser = grammar_.get_top_expr_parser(current_token_.type);
+		auto parser = grammar_.get_top_ll2_parser(current_token_.type, lexer_.peek().type);
+
+		if(parser == nullptr)
+			parser = grammar_.get_top_expr_parser(current_token_.type);
+
 		if(parser == nullptr)
 			throw ParsingException(current_token_);
 
@@ -123,7 +127,7 @@ namespace brisk {
 		return type_table_;
 	}
 
-	void BriskParser::defer(std::function<void()> fn)
+	void BriskParser::defer(std::function<void(BriskParser &parser)> fn)
 	{
 		defered_calls_.push_back(fn);
 	}

@@ -28,4 +28,8 @@ namespace brisk {
 		ss << "Row: " << token.row << " Column: " << token.column_start << "-" << token.column_end << std::endl;
 		message_ = ss.str();
 	}
+
+	ParsingException::ParsingException(const std::string &message) : BriskException(message)
+	{
+	}
 }

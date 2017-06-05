@@ -39,6 +39,7 @@ namespace brisk {
 		Parser *get_expr_parser(TokenType type);
 		Parser *get_top_expr_parser(TokenType type);
 		Parser *get_ll2_parser(TokenType t1, TokenType t2);
+		Parser *get_top_ll2_parser(TokenType t1, TokenType t2);
 	private:
 		void init();
 
@@ -46,6 +47,7 @@ namespace brisk {
 		std::array<std::unique_ptr<Parser>, MAX_NUM_TOKENS> expr_parsers_;
 		std::array<std::unique_ptr<Parser>, MAX_NUM_TOKENS> top_expr_parsers_;
 		std::unordered_map<ll2_key, std::unique_ptr<Parser>> ll2_parsers_;
+		std::unordered_map<ll2_key, std::unique_ptr<Parser>> top_ll2_parsers_;
 	};
 
 }

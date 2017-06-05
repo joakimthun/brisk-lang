@@ -17,11 +17,11 @@ namespace brisk {
 	struct Expr
 	{
 		inline virtual ~Expr() {};
-		virtual const Type *get_type() = 0;
 		virtual void accept(ASTVisitor &visitor) = 0;
 
 		Token start;
 		Token end;
+		const Type *type;
 	};
 
 	struct Block : public Expr
@@ -48,10 +48,6 @@ namespace brisk {
 		TokenType op;
 
 		void accept(ASTVisitor &visitor) override;
-		inline const Type *get_type() override
-		{
-			return left->get_type();
-		}
 	};
 
 	struct LiteralExpr : public Expr
@@ -70,25 +66,15 @@ namespace brisk {
 			double d;
 		} value;
 		StringView str_value;
-		const Type *type;
 
 		void accept(ASTVisitor &visitor) override;
-		inline const Type *get_type() override
-		{
-			return type;
-		}
 	};
 
 	struct IdentifierExpr : public Expr
 	{
 		StringView name;
-		const Type *type;
 
 		void accept(ASTVisitor &visitor) override;
-		inline const Type *get_type() override
-		{
-			return type;
-		}
 	};
 
 	struct AssignExpr : public Expr
@@ -97,40 +83,26 @@ namespace brisk {
 		std::unique_ptr<Expr> right;
 
 		void accept(ASTVisitor &visitor) override;
-		inline const Type *get_type() override
-		{
-			return left->get_type();
-		}
 	};
 
 	struct FnArgExpr : public Expr
 	{
 		StringView name;
-		const Type *type;
 
 		inline void accept(ASTVisitor &visitor) override {}
-		inline const Type *get_type() override
-		{
-			return type;
-		}
 	};
 
 	struct FnDeclExpr : public Block
 	{
-		inline FnDeclExpr(SymbolTable *parent) : Block(parent) {}
+		inline FnDeclExpr(SymbolTable *parent, bool ext) : ext(ext), Block(parent) {}
 
 		StringView name;
-		const FnType *fn_type;
 		const Type *return_type;
 		std::vector<std::unique_ptr<FnArgExpr>> args;
 		std::vector<std::unique_ptr<Expr>> body;
+		bool ext;
 
 		void accept(ASTVisitor &visitor) override;
-
-		inline const Type *get_type() override
-		{
-			return fn_type;
-		}
 	};
 
 	struct RetExpr : public Expr
@@ -138,10 +110,6 @@ namespace brisk {
 		std::unique_ptr<Expr> expr;
 
 		void accept(ASTVisitor &visitor) override;
-		inline const Type *get_type() override
-		{
-			return expr->get_type();
-		}
 	};
 
 	struct VarDeclExpr : public Expr
@@ -151,10 +119,6 @@ namespace brisk {
 		std::unique_ptr<Expr> expr;
 
 		void accept(ASTVisitor &visitor) override;
-		inline const Type *get_type() override
-		{
-			return expr->get_type();
-		}
 	};
 
 	struct FnCallExpr : public Expr
@@ -164,9 +128,5 @@ namespace brisk {
 		std::vector<std::unique_ptr<Expr>> args;
 
 		void accept(ASTVisitor &visitor) override;
-		inline const Type *get_type() override
-		{
-			return callee->decl_expr.return_type;
-		}
 	};
 }

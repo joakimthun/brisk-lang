@@ -27,6 +27,8 @@ namespace brisk {
 
 		parser.current_scope()->add_var(expr.get());
 
+		expr->type = parser.type_table().get("void", false);
+
 		return expr;
 	}
 

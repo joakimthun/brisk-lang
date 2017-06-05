@@ -12,5 +12,6 @@ namespace brisk {
 	{
 		ParsingException(TokenType expected, Token &actual);
 		ParsingException(Token &token);
+		ParsingException(const std::string &message);
 	};
 }
