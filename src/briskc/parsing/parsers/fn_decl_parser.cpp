@@ -40,8 +40,7 @@ namespace brisk {
 			auto arg_expr = std::make_unique<FnArgExpr>();
 			arg_expr->start = parser.current_token();
 
-			auto type_token = parser.current_token().type;
-			parser.consume();
+			auto type_result = parser.parse_type();
 
 			arg_expr->name = parser.current_token().raw_value;
 			parser.consume(TokenType::Identifier);
@@ -51,8 +50,8 @@ namespace brisk {
 			parser.current_scope()->add_fn_arg(arg_expr.get());
 
 			auto raw_arg_expr_ptr = arg_expr.get();
-			parser.defer([raw_arg_expr_ptr, type_token](auto &parser) {
-				raw_arg_expr_ptr->type = type_from_token(parser.type_table(), type_token, false);
+			parser.defer([raw_arg_expr_ptr, type_result](auto &parser) {
+				raw_arg_expr_ptr->type = type_from_token(parser.type_table(), type_result.token.type, type_result.is_ptr);
 			});
 
 			expr->args.push_back(std::move(arg_expr));

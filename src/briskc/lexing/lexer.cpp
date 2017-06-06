@@ -27,8 +27,17 @@ namespace brisk {
 		keywords_.insert(kwe("pkg", TokenType::Pkg));
 		keywords_.insert(kwe("ext", TokenType::Ext));
 
-		keywords_.insert(kwe("void", TokenType::Void));
+		keywords_.insert(kwe("u8", TokenType::U8));
+		keywords_.insert(kwe("i8", TokenType::I8));
+		keywords_.insert(kwe("u16", TokenType::U16));
+		keywords_.insert(kwe("i16", TokenType::I16));
+		keywords_.insert(kwe("u32", TokenType::U32));
 		keywords_.insert(kwe("i32", TokenType::I32));
+		keywords_.insert(kwe("u64", TokenType::U64));
+		keywords_.insert(kwe("i64", TokenType::I64));
+		keywords_.insert(kwe("float", TokenType::Float));
+		keywords_.insert(kwe("double", TokenType::Double));
+		keywords_.insert(kwe("void", TokenType::Void));
 	}
 
 	Token Lexer::next()

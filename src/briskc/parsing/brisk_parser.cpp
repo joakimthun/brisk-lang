@@ -101,6 +101,21 @@ namespace brisk {
 		return left;
 	}
 
+	ParseTypeResult BriskParser::parse_type()
+	{
+		ParseTypeResult result;
+		result.token = current_token();
+		consume();
+
+		if (current_token().type == TokenType::Star)
+		{
+			result.is_ptr = true;
+			consume();
+		}
+
+		return result;
+	}
+
 	SymbolTable *BriskParser::current_scope()
 	{
 		if (current_scope_ == nullptr)
