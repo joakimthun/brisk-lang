@@ -2,7 +2,7 @@
 ```
 pkg main
 
-ext fn puts() -> void
+ext fn puts(u8 *str) -> i32
 
 fn main() -> i32 {
   let str = "Hello World!"
