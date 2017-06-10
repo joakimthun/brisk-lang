@@ -11,6 +11,10 @@ namespace brisk {
 
 	struct VarDeclParser : public Parser
 	{
+		VarDeclParser(bool explicit_type);
 		std::unique_ptr<Expr> parse(BriskParser &parser) override;
+
+	private:
+		bool explicit_type_;
 	};
 }

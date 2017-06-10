@@ -5,11 +5,27 @@
 
 namespace brisk {
 
+	VarDeclParser::VarDeclParser(bool explicit_type)
+		:
+		explicit_type_(explicit_type)
+	{
+	}
+
 	std::unique_ptr<Expr> VarDeclParser::parse(BriskParser &parser)
 	{
 		auto expr = std::make_unique<VarDeclExpr>();
+		auto raw_expr_ptr = expr.get();
+
 		expr->start = parser.current_token();
-		parser.consume(TokenType::Let);
+
+		if (explicit_type_)
+		{
+			parser.parse_type(raw_expr_ptr);
+		}
+		else
+		{
+			parser.consume(TokenType::Let);
+		}
 
 		const auto next = parser.peek();
 		if (next.type == TokenType::Mut)
@@ -25,12 +41,14 @@ namespace brisk {
 
 		expr->end = parser.current_token();
 
-		parser.current_scope()->add_var(expr.get());
+		if (!explicit_type_)
+		{
+			parser.defer([raw_expr_ptr](auto &parser) {
+				raw_expr_ptr->type = raw_expr_ptr->expr->type;
+			});
+		}
 
-		auto raw_expr_ptr = expr.get();
-		parser.defer([raw_expr_ptr](auto &parser) {
-			raw_expr_ptr->type = raw_expr_ptr->expr->type;
-		});
+		parser.current_scope()->add_var(expr.get());
 
 		return expr;
 	}

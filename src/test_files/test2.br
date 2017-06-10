@@ -12,6 +12,8 @@ fn main() -> i32 {
 	let str = "Hello Brisk!"
 	puts(str)
 
+	u8 *x = "str"
+
 	myfn(1, 2, 3, 4)
 	ret 0
 }

@@ -62,6 +62,9 @@ namespace brisk {
 	void TypeChecker::visit(VarDeclExpr &expr)
 	{
 		expr.expr->accept(*this);
+
+		if (!expr.type->equals(expr.expr->type))
+			register_type_error(expr.start, "Cannot convert from '" + expr.expr->type->name() + "' to '" + expr.type->name() + "'");
 	}
 
 	void TypeChecker::visit(FnCallExpr &expr)
