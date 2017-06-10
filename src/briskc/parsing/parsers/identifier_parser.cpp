@@ -16,9 +16,10 @@ namespace brisk {
 		parser.consume(TokenType::Identifier);
 
 		auto raw_expr_ptr = expr.get();
-		parser.defer([raw_expr_ptr](BriskParser &parser) {
-			auto symbol = parser.current_scope()->find<VarSymbol>(raw_expr_ptr->name.to_string());
-			raw_expr_ptr->type = parser.type_table().get(raw_expr_ptr->name, false);
+		auto current_scope = parser.current_scope();
+		parser.defer([raw_expr_ptr, current_scope](BriskParser &parser) {
+			auto symbol = current_scope->find<VarSymbol>(raw_expr_ptr->name.to_string());
+			raw_expr_ptr->type = symbol->expr->type;
 		});
 
 		return expr;

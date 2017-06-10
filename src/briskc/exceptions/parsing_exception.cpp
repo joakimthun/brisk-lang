@@ -1,7 +1,6 @@
 #include "parsing_exception.h"
 
 #include <sstream>
-#include <string>
 
 #include "file.h"
 #include "token_type.h"

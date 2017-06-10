@@ -143,6 +143,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="briskc.cpp" />
+    <ClCompile Include="exceptions\type_exception.cpp" />
     <ClCompile Include="types\type_checker.cpp" />
     <ClCompile Include="codegen\addr_table.cpp" />
     <ClCompile Include="codegen\amd64\generator.cpp" />
@@ -168,6 +169,7 @@
     <ClCompile Include="types\type_util.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="exceptions\type_exception.h" />
     <ClInclude Include="types\type_checker.h" />
     <ClInclude Include="codegen\addr_table.h" />
     <ClInclude Include="codegen\amd64\generator.h" />

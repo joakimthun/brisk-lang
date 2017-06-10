@@ -12,6 +12,6 @@ fn main() -> i32 {
 	let str = "Hello Brisk!"
 	puts(str)
 
-	myfn(1,2,3,4)
+	myfn(1, 2, 3, 4)
 	ret 0
 }

@@ -30,9 +30,15 @@ namespace brisk {
 
 		virtual u64 size() const = 0;
 		virtual bool is_ptr() const = 0;
-		inline const std::string &name() const { return name_; }
+		inline const std::string name() const 
+		{ 
+			if(is_ptr())
+				return name_ + "*";
+
+			return name_; 
+		}
 		inline TypeID id() const { return id_; }
-		
+		bool equals(const Type *other) const;
 	protected:
 		inline Type(const std::string &name, TypeID id) : name_(name), id_(id) {}
 
