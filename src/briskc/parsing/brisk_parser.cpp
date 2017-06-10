@@ -4,6 +4,7 @@
 
 #include "exceptions.h"
 #include "../exceptions/parsing_exception.h"
+#include "../types/type_util.h"
 
 namespace brisk {
 
@@ -101,7 +102,7 @@ namespace brisk {
 		return left;
 	}
 
-	ParseTypeResult BriskParser::parse_type()
+	void BriskParser::parse_type(Expr *expr)
 	{
 		ParseTypeResult result;
 		result.token = current_token();
@@ -113,7 +114,9 @@ namespace brisk {
 			consume();
 		}
 
-		return result;
+		defer([expr, result](auto &parser) {
+			expr->type = type_from_token(parser.type_table(), result.token.type, result.is_ptr);
+		});
 	}
 
 	SymbolTable *BriskParser::current_scope()

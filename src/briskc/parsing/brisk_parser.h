@@ -33,7 +33,7 @@ namespace brisk {
 		std::unique_ptr<Expr> parse_top_expr();
 		std::unique_ptr<Expr> parse_expr();
 		std::unique_ptr<Expr> parse_expr(u8 precedence);
-		ParseTypeResult parse_type();
+		void parse_type(Expr *expr);
 
 		SymbolTable *current_scope();
 		void push_scope(SymbolTable *scope);
