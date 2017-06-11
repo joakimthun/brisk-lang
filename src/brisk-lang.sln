@@ -15,8 +15,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "common", "common\common.vcx
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test_files", "test_files", "{87C31077-AC75-4BEF-A59B-E5E9BD5E36AC}"
 	ProjectSection(SolutionItems) = preProject
-		test_files\test.br = test_files\test.br
-		test_files\test2.br = test_files\test2.br
+		test_files\test_utf8.br = test_files\test_utf8.br
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{5EA75129-3FB7-4585-AFB9-E3DB35F8907D}"
