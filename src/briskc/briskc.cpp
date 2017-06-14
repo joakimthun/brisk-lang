@@ -38,7 +38,8 @@ int main(int argc, char* argv[])
 		x64gen.write_to_disk("C:/test/brisk.obj");
 
 		std::cout << "Linking..." << std::endl;
-		std::system("link /DEFAULTLIB:\"LIBCMT\" /MACHINE:X64 /OUT:c:/test/brisk.exe C:/test/brisk.obj");
+		if (std::system("link /DEFAULTLIB:\"LIBCMT\" /MACHINE:X64 /OUT:c:/test/brisk.exe C:/test/brisk.obj") != 0)
+			throw BriskException("Linking failed");
 
 #if DISASM
 		std::cout << "Disasm..." << std::endl;
