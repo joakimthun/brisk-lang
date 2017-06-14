@@ -19,6 +19,12 @@ namespace brisk {
 			std::unique_ptr<ByteBuffer> content;
 		};
 
+		struct CoffString
+		{
+			std::string value;
+			u32 offset;
+		};
+
 		class CoffWriter
 		{
 		public:
@@ -31,9 +37,13 @@ namespace brisk {
 			void write_to_disk(const std::string &path);
 
 		private:
+			u32 add_to_string_table(const std::string &name);
+
 			FileHeader header_;
 			std::unordered_map<std::string, std::unique_ptr<CoffSection>> sections_;
 			std::vector<SymbolTableEntry> symbols_;
+			std::vector<CoffString> string_table_;
+			u32 string_table_size_;
 
 			ByteBuffer buffer_;
 		};

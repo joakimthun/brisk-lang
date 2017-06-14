@@ -10,7 +10,12 @@ namespace brisk {
 
 		CoffWriter::CoffWriter(MACHINE machine)
 			:
-			header_({0})
+			header_({0}),
+
+			// At the beginning of the COFF string table are 4 bytes containing the total size (in bytes) of
+			// the rest of the string table.This size includes the size field itself, so that the value in this
+			// location would be 4 if no strings were present.
+			string_table_size_(4)
 		{
 			header_.machine = static_cast<u16>(machine);
 		}
@@ -54,12 +59,20 @@ namespace brisk {
 		u32 CoffWriter::add_symbol(const std::string &name, i16 scnum, SymbolTableMsEntryType type, SymbolTableEntryClass sclass, u32 value)
 		{
 			auto ste = SymbolTableEntry{ 0 };
-			for (auto i = 0u; i < name.size(); i++)
-			{
-				if (i > 7)
-					break;
 
-				ste.entry.name[i] = name[i];
+			// The Name field in a symbol table consists of eight bytes that contain the name itself, if not
+			// too long, or else give an offset into the String Table.To determine whether the name itself
+			// or an offset is given, test the first four bytes for equality to zero.
+			if (name.size() >= 8)
+			{
+				ste.entry.entry.offset = add_to_string_table(name);
+			}
+			else
+			{
+				for (auto i = 0u; i < name.size(); i++)
+				{
+					ste.entry.name[i] = name[i];
+				}
 			}
 
 			ste.value = value;
@@ -68,7 +81,7 @@ namespace brisk {
 			ste.sclass = static_cast<u8>(sclass);
 
 			symbols_.push_back(ste);
-			return symbols_.size() - 1;
+			return static_cast<u32>(symbols_.size() - 1);
 		}
 
 		void CoffWriter::add_relocation(const std::string &section, const RelocationDirective &relocation)
@@ -85,12 +98,12 @@ namespace brisk {
 		{
 			ByteBuffer buffer;
 
-			header_.timdat = std::time(nullptr);
+			header_.timdat = static_cast<u32>(std::time(nullptr));
 			header_.nscns = static_cast<u16>(sections_.size());
 			header_.nsyms = static_cast<u16>(symbols_.size());
 
 			auto section_content_size = 0u;
-			for (auto& s : sections_)
+			for (const auto& s : sections_)
 			{
 				s.second->header.size = s.second->content->length();
 
@@ -102,8 +115,9 @@ namespace brisk {
 
 			buffer.write(&header_, sizeof(FileHeader));
 
+			// Section headers
 			auto scnptr = sizeof(FileHeader) + (sizeof(SectionHeader) * header_.nscns);
-			for (auto& s : sections_)
+			for (const auto& s : sections_)
 			{
 				s.second->header.scnptr = scnptr;
 				scnptr += s.second->content->length();
@@ -119,7 +133,8 @@ namespace brisk {
 				buffer.write(&s.second->header, sizeof(SectionHeader));
 			}
 
-			for (auto& s : sections_)
+			// Section data
+			for (const auto& s : sections_)
 			{
 				buffer.write(s.second->content->data(), s.second->content->length());
 				
@@ -129,20 +144,37 @@ namespace brisk {
 				}
 			}
 
-			for (auto& s : symbols_)
+			// Symbols
+			for (const auto& s : symbols_)
 			{
 				buffer.write(&s, sizeof(SymbolTableEntry));
 			}
 
-			//for (auto& s : sections_)
-			//{
-				buffer.write(0);
-				buffer.write(0);
-				buffer.write(0);
-				buffer.write(0);
-			//}
+			// String table
+			buffer.write(&string_table_size_, 4);
+			
+			for (const auto& str : string_table_)
+			{
+				buffer.write(str.value.c_str(), str.value.size());
+				buffer.write(static_cast<u8>('\0'));
+			}
 
 			write_file(path, buffer);
+		}
+
+		u32 CoffWriter::add_to_string_table(const std::string &name)
+		{
+			const auto offset = string_table_size_;
+
+			string_table_.push_back(CoffString{
+				name, 
+				offset
+			});
+
+			// + 1 for the null-terminator
+			string_table_size_ += name.size() + 1;
+
+			return offset;
 		}
 
 	}
