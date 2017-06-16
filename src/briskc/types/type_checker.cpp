@@ -45,7 +45,7 @@ namespace brisk {
 		auto right_type = expr.right->type;
 
 		if (left_type->id() != right_type->id())
-			throw BriskException("AssignExpr: left_type->id != right_type->id");
+			register_type_error(expr.start, "Cannot convert from '" + expr.right->type->name() + "' to '" + expr.left->type->name() + "'");
 	}
 
 	void TypeChecker::visit(FnDeclExpr &expr)

@@ -19,8 +19,7 @@ fn main() -> i32 {
 
 	u8 *x = "str"
 
-	let y = ""
-	i32 x = 1 + y
+	i32 y = 2
 
 	myfn(1, 2, 3, 4)
 	ret 0
