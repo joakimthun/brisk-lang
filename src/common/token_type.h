@@ -51,4 +51,5 @@ namespace brisk {
 	};
 
 	std::string token_type_name(TokenType type);
+	std::string operator_from_token(TokenType type);
 }

@@ -28,7 +28,7 @@ namespace brisk {
 		auto right_type = expr.right->type;
 
 		if (left_type->id() != right_type->id())
-			throw BriskException("BinExpr: left_type->id != right_type->id");
+			register_type_error(expr.start, "Operator '" + operator_from_token(expr.op) + "' cannot be applied to operands of type '" + expr.left->type->name() + "' and '" + expr.right->type->name() + "'");
 	}
 
 	void TypeChecker::visit(IdentifierExpr &expr)

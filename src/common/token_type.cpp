@@ -53,7 +53,26 @@ namespace brisk {
 		case TokenType::Comma:
 			return "Comma";
 		default:
-			return "Unknown token type";;
+			return "token_type_name: Unknown token type";;
+		}
+	}
+
+	std::string operator_from_token(TokenType type)
+	{
+		switch (type)
+		{
+		case TokenType::Plus:
+			return "+";
+		case TokenType::Minus:
+			return "-";
+		case TokenType::Star:
+			return "*";
+		case TokenType::Slash:
+			return "/";
+		case TokenType::Equals:
+			return "=";
+		default:
+			return "operator_from_token: Unknown token type";
 		}
 	}
 
