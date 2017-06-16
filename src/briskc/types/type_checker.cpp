@@ -56,7 +56,9 @@ namespace brisk {
 
 	void TypeChecker::visit(RetExpr &expr)
 	{
-
+		expr.expr->accept(*this);
+		if (!expr.type->equals(expr.owner->return_type))
+			register_type_error(expr.start, "Cannot convert return value from '" + expr.expr->type->name() + "' to '" + expr.owner->return_type->name() + "'");
 	}
 
 	void TypeChecker::visit(VarDeclExpr &expr)

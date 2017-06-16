@@ -140,6 +140,21 @@ namespace brisk {
 		current_scope_ = current_scope_->parent();
 	}
 
+	void BriskParser::push_fn_context(const FnDeclExpr *fn)
+	{
+		fn_context_.push(fn);
+	}
+
+	void BriskParser::pop_fn_context()
+	{
+		fn_context_.pop();
+	}
+
+	const FnDeclExpr *BriskParser::current_fn_context()
+	{
+		return fn_context_.top();
+	}
+
 	TypeTable &BriskParser::type_table()
 	{
 		return type_table_;

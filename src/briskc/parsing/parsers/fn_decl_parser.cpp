@@ -27,6 +27,7 @@ namespace brisk {
 
 		auto expr = std::make_unique<FnDeclExpr>(parser.current_scope(), ext_);
 		parser.push_scope(&expr->symbol_table);
+		parser.push_fn_context(expr.get());
 
 		expr->start = parser.current_token();
 
@@ -76,8 +77,9 @@ namespace brisk {
 		expr->end = parser.current_token();
 
 		parser.pop_scope();
-		parser.current_scope()->add_fn(expr.get());
+		parser.pop_fn_context();
 
+		parser.current_scope()->add_fn(expr.get());
 
 		return expr;
 	}

@@ -8,6 +8,7 @@ namespace brisk {
 	std::unique_ptr<Expr> RetParser::parse(BriskParser & parser)
 	{
 		auto expr = std::make_unique<RetExpr>();
+		expr->owner = parser.current_fn_context();
 
 		parser.consume(TokenType::Ret);
 

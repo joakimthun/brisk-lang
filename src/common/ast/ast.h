@@ -13,6 +13,7 @@
 namespace brisk {
 
 	struct ASTVisitor;
+	struct FnDeclExpr;
 
 	struct Expr
 	{
@@ -22,6 +23,7 @@ namespace brisk {
 		Token start;
 		Token end;
 		const Type *type;
+		const FnDeclExpr *owner;
 	};
 
 	struct Block : public Expr

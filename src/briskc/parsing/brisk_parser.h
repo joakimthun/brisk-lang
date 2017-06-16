@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 #include <functional>
+#include <stack>
 
 #include "typedef.h"
 #include "../lexing/lexer.h"
@@ -39,6 +40,10 @@ namespace brisk {
 		void push_scope(SymbolTable *scope);
 		void pop_scope();
 
+		void push_fn_context(const FnDeclExpr *fn);
+		void pop_fn_context();
+		const FnDeclExpr *current_fn_context();
+
 		TypeTable &type_table();
 
 		void defer(std::function<void(BriskParser &parser)> fn);
@@ -53,6 +58,7 @@ namespace brisk {
 		SymbolTable *current_scope_;
 		TypeTable &type_table_;
 		std::vector<std::function<void(BriskParser &parser)>> defered_calls_;
+		std::stack<const FnDeclExpr*> fn_context_;
 	};
 }
 
