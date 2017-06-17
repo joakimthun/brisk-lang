@@ -23,6 +23,8 @@ namespace brisk {
 		Struct = 12
 	};
 
+	struct Expr;
+
 	class Type
 	{
 	public:
@@ -30,15 +32,17 @@ namespace brisk {
 
 		virtual u64 size() const = 0;
 		virtual bool is_ptr() const = 0;
-		inline const std::string name() const 
+		inline std::string name() const 
 		{ 
 			if(is_ptr())
 				return name_ + "*";
 
 			return name_; 
 		}
+		virtual std::string type_name() const = 0;
 		inline TypeID id() const { return id_; }
 		bool equals(const Type *other) const;
+		virtual const Expr *expr() const { return nullptr; };
 	protected:
 		inline Type(const std::string &name, TypeID id) : name_(name), id_(id) {}
 
@@ -83,6 +87,7 @@ namespace brisk {
 		}
 
 		inline bool is_ptr() const override { return false; }
+		inline std::string type_name() const override { return "primitive"; };
 	};
 
 	struct FnDeclExpr;
@@ -94,6 +99,9 @@ namespace brisk {
 		inline FnType(const StringView &name, const FnDeclExpr &decl_expr) : Type(name.to_string(), TypeID::Fn), decl_expr(decl_expr) {}
 		inline u64 size() const override { return 8; }
 		inline bool is_ptr() const override { return false; }
+		const Expr *expr() const override;
+		inline std::string type_name() const override { return "function"; };
+
 		const FnDeclExpr &decl_expr;
 	};
 
@@ -103,6 +111,8 @@ namespace brisk {
 		inline PtrType(const Type *type) : Type(type->name(), type->id()) {}
 		inline u64 size() const override { return 8; }
 		inline bool is_ptr() const override { return true; }
+		const Expr *expr() const override { return type->expr(); };
+		inline std::string type_name() const override { return type->type_name(); };
 
 		const Type *type;
 	};

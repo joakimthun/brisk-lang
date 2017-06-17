@@ -1,5 +1,9 @@
 #include "type_table.h"
 
+#include <sstream>
+
+#include "ast/ast.h"
+#include "file.h"
 #include "brisk_exception.h"
 
 namespace brisk {
@@ -43,8 +47,24 @@ namespace brisk {
 
 	void TypeTable::add(const std::string &name, std::unique_ptr<Type> type)
 	{
-		if (get(name, type->is_ptr()) != nullptr)
+		auto duplicate = get(name, type->is_ptr());
+		if (duplicate != nullptr)
+		{
+			const auto message = "A " + type->type_name() + " with the name '" + name + "' has already been declared";
+
+			if (duplicate->expr() != nullptr)
+			{
+				const auto &location = duplicate->expr()->start;
+				std::ostringstream ss;
+				ss << message << " at:" << std::endl;
+				ss << "Row: " << location.row << " Column: " << location.column_start << "-" << location.column_end << std::endl;
+				ss << "File: '" << location.file->path << "'" << std::endl;
+
+				throw BriskException(ss.str());
+			}
+
 			throw BriskException("A type with the name '" + name + "' has already been declared");
+		}
 
 		entries_.insert(std::pair<std::string, std::unique_ptr<Type>>(get_internal_name(name, type->is_ptr()), std::move(type)));
 	}
