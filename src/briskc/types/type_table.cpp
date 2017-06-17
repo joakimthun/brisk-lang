@@ -54,11 +54,20 @@ namespace brisk {
 
 			if (duplicate->expr() != nullptr)
 			{
-				const auto &location = duplicate->expr()->start;
+				
 				std::ostringstream ss;
+
+				if (type->expr() != nullptr)
+				{
+					const auto &this_location = type->expr()->start;
+					ss << "Row: " << this_location.row << " Column: " << this_location.column_start << "-" << this_location.column_end << std::endl;
+					ss << "File: '" << this_location.file->path << "'" << std::endl;
+				}
+
+				const auto &duplicate_location = duplicate->expr()->start;
 				ss << message << " at:" << std::endl;
-				ss << "Row: " << location.row << " Column: " << location.column_start << "-" << location.column_end << std::endl;
-				ss << "File: '" << location.file->path << "'" << std::endl;
+				ss << "Row: " << duplicate_location.row << " Column: " << duplicate_location.column_start << "-" << duplicate_location.column_end << std::endl;
+				ss << "File: '" << duplicate_location.file->path << "'" << std::endl;
 
 				throw BriskException(ss.str());
 			}
