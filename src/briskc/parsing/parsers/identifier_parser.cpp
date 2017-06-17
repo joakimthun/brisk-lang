@@ -19,7 +19,7 @@ namespace brisk {
 		auto current_scope = parser.current_scope();
 		parser.defer([raw_expr_ptr, current_scope](BriskParser &parser) {
 			auto symbol = current_scope->find<VarSymbol>(raw_expr_ptr->name.to_string());
-			raw_expr_ptr->type = symbol->expr->type;
+			raw_expr_ptr->type = symbol->decl_expr->type;
 		});
 
 		return expr;

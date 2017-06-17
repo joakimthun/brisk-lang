@@ -66,16 +66,17 @@ namespace brisk {
 		parser.type_table().add(expr->name, std::make_unique<FnType>(expr->name, *expr));
 
 		if (ext_)
-			return expr;
+			goto ret;
 
 		parser.consume(TokenType::LBracket);
 
 		while(parser.current_token().type != TokenType::RBracket)
 			expr->body.push_back(parser.parse_expr());
 
-		parser.consume(TokenType::RBracket);
 		expr->end = parser.current_token();
+		parser.consume(TokenType::RBracket);
 
+		ret:
 		parser.pop_scope();
 		parser.pop_fn_context();
 
