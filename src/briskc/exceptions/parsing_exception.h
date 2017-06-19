@@ -10,8 +10,9 @@ namespace brisk {
 
 	struct ParsingException : public BriskException
 	{
-		ParsingException(TokenType expected, Token &actual);
-		ParsingException(Token &token);
+		ParsingException(TokenType expected, const Token &actual);
+		ParsingException(const Token &token);
+		ParsingException(const std::string &message, const Token &token);
 		ParsingException(const std::string &message);
 	};
 }

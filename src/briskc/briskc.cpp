@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
 	{
 		auto type_table = TypeTable();
 
-		std::cout << "Compiling..." << std::endl;
+		std::cout << "Compiling..." << std::endl << std::endl;
 		auto parser = BriskParser("test_files/test_utf8.br", type_table);
 		auto ast = parser.parse();
 
