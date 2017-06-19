@@ -19,6 +19,19 @@ namespace brisk {
 	{
 		inline virtual ~Expr() {};
 		virtual void accept(ASTVisitor &visitor) = 0;
+		template<class TExpr>
+		inline bool is() const
+		{
+			static_assert(std::is_base_of<Expr, TExpr>::value, "TExpr must inherit from Expr");
+			return dynamic_cast<TExpr*>(this) != nullptr;
+		}
+
+		template<class TExpr>
+		inline TExpr *as()
+		{
+			static_assert(std::is_base_of<Expr, TExpr>::value, "TExpr must inherit from Expr");
+			return dynamic_cast<TExpr*>(this);
+		}
 
 		Token start;
 		Token end;
@@ -56,18 +69,26 @@ namespace brisk {
 	{
 		union 
 		{
-			u8 u8;
-			i8 i8;
-			u16 u16;
-			i16 i16;
-			u32 u32;
-			i32 i32;
-			u64 u64;
-			i64 i64;
+			u64 uint64;
+			i64 int64;
 			float f;
 			double d;
+			operator u64() const { return uint64; }
+			operator i64() const { return int64; }
+			operator u32() const { return static_cast<u32>(uint64); }
+			operator i32() const { return static_cast<i32>(int64); }
+			operator u16() const { return static_cast<u16>(uint64); }
+			operator i16() const { return static_cast<i16>(int64); }
+			operator u8() const { return static_cast<u8>(uint64); }
+			operator i8() const { return static_cast<i8>(int64); }
 		} value;
 		StringView str_value;
+
+		template<class T>
+		inline T as() const
+		{
+			return static_cast<T>(value);
+		}
 
 		void accept(ASTVisitor &visitor) override;
 	};

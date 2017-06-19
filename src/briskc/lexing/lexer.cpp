@@ -173,11 +173,6 @@ namespace brisk {
 
 	Token Lexer::create_token(TokenType type, u64 start_offset)
 	{
-		return create_token(type, start_offset, TokenValue{ 0 });
-	}
-
-	Token Lexer::create_token(TokenType type, u64 start_offset, TokenValue value)
-	{
 		const auto length = current_offset_ - start_offset;
 		const auto column_start = column_ - length;
 
@@ -187,7 +182,6 @@ namespace brisk {
 			row_, 
 			column_start,
 			column_,
-			value,
 			file_.get());
 	}
 
@@ -284,11 +278,13 @@ namespace brisk {
 			consume();
 		}
 
-		const auto raw_value = file_->content.get() + start_offset;
-		TokenValue value = { 0 };
-		value.i32 = std::atoi(reinterpret_cast<char*>(raw_value));
+		if (current_.value == 'u' || current_.value == 'U')
+		{
+			consume();
+			return create_token(TokenType::UIntLiteral, start_offset);
+		}
 
-		return create_token(TokenType::I32Literal, start_offset, value);
+		return create_token(TokenType::IntLiteral, start_offset);
 	}
 
 	Token Lexer::read_identifier(u64 start_offset)

@@ -42,7 +42,14 @@ namespace brisk {
 		virtual std::string type_name() const = 0;
 		inline TypeID id() const { return id_; }
 		bool equals(const Type *other) const;
+		bool can_convert_to(const Type *target) const;
 		virtual const Expr *expr() const { return nullptr; };
+		template<class T>
+		inline const T *as_const() const
+		{
+			static_assert(std::is_base_of<Type, T>::value, "T must inherit from Type");
+			return dynamic_cast<const T*>(this);
+		}
 	protected:
 		inline Type(const std::string &name, TypeID id) : name_(name), id_(id) {}
 
@@ -88,6 +95,24 @@ namespace brisk {
 
 		inline bool is_ptr() const override { return false; }
 		inline std::string type_name() const override { return "primitive"; };
+
+		inline bool is_integral() const
+		{
+			switch (id_)
+			{
+			case brisk::TypeID::U8:
+			case brisk::TypeID::I8:
+			case brisk::TypeID::U16:
+			case brisk::TypeID::I16:
+			case brisk::TypeID::U32:
+			case brisk::TypeID::I32:
+			case brisk::TypeID::U64:
+			case brisk::TypeID::I64:
+				return true;
+			default:
+				return false;
+			}
+		}
 	};
 
 	struct FnDeclExpr;

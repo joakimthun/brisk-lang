@@ -16,7 +16,8 @@ namespace brisk {
 		Equals,
 
 		// Literals
-		I32Literal,
+		IntLiteral,
+		UIntLiteral,
 		StrLiteral,
 
 		// Keywords

@@ -1,5 +1,7 @@
 #include "literal_parser.h"
 
+#include <string>
+
 #include "../brisk_parser.h"
 #include "ast/ast.h"
 #include "type.h"
@@ -17,10 +19,18 @@ namespace brisk {
 
 		switch (parser.current_token().type)
 		{
-		case TokenType::I32Literal: {
-			expr->type = parser.type_table().get("i32", false);
-			expr->value.i32 = parser.current_token().value.i32;
-			parser.consume(TokenType::I32Literal);
+		case TokenType::IntLiteral: {
+			expr->type = parser.type_table().get("i64", false);
+			const i64 value = std::stoll(reinterpret_cast<const char*>(parser.current_token().raw_value.data()));
+			expr->value.int64 = value;
+			parser.consume(TokenType::IntLiteral);
+			break;
+		}
+		case TokenType::UIntLiteral: {
+			expr->type = parser.type_table().get("u64", false);
+			const u64 value = std::stoull(reinterpret_cast<const char*>(parser.current_token().raw_value.data()));
+			expr->value.uint64 = value;
+			parser.consume(TokenType::UIntLiteral);
 			break;
 		}
 		case TokenType::StrLiteral: {

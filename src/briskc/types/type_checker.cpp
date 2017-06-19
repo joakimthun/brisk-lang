@@ -6,6 +6,7 @@
 #include "ast/ast.h"
 #include "brisk_exception.h"
 #include "../exceptions/type_exception.h"
+#include "type_converters.h"
 
 namespace brisk {
 
@@ -64,8 +65,16 @@ namespace brisk {
 	void TypeChecker::visit(RetExpr &expr)
 	{
 		expr.expr->accept(*this);
-		if (!expr.type->equals(expr.owner->return_type))
+
+		const auto result = check(expr.type, expr.owner->return_type);
+
+		if (!result.are_equal && !result.can_convert)
 			register_type_error(expr.start, "Cannot convert return value from '" + expr.expr->type->name() + "' to '" + expr.owner->return_type->name() + "'");
+
+		if (result.can_convert)
+		{
+			types::convert(*expr.expr, expr.owner->return_type);
+		}
 	}
 
 	void TypeChecker::visit(VarDeclExpr &expr)
@@ -99,10 +108,17 @@ namespace brisk {
 			check_fn_arg(*callee_expr.args[i], *expr.args[i], i);
 	}
 
-	void TypeChecker::check_fn_arg(const FnArgExpr &arg, const Expr &expr, int index)
+	void TypeChecker::check_fn_arg(const FnArgExpr &arg, Expr &expr, int index)
 	{
-		if (!arg.type->equals(expr.type))
+		const auto result = check(expr.type, arg.type);
+
+		if (!result.are_equal && !result.can_convert)
 			register_type_error(expr.start, "Argument " + std::to_string(index) + ": cannot convert from '" + expr.type->name() + "' to '" + arg.type->name() + "'");
+
+		if (result.can_convert)
+		{
+			types::convert(expr, arg.type);
+		}
 	}
 
 	void TypeChecker::register_type_error(const Token &location, const std::string &message)
@@ -121,5 +137,22 @@ namespace brisk {
 	{
 		if (type_errors_.size() >= max_errors)
 			throw TypeException(type_errors_);
+	}
+
+	TypeCheckResult TypeChecker::check(const Type *t, const Type *target)
+	{
+		TypeCheckResult result;
+		result.are_equal = true;
+
+		if (!t->equals(target))
+		{
+			result.are_equal = false;
+			if (t->can_convert_to(target))
+			{
+				result.can_convert = true;
+			}
+		}
+
+		return result;
 	}
 }

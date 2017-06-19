@@ -32,7 +32,6 @@ namespace brisk {
 	private:
 		Token next_internal();
 		Token create_token(TokenType type, u64 start_offset);
-		Token create_token(TokenType type, u64 start_offset, TokenValue value);
 		void consume_whitespace();
 		void consume();
 		bool consume(char c);

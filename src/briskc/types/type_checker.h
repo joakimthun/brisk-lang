@@ -11,6 +11,12 @@
 
 namespace brisk {
 
+	struct TypeCheckResult
+	{
+		bool are_equal = false;
+		bool can_convert = false;
+	};
+
 	class TypeChecker : public ASTVisitor
 	{
 	public:
@@ -27,9 +33,10 @@ namespace brisk {
 
 	private:
 		void check_fn_call(const FnCallExpr &expr);
-		void check_fn_arg(const FnArgExpr &arg, const Expr &expr, int index);
+		void check_fn_arg(const FnArgExpr &arg, Expr &expr, int index);
 		void register_type_error(const Token &location, const std::string &message);
 		void throw_if_max_errors_reached(u16 max_errors);
+		TypeCheckResult check(const Type *t, const Type *target);
 
 		std::vector<std::string> type_errors_;
 	};
