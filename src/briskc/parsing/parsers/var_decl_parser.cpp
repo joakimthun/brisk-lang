@@ -27,8 +27,7 @@ namespace brisk {
 			parser.consume(TokenType::Let);
 		}
 
-		const auto next = parser.peek();
-		if (next.type == TokenType::Mut)
+		if (parser.current_token().type == TokenType::Mut)
 		{
 			parser.consume(TokenType::Mut);
 			expr->mut = true;

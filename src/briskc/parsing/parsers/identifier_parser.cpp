@@ -2,6 +2,7 @@
 
 #include "ast/ast.h"
 #include "../brisk_parser.h"
+#include "ast/symbols.h"
 #include "../../exceptions/parsing_exception.h"
 
 namespace brisk {
@@ -25,6 +26,7 @@ namespace brisk {
 				throw ParsingException("The name '" + raw_expr_ptr->name.to_string() + "' does not exist in the current context", raw_expr_ptr->start);
 
 			raw_expr_ptr->type = symbol->decl_expr->type;
+			raw_expr_ptr->mut = symbol->decl_expr->mut;
 		});
 
 		return expr;

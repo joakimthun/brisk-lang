@@ -19,7 +19,8 @@ fn main() -> i32 {
 
 	u8 *x = "str"
 
-	i32 y = 2
+	let mut mutable = 2
+	mutable = 2
 
 	myfn(1, 2, 3, 4)
 	ret 0

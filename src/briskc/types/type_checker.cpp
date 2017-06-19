@@ -38,7 +38,12 @@ namespace brisk {
 
 	void TypeChecker::visit(AssignExpr &expr)
 	{
-		// check mutable
+		// TODO: The parser makes sure left is an IdentifierExpr right now, but will not in the future
+		const auto identifier = static_cast<IdentifierExpr*>(expr.left.get());
+		if (!identifier->mut)
+		{
+			register_type_error(identifier->start, "'" + identifier->name.to_string() + "' cannot be modified since it's not a mutable value");
+		}
 
 		expr.left->accept(*this);
 		expr.right->accept(*this);

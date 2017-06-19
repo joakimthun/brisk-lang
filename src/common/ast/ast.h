@@ -75,6 +75,7 @@ namespace brisk {
 	struct IdentifierExpr : public Expr
 	{
 		StringView name;
+		bool mut = false;
 
 		void accept(ASTVisitor &visitor) override;
 	};
