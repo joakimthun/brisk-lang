@@ -38,6 +38,8 @@ namespace brisk {
 
 	void TypeChecker::visit(AssignExpr &expr)
 	{
+		// check mutable
+
 		expr.left->accept(*this);
 		expr.right->accept(*this);
 

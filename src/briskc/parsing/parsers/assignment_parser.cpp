@@ -2,6 +2,7 @@
 
 #include "../brisk_parser.h"
 #include "ast/ast.h"
+#include "../../exceptions/parsing_exception.h"
 
 namespace brisk {
 
@@ -11,6 +12,14 @@ namespace brisk {
 		expr->start = parser.current_token();
 		parser.consume(TokenType::Equals);
 		expr->left = std::move(left);
+
+		const auto identifier = dynamic_cast<IdentifierExpr*>(expr->left.get());
+		if (identifier == nullptr)
+		{
+			// TODO: Add more accepted left-hand side expression types once we add them
+			throw ParsingException("The left-hand side of the assignment expression is not assignable", expr->start);
+		}
+
 		expr->right = parser.parse_expr(precedence());
 		expr->end = parser.current_token();
 
