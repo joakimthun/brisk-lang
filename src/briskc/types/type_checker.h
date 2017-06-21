@@ -8,19 +8,14 @@
 #include "token.h"
 #include "type.h"
 #include "file.h"
+#include "type_table.h"
 
 namespace brisk {
-
-	struct TypeCheckResult
-	{
-		bool are_equal = false;
-		bool can_convert = false;
-	};
 
 	class TypeChecker : public ASTVisitor
 	{
 	public:
-		TypeChecker();
+		TypeChecker(TypeTable &type_table);
 
 		void visit(Ast &ast) override;
 		void visit(BinExpr &expr) override;
@@ -36,8 +31,9 @@ namespace brisk {
 		void check_fn_arg(const FnArgExpr &arg, Expr &expr, int index);
 		void register_type_error(const Token &location, const std::string &message);
 		void throw_if_max_errors_reached(u16 max_errors);
-		TypeCheckResult check(const Type *t, const Type *target);
+		bool check_expr(Expr &expr, const Type *target);
 
+		TypeTable &type_table_;
 		std::vector<std::string> type_errors_;
 	};
 

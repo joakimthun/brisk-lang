@@ -29,7 +29,7 @@ int main(int argc, char* argv[])
 		auto parser = BriskParser("test_files/test_utf8.br", type_table);
 		auto ast = parser.parse();
 
-		auto type_checker = TypeChecker();
+		auto type_checker = TypeChecker(type_table);
 		type_checker.visit(*ast);
 
 		auto x64gen = x64::Generator();

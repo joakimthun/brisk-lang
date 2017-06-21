@@ -42,7 +42,6 @@ namespace brisk {
 		virtual std::string type_name() const = 0;
 		inline TypeID id() const { return id_; }
 		bool equals(const Type *other) const;
-		bool can_convert_to(const Type *target) const;
 		virtual const Expr *expr() const { return nullptr; };
 		template<class T>
 		inline const T *as_const() const

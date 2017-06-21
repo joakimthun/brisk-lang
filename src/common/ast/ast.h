@@ -15,10 +15,25 @@ namespace brisk {
 	struct ASTVisitor;
 	struct FnDeclExpr;
 
+	enum class NodeType : u16
+	{
+		Block,
+		Bin,
+		Literal,
+		Identifier,
+		Assign,
+		FnArg,
+		FnDecl,
+		Ret,
+		VarDecl,
+		FnCall
+	};
+
 	struct Expr
 	{
 		inline virtual ~Expr() {};
 		virtual void accept(ASTVisitor &visitor) = 0;
+		virtual NodeType node_type() const = 0;
 		template<class TExpr>
 		inline bool is() const
 		{
@@ -43,6 +58,11 @@ namespace brisk {
 	{
 		inline Block(SymbolTable *parent) : symbol_table(parent) {}
 		inline virtual ~Block() {};
+		NodeType node_type() const override
+		{
+			return NodeType::Block;
+		}
+
 		SymbolTable symbol_table;
 	};
 
@@ -63,6 +83,10 @@ namespace brisk {
 		TokenType op;
 
 		void accept(ASTVisitor &visitor) override;
+		NodeType node_type() const override
+		{
+			return NodeType::Bin;
+		}
 	};
 
 	struct LiteralExpr : public Expr
@@ -91,6 +115,10 @@ namespace brisk {
 		}
 
 		void accept(ASTVisitor &visitor) override;
+		NodeType node_type() const override
+		{
+			return NodeType::Literal;
+		}
 	};
 
 	struct IdentifierExpr : public Expr
@@ -99,6 +127,10 @@ namespace brisk {
 		bool mut = false;
 
 		void accept(ASTVisitor &visitor) override;
+		NodeType node_type() const override
+		{
+			return NodeType::Identifier;
+		}
 	};
 
 	struct AssignExpr : public Expr
@@ -107,6 +139,10 @@ namespace brisk {
 		std::unique_ptr<Expr> right;
 
 		void accept(ASTVisitor &visitor) override;
+		NodeType node_type() const override
+		{
+			return NodeType::Assign;
+		}
 	};
 
 	struct FnArgExpr : public Expr
@@ -114,6 +150,10 @@ namespace brisk {
 		StringView name;
 
 		inline void accept(ASTVisitor &visitor) override {}
+		NodeType node_type() const override
+		{
+			return NodeType::FnArg;
+		}
 	};
 
 	struct FnDeclExpr : public Block
@@ -127,6 +167,10 @@ namespace brisk {
 		bool ext;
 
 		void accept(ASTVisitor &visitor) override;
+		NodeType node_type() const override
+		{
+			return NodeType::FnDecl;
+		}
 	};
 
 	struct RetExpr : public Expr
@@ -134,6 +178,10 @@ namespace brisk {
 		std::unique_ptr<Expr> expr;
 
 		void accept(ASTVisitor &visitor) override;
+		NodeType node_type() const override
+		{
+			return NodeType::Ret;
+		}
 	};
 
 	struct VarDeclExpr : public Expr
@@ -143,6 +191,10 @@ namespace brisk {
 		std::unique_ptr<Expr> expr;
 
 		void accept(ASTVisitor &visitor) override;
+		NodeType node_type() const override
+		{
+			return NodeType::VarDecl;
+		}
 	};
 
 	struct FnCallExpr : public Expr
@@ -152,5 +204,9 @@ namespace brisk {
 		std::vector<std::unique_ptr<Expr>> args;
 
 		void accept(ASTVisitor &visitor) override;
+		NodeType node_type() const override
+		{
+			return NodeType::FnCall;
+		}
 	};
 }

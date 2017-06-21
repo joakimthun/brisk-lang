@@ -10,7 +10,11 @@
 
 namespace brisk {
 
-	TypeChecker::TypeChecker() {}
+	TypeChecker::TypeChecker(TypeTable &type_table) 
+		:
+		type_table_(type_table)
+	{
+	}
 
 	void TypeChecker::visit(Ast &ast)
 	{
@@ -66,15 +70,8 @@ namespace brisk {
 	{
 		expr.expr->accept(*this);
 
-		const auto result = check(expr.type, expr.owner->return_type);
-
-		if (!result.are_equal && !result.can_convert)
+		if (!check_expr(*expr.expr, expr.owner->return_type))
 			register_type_error(expr.start, "Cannot convert return value from '" + expr.expr->type->name() + "' to '" + expr.owner->return_type->name() + "'");
-
-		if (result.can_convert)
-		{
-			types::convert(*expr.expr, expr.owner->return_type);
-		}
 	}
 
 	void TypeChecker::visit(VarDeclExpr &expr)
@@ -110,15 +107,8 @@ namespace brisk {
 
 	void TypeChecker::check_fn_arg(const FnArgExpr &arg, Expr &expr, int index)
 	{
-		const auto result = check(expr.type, arg.type);
-
-		if (!result.are_equal && !result.can_convert)
+		if (!check_expr(expr, arg.type))
 			register_type_error(expr.start, "Argument " + std::to_string(index) + ": cannot convert from '" + expr.type->name() + "' to '" + arg.type->name() + "'");
-
-		if (result.can_convert)
-		{
-			types::convert(expr, arg.type);
-		}
 	}
 
 	void TypeChecker::register_type_error(const Token &location, const std::string &message)
@@ -139,20 +129,13 @@ namespace brisk {
 			throw TypeException(type_errors_);
 	}
 
-	TypeCheckResult TypeChecker::check(const Type *t, const Type *target)
+	bool TypeChecker::check_expr(Expr &expr, const Type* target)
 	{
-		TypeCheckResult result;
-		result.are_equal = true;
-
-		if (!t->equals(target))
+		if (!expr.type->equals(target))
 		{
-			result.are_equal = false;
-			if (t->can_convert_to(target))
-			{
-				result.can_convert = true;
-			}
+			return types::try_static_convert(expr, target, type_table_);
 		}
 
-		return result;
+		return true;
 	}
 }
