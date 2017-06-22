@@ -155,6 +155,24 @@ namespace brisk {
 		return fn_context_.top();
 	}
 
+	void BriskParser::push_explicit_literal_type(const Expr *type_expr)
+	{
+		explicit_literal_types_.push(type_expr);
+	}
+
+	void BriskParser::pop_explicit_literal_type()
+	{
+		explicit_literal_types_.pop();
+	}
+
+	const Expr *BriskParser::current_explicit_literal_type_expr()
+	{
+		if (explicit_literal_types_.size() == 0)
+			return nullptr;
+
+		return explicit_literal_types_.top();
+	}
+
 	TypeTable &BriskParser::type_table()
 	{
 		return type_table_;

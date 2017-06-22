@@ -54,7 +54,7 @@ namespace brisk {
 			else
 			{
 				auto dest_reg = reg_allocator_.get_free();
-				emitter_.emit_mov(dest_reg, expr.as<i32>());
+				emitter_.emit_mov(dest_reg, expr.value.i32);
 				reg_allocator_.push(dest_reg);
 			}
 		}

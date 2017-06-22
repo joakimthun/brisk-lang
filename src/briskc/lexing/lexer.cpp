@@ -278,12 +278,6 @@ namespace brisk {
 			consume();
 		}
 
-		if (current_.value == 'u' || current_.value == 'U')
-		{
-			consume();
-			return create_token(TokenType::UIntLiteral, start_offset);
-		}
-
 		return create_token(TokenType::IntLiteral, start_offset);
 	}
 

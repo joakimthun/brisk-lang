@@ -21,6 +21,7 @@ namespace brisk {
 		if (explicit_type_)
 		{
 			parser.parse_type(raw_expr_ptr);
+			parser.push_explicit_literal_type(raw_expr_ptr);
 		}
 		else
 		{
@@ -45,6 +46,10 @@ namespace brisk {
 			parser.defer([raw_expr_ptr](auto &parser) {
 				raw_expr_ptr->type = raw_expr_ptr->expr->type;
 			});
+		}
+		else
+		{
+			parser.pop_explicit_literal_type();
 		}
 
 		parser.current_scope()->add_var(expr.get());

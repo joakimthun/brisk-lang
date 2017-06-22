@@ -44,6 +44,10 @@ namespace brisk {
 		void pop_fn_context();
 		const FnDeclExpr *current_fn_context();
 
+		void push_explicit_literal_type(const Expr *type_expr);
+		void pop_explicit_literal_type();
+		const Expr *current_explicit_literal_type_expr();
+
 		TypeTable &type_table();
 
 		void defer(std::function<void(BriskParser &parser)> fn);
@@ -59,6 +63,7 @@ namespace brisk {
 		TypeTable &type_table_;
 		std::vector<std::function<void(BriskParser &parser)>> defered_calls_;
 		std::stack<const FnDeclExpr*> fn_context_;
+		std::stack<const Expr*> explicit_literal_types_;
 	};
 }
 

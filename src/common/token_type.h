@@ -17,7 +17,6 @@ namespace brisk {
 
 		// Literals
 		IntLiteral,
-		UIntLiteral,
 		StrLiteral,
 
 		// Keywords
