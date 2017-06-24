@@ -209,13 +209,19 @@ namespace brisk {
 			}
 			case TypeID::I16: {
 				auto addr = stack_allocator_.reserve(2);
-				emitter_.emit_spd_mov2(addr, static_cast<u16>(expr.value.u16));
+				emitter_.emit_spd_mov2(addr, static_cast<u16>(expr.value.i16));
 				return addr;
 			}
-			case TypeID::U32:
-				throw BriskException("Generator::store_literal_to_mem: Unhandled TypeID u32");
-			case TypeID::I32:
-				throw BriskException("Generator::store_literal_to_mem: Unhandled TypeID i32");
+			case TypeID::U32: {
+				auto addr = stack_allocator_.reserve(4);
+				emitter_.emit_spd_mov4(addr, expr.value.u32);
+				return addr;
+			}
+			case TypeID::I32: {
+				auto addr = stack_allocator_.reserve(4);
+				emitter_.emit_spd_mov4(addr, static_cast<u32>(expr.value.i32));
+				return addr;
+			}
 			case brisk::TypeID::U64:
 				throw BriskException("Generator::store_literal_to_mem: Unhandled TypeID u64");
 			case TypeID::I64:
