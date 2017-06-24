@@ -225,7 +225,7 @@ namespace brisk {
 				// There is no MOV r/m64, imm64 instruction, it seems...
 				auto reg = reg_allocator_.get_free();
 				emitter_.emit_mov8(reg, expr.value.u64);
-				auto addr = stack_allocator_.reserve(4);
+				auto addr = stack_allocator_.reserve(8);
 				emitter_.emit_spd_mov8(addr, reg);
 				reg_allocator_.free(reg);
 				return addr;
@@ -234,7 +234,7 @@ namespace brisk {
 				// There is no MOV r/m64, imm64 instruction, it seems...
 				auto reg = reg_allocator_.get_free();
 				emitter_.emit_mov8(reg, static_cast<u64>(expr.value.i64));
-				auto addr = stack_allocator_.reserve(4);
+				auto addr = stack_allocator_.reserve(8);
 				emitter_.emit_spd_mov8(addr, reg);
 				reg_allocator_.free(reg);
 				return addr;
