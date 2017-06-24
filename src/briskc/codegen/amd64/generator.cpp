@@ -202,22 +202,28 @@ namespace brisk {
 				emitter_.emit_spd_mov1(addr, static_cast<u8>(expr.value.i8));
 				return addr;
 			}
-			case TypeID::U16:
-				throw BriskException("Generator::store_literal_to_mem: Unhandled TypeID");
-			case TypeID::I16:
-				throw BriskException("Generator::store_literal_to_mem: Unhandled TypeID");
+			case TypeID::U16: {
+				auto addr = stack_allocator_.reserve(2);
+				emitter_.emit_spd_mov2(addr, expr.value.u16);
+				return addr;
+			}
+			case TypeID::I16: {
+				auto addr = stack_allocator_.reserve(2);
+				emitter_.emit_spd_mov2(addr, static_cast<u16>(expr.value.u16));
+				return addr;
+			}
 			case TypeID::U32:
-				throw BriskException("Generator::store_literal_to_mem: Unhandled TypeID");
+				throw BriskException("Generator::store_literal_to_mem: Unhandled TypeID u32");
 			case TypeID::I32:
-				throw BriskException("Generator::store_literal_to_mem: Unhandled TypeID");
+				throw BriskException("Generator::store_literal_to_mem: Unhandled TypeID i32");
 			case brisk::TypeID::U64:
-				throw BriskException("Generator::store_literal_to_mem: Unhandled TypeID");
+				throw BriskException("Generator::store_literal_to_mem: Unhandled TypeID u64");
 			case TypeID::I64:
-				throw BriskException("Generator::store_literal_to_mem: Unhandled TypeID");
+				throw BriskException("Generator::store_literal_to_mem: Unhandled TypeID i64");
 			case TypeID::Float:
-				throw BriskException("Generator::store_literal_to_mem: Unhandled TypeID");
+				throw BriskException("Generator::store_literal_to_mem: Unhandled TypeID float");
 			case TypeID::Double:
-				throw BriskException("Generator::store_literal_to_mem: Unhandled TypeID");
+				throw BriskException("Generator::store_literal_to_mem: Unhandled TypeID double");
 			default:
 				throw BriskException("Generator::store_literal_to_mem: Unhandled TypeID");
 			}

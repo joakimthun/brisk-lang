@@ -82,6 +82,7 @@ namespace brisk {
 
 			void emit_rex(REX r);
 			void emit(u8 value);
+			void emit2(u16 value);
 			void emit4(u32 value);
 			void emit8(u64 value);
 

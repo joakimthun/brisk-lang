@@ -101,6 +101,13 @@ namespace brisk {
 
 		void Emitter::emit_spd_mov2(u8 displacement, u16 value)
 		{
+			// C7 /0 iw
+			emit(0x66); // Operand-size(word) override prefix
+			emit(0xc7);
+			emit_modrm(ModRM_Mod::Displacement1, 0, Register::RSP);
+			emit_sib(SIBScale::X1, Register::RSP, Register::RSP);
+			emit(displacement);
+			emit2(value);
 		}
 
 		void Emitter::emit_spd_mov4(u8 displacement, u32 value)
@@ -214,6 +221,16 @@ namespace brisk {
 		void Emitter::emit(u8 value)
 		{
 			buffer_->write(value);
+		}
+
+		void Emitter::emit2(u16 value)
+		{
+			auto byte_ptr = (u8*)&value;
+			for (auto i = 0u; i < 2; i++)
+			{
+				emit(*byte_ptr);
+				byte_ptr++;
+			}
 		}
 
 		void Emitter::emit4(u32 value)
