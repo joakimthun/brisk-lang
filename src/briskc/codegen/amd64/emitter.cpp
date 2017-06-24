@@ -67,7 +67,7 @@ namespace brisk {
 			emit4(value);
 		}
 
-		void Emitter::emit_mov64(Register destination, u64 value)
+		void Emitter::emit_mov8(Register destination, u64 value)
 		{
 			// REX.W + B8 +rd io
 			emit_rex(REX::W);
@@ -120,9 +120,14 @@ namespace brisk {
 			emit4(value);
 		}
 
-		void Emitter::emit_spd_mov8(u8 displacement, u64 value)
+		void Emitter::emit_spd_mov8(u8 displacement, Register source)
 		{
-
+			// REX.W + 89 /r
+			emit_rex(REX::W);
+			emit(0x89);
+			emit_modrm(ModRM_Mod::Displacement1, source, Register::RSP);
+			emit_sib(SIBScale::X1, Register::RSP, Register::RSP);
+			emit(displacement);
 		}
 
 		void Emitter::emit_spd_mov(Register destination, u8 displacement)

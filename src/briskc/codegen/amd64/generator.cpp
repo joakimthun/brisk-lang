@@ -106,7 +106,6 @@ namespace brisk {
 		{
 			auto literal_expr = expr.expr->as<LiteralExpr>();
 
-			// Avoid register allocation for integer and float literals by storing them directly into memory
 			if (literal_expr != nullptr && !literal_expr->str_literal)
 			{
 				add_addr_entry(expr.name, store_literal_to_mem(*literal_expr));
@@ -222,10 +221,24 @@ namespace brisk {
 				emitter_.emit_spd_mov4(addr, static_cast<u32>(expr.value.i32));
 				return addr;
 			}
-			case brisk::TypeID::U64:
-				throw BriskException("Generator::store_literal_to_mem: Unhandled TypeID u64");
-			case TypeID::I64:
-				throw BriskException("Generator::store_literal_to_mem: Unhandled TypeID i64");
+			case brisk::TypeID::U64: {
+				// There is no MOV r/m64, imm64 instruction, it seems...
+				auto reg = reg_allocator_.get_free();
+				emitter_.emit_mov8(reg, expr.value.u64);
+				auto addr = stack_allocator_.reserve(4);
+				emitter_.emit_spd_mov8(addr, reg);
+				reg_allocator_.free(reg);
+				return addr;
+			}
+			case TypeID::I64: {
+				// There is no MOV r/m64, imm64 instruction, it seems...
+				auto reg = reg_allocator_.get_free();
+				emitter_.emit_mov8(reg, static_cast<u64>(expr.value.i64));
+				auto addr = stack_allocator_.reserve(4);
+				emitter_.emit_spd_mov8(addr, reg);
+				reg_allocator_.free(reg);
+				return addr;
+			}
 			case TypeID::Float:
 				throw BriskException("Generator::store_literal_to_mem: Unhandled TypeID float");
 			case TypeID::Double:
