@@ -81,6 +81,7 @@ namespace brisk {
 		case TokenType::StrLiteral: {
 			expr->type = parser.type_table().get("u8", true);
 			expr->str_value = parser.current_token().raw_value;
+			expr->str_literal = true;
 			parser.consume(TokenType::StrLiteral);
 			break;
 		}

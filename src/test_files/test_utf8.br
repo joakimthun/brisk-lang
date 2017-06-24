@@ -8,16 +8,16 @@ ext fn puts(u8 *str) -> i32
 fn myfn(i32 arg1, i32 arg2, i32 arg3, i32 arg4) -> i32 {
 	u8 x1 = 1
 	i8 x2 = 1
-	u16 x3 = 1
-	i16 x4 = 1
+	//u16 x3 = 1
+	//i16 x4 = 1
 	//u32 x5= 1
 	//i32 x6 = 1
 	//u64 x7 = 1
 	//i64 x8 = 1
-	let x9 = 1
+	//let x9 = 1
 	
 
-	let x = 10 + 2
+	//let x = 10 + 2
 	puts("ÖäÖÖÖÖµµ")
 	ret 1
 }
@@ -30,8 +30,8 @@ fn main() -> i32 {
 
 	u8 *x = "str"
 
-	let mut mutable = 2
-	mutable = 2
+	//let mut mutable = 2
+	//mutable = 2
 
 	myfn(1, 2, 3, 4)
 	ret 0

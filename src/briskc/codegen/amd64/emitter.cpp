@@ -89,7 +89,21 @@ namespace brisk {
 			emit_modrm(ModRM_Mod::RegisterAddr, source, destination);
 		}
 
-		void Emitter::emit_spd_mov(u8 displacement, u32 value)
+		void Emitter::emit_spd_mov1(u8 displacement, u8 value)
+		{
+			// C6 /0 ib
+			emit(0xc6);
+			emit_modrm(ModRM_Mod::Displacement1, 0, Register::RSP);
+			emit_sib(SIBScale::X1, Register::RSP, Register::RSP);
+			emit(displacement);
+			emit(value);
+		}
+
+		void Emitter::emit_spd_mov2(u8 displacement, u16 value)
+		{
+		}
+
+		void Emitter::emit_spd_mov4(u8 displacement, u32 value)
 		{
 			// C7 /0 id
 			emit(0xc7);
@@ -97,6 +111,11 @@ namespace brisk {
 			emit_sib(SIBScale::X1, Register::RSP, Register::RSP);
 			emit(displacement);
 			emit4(value);
+		}
+
+		void Emitter::emit_spd_mov8(u8 displacement, u64 value)
+		{
+
 		}
 
 		void Emitter::emit_spd_mov(Register destination, u8 displacement)

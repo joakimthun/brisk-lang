@@ -105,6 +105,7 @@ namespace brisk {
 			double d;
 		} value;
 		StringView str_value;
+		bool str_literal = false;
 
 		void accept(ASTVisitor &visitor) override;
 		NodeType node_type() const override

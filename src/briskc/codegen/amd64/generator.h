@@ -18,6 +18,12 @@
 namespace brisk {
 	namespace x64 {
 
+		enum class StorageLocation : u8
+		{
+			Memory,
+			Register
+		};
+
 		struct AddedSymbolInfo
 		{
 			u32 sym_table_index;
@@ -44,6 +50,7 @@ namespace brisk {
 			void write_to_disk(const std::string &path);
 		private:
 			void store_fn_args(FnDeclExpr &expr);
+			sp_rel_addr store_literal_to_mem(LiteralExpr &expr);
 
 			u32 add_fn_symbol(StringView &name, u32 value);
 			u32 add_ext_fn_symbol(const StringView &name);

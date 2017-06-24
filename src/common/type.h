@@ -65,27 +65,27 @@ namespace brisk {
 		{
 			switch (id_)
 			{
-			case brisk::TypeID::Void:
+			case TypeID::Void:
 				return 0;
-			case brisk::TypeID::U8:
+			case TypeID::U8:
 				return 1;
-			case brisk::TypeID::I8:
+			case TypeID::I8:
 				return 1;
-			case brisk::TypeID::U16:
+			case TypeID::U16:
 				return 2;
-			case brisk::TypeID::I16:
+			case TypeID::I16:
 				return 2;
-			case brisk::TypeID::U32:
+			case TypeID::U32:
 				return 4;
-			case brisk::TypeID::I32:
+			case TypeID::I32:
 				return 4;
-			case brisk::TypeID::U64:
+			case TypeID::U64:
 				return 8;
-			case brisk::TypeID::I64:
+			case TypeID::I64:
 				return 8;
-			case brisk::TypeID::Float:
+			case TypeID::Float:
 				return 4;
-			case brisk::TypeID::Double:
+			case TypeID::Double:
 				return 8;
 			default:
 				return 0;
