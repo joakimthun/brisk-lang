@@ -130,6 +130,26 @@ namespace brisk {
 			emit(displacement);
 		}
 
+		void Emitter::emit_spd_movzx1(Register destination, u8 displacement)
+		{
+			// 0F B6 /r
+			emit(0x0f);
+			emit(0xb6);
+			emit_modrm(ModRM_Mod::Displacement1, destination, Register::RSP);
+			emit_sib(SIBScale::X1, Register::RSP, Register::RSP);
+			emit(displacement);
+		}
+
+		void Emitter::emit_spd_movzx2(Register destination, u8 displacement)
+		{
+			// 0F B7 /r
+			emit(0x0f);
+			emit(0xb7);
+			emit_modrm(ModRM_Mod::Displacement1, destination, Register::RSP);
+			emit_sib(SIBScale::X1, Register::RSP, Register::RSP);
+			emit(displacement);
+		}
+
 		void Emitter::emit_spd_mov(Register destination, u8 displacement)
 		{
 			//8B /r

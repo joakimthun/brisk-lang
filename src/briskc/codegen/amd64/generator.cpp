@@ -35,6 +35,7 @@ namespace brisk {
 
 			emitter_.emit_add(left_reg, right_reg);
 			reg_allocator_.push(right_reg);
+			reg_allocator_.free(left_reg);
 		}
 
 		void Generator::visit(LiteralExpr &expr)
@@ -64,7 +65,52 @@ namespace brisk {
 		{
 			auto rsp_rel_addr = find_addr_entry(expr.name);
 			auto dest_reg = reg_allocator_.get_free();
-			emitter_.emit_spd_mov64(dest_reg, rsp_rel_addr);
+
+			switch (expr.type->id())
+			{
+			case TypeID::U8: {
+				// Temporary work-around for string literals
+				if (expr.type->is_ptr())
+				{
+					emitter_.emit_spd_mov64(dest_reg, rsp_rel_addr);
+				}
+				else
+				{
+					emitter_.emit_spd_movzx1(dest_reg, static_cast<u8>(rsp_rel_addr));
+				}
+				break;
+
+			}
+			case TypeID::I8: {
+				throw BriskException("Generator::visit IdentifierExpr: Unhandled TypeID i8");
+			}
+			case TypeID::U16: {
+				emitter_.emit_spd_movzx2(dest_reg, static_cast<u8>(rsp_rel_addr));
+				break;
+			}
+			case TypeID::I16: {
+				throw BriskException("Generator::visit IdentifierExpr: Unhandled TypeID i16");
+			}
+			case TypeID::U32: {
+				throw BriskException("Generator::visit IdentifierExpr: Unhandled TypeID u32");
+			}
+			case TypeID::I32: {
+				throw BriskException("Generator::visit IdentifierExpr: Unhandled TypeID i32");
+			}
+			case brisk::TypeID::U64: {
+				throw BriskException("Generator::visit IdentifierExpr: Unhandled TypeID u64");
+			}
+			case TypeID::I64: {
+				throw BriskException("Generator::visit IdentifierExpr: Unhandled TypeID i64");
+			}
+			case TypeID::Float:
+				throw BriskException("Generator::visit IdentifierExpr: Unhandled TypeID float");
+			case TypeID::Double:
+				throw BriskException("Generator::visit IdentifierExpr: Unhandled TypeID double");
+			default:
+				throw BriskException("Generator::visit IdentifierExpr: Unhandled TypeID");
+			}
+
 			reg_allocator_.push(dest_reg);
 		}
 
