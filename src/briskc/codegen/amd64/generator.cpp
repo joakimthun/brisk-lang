@@ -72,7 +72,7 @@ namespace brisk {
 				// Temporary work-around for string literals
 				if (expr.type->is_ptr())
 				{
-					emitter_.emit_spd_mov64(dest_reg, rsp_rel_addr);
+					emitter_.emit_spd_mov8(dest_reg, rsp_rel_addr);
 				}
 				else
 				{
@@ -98,11 +98,10 @@ namespace brisk {
 				emitter_.emit_spd_mov4(dest_reg, static_cast<u8>(rsp_rel_addr));
 				break;
 			}
-			case brisk::TypeID::U64: {
-				throw BriskException("Generator::visit IdentifierExpr: Unhandled TypeID u64");
-			}
+			case TypeID::U64:
 			case TypeID::I64: {
-				throw BriskException("Generator::visit IdentifierExpr: Unhandled TypeID i64");
+				emitter_.emit_spd_mov8(dest_reg, static_cast<u8>(rsp_rel_addr));
+				break;
 			}
 			case TypeID::Float:
 				throw BriskException("Generator::visit IdentifierExpr: Unhandled TypeID float");
