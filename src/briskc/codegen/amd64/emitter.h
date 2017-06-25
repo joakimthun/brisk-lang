@@ -70,6 +70,9 @@ namespace brisk {
 			void emit_spd_movzx1(Register destination, u8 displacement);
 			void emit_spd_movzx2(Register destination, u8 displacement);
 
+			void emit_spd_movsx1(Register destination, u8 displacement);
+			void emit_spd_movsx2(Register destination, u8 displacement);
+
 			void emit_spd_mov(Register destination, u8 displacement);
 			void emit_spd_mov(u8 displacement, Register source);
 			void emit_spd_mov64(Register destination, u8 displacement);
