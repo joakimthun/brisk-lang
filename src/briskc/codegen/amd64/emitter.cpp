@@ -120,12 +120,31 @@ namespace brisk {
 			emit4(value);
 		}
 
+		void Emitter::emit_spd_mov4(Register destination, u8 displacement)
+		{
+			// 8B /r
+			emit(0x8b);
+			emit_modrm(ModRM_Mod::Displacement1, destination, Register::RSP);
+			emit_sib(SIBScale::X1, Register::RSP, Register::RSP);
+			emit(displacement);
+		}
+
 		void Emitter::emit_spd_mov8(u8 displacement, Register source)
 		{
 			// REX.W + 89 /r
 			emit_rex(REX::W);
 			emit(0x89);
 			emit_modrm(ModRM_Mod::Displacement1, source, Register::RSP);
+			emit_sib(SIBScale::X1, Register::RSP, Register::RSP);
+			emit(displacement);
+		}
+
+		void Emitter::emit_spd_mov8(Register destination, u8 displacement)
+		{
+			// REX.W + 8B / r
+			emit_rex(REX::W);
+			emit(0x8b);
+			emit_modrm(ModRM_Mod::Displacement1, destination, Register::RSP);
 			emit_sib(SIBScale::X1, Register::RSP, Register::RSP);
 			emit(displacement);
 		}
@@ -170,46 +189,17 @@ namespace brisk {
 			emit(displacement);
 		}
 
-		void Emitter::emit_spd_mov4(Register destination, u8 displacement)
-		{
-			// 8B /r
-			emit(0x8b);
-			emit_modrm(ModRM_Mod::Displacement1, destination, Register::RSP);
-			emit_sib(SIBScale::X1, Register::RSP, Register::RSP);
-			emit(displacement);
-		}
+		//void Emitter::emit_spd_mov(u8 displacement, Register source)
+		//{
+		//	if (source > Register::RDI)
+		//		emit_rex(REX::R);
 
-		void Emitter::emit_spd_mov8(Register destination, u8 displacement)
-		{
-			// REX.W + 8B / r
-			emit_rex(REX::W);
-			emit(0x8b);
-			emit_modrm(ModRM_Mod::Displacement1, destination, Register::RSP);
-			emit_sib(SIBScale::X1, Register::RSP, Register::RSP);
-			emit(displacement);
-		}
-
-		void Emitter::emit_spd_mov(u8 displacement, Register source)
-		{
-			if (source > Register::RDI)
-				emit_rex(REX::R);
-
-			// 89 /r
-			emit(0x89);
-			emit_modrm(ModRM_Mod::Displacement1, source, Register::RSP);
-			emit_sib(SIBScale::X1, Register::RSP, Register::RSP);
-			emit(displacement);
-		}
-
-		void Emitter::emit_spd_mov64(u8 displacement, Register source)
-		{
-			// REX.W + 89 / r
-			emit_rex(REX::W);
-			emit(0x89);
-			emit_modrm(ModRM_Mod::Displacement1, source, Register::RSP);
-			emit_sib(SIBScale::X1, Register::RSP, Register::RSP);
-			emit(displacement);
-		}
+		//	// 89 /r
+		//	emit(0x89);
+		//	emit_modrm(ModRM_Mod::Displacement1, source, Register::RSP);
+		//	emit_sib(SIBScale::X1, Register::RSP, Register::RSP);
+		//	emit(displacement);
+		//}
 
 		void Emitter::emit_lea64(Register destination, u32 displacement)
 		{

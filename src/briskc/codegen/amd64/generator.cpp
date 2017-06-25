@@ -162,7 +162,7 @@ namespace brisk {
 				auto value_reg = reg_allocator_.pop();
 				auto sp_rel_addr = stack_allocator_.reserve(4);
 
-				emitter_.emit_spd_mov64(sp_rel_addr, value_reg);
+				emitter_.emit_spd_mov8(sp_rel_addr, value_reg);
 				add_addr_entry(expr.name, sp_rel_addr);
 				reg_allocator_.free(value_reg);
 			}
@@ -208,22 +208,22 @@ namespace brisk {
 
 				if (i == 0)
 				{
-					emitter_.emit_spd_mov64(sp_rel_addr, Register::ECX);
+					emitter_.emit_spd_mov8(sp_rel_addr, Register::ECX);
 				}
 				else if(i == 1)
 				{
 					sp_rel_addr *= 2;
-					emitter_.emit_spd_mov64(sp_rel_addr, Register::EDX);
+					emitter_.emit_spd_mov8(sp_rel_addr, Register::EDX);
 				}
 				else if (i == 2)
 				{
 					sp_rel_addr *= 3;
-					emitter_.emit_spd_mov64(sp_rel_addr, Register::R8);
+					emitter_.emit_spd_mov8(sp_rel_addr, Register::R8);
 				}
 				else if (i == 3)
 				{
 					sp_rel_addr *= 4;
-					emitter_.emit_spd_mov64(sp_rel_addr, Register::R9);
+					emitter_.emit_spd_mov8(sp_rel_addr, Register::R9);
 				}
 				else
 				{
