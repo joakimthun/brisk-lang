@@ -166,6 +166,7 @@ namespace brisk {
 
 				emitter_.emit_spd_mov64(sp_rel_addr, value_reg);
 				add_addr_entry(expr.name, sp_rel_addr);
+				reg_allocator_.free(value_reg);
 			}
 		}
 
