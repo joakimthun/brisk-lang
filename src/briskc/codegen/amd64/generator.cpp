@@ -93,11 +93,10 @@ namespace brisk {
 				emitter_.emit_spd_movsx2(dest_reg, static_cast<u8>(rsp_rel_addr));
 				break;
 			}
-			case TypeID::U32: {
-				throw BriskException("Generator::visit IdentifierExpr: Unhandled TypeID u32");
-			}
+			case TypeID::U32: 
 			case TypeID::I32: {
-				throw BriskException("Generator::visit IdentifierExpr: Unhandled TypeID i32");
+				emitter_.emit_spd_mov4(dest_reg, static_cast<u8>(rsp_rel_addr));
+				break;
 			}
 			case brisk::TypeID::U64: {
 				throw BriskException("Generator::visit IdentifierExpr: Unhandled TypeID u64");

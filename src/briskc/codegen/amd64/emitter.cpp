@@ -170,9 +170,9 @@ namespace brisk {
 			emit(displacement);
 		}
 
-		void Emitter::emit_spd_mov(Register destination, u8 displacement)
+		void Emitter::emit_spd_mov4(Register destination, u8 displacement)
 		{
-			//8B /r
+			// 8B /r
 			emit(0x8b);
 			emit_modrm(ModRM_Mod::Displacement1, destination, Register::RSP);
 			emit_sib(SIBScale::X1, Register::RSP, Register::RSP);
