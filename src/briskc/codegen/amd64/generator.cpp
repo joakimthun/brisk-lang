@@ -33,7 +33,36 @@ namespace brisk {
 			expr.right->accept(*this);
 			auto right_reg = reg_allocator_.pop();
 
-			emitter_.emit_add(left_reg, right_reg);
+			const auto primitive_type = expr.type->as_const<PrimitiveType>();
+			if (primitive_type == nullptr || !primitive_type->is_integral())
+				throw BriskException("Generator::visit BinExpr: Unhandled type: " + expr.type->name());
+
+			switch (expr.op)
+			{
+			case TokenType::Plus: {
+				if (primitive_type->size() == 8)
+				{
+					emitter_.emit_add8(left_reg, right_reg);
+				}
+				else
+				{
+					emitter_.emit_add4(left_reg, right_reg);
+				}
+
+				break;
+			}
+			case TokenType::Minus: {
+			}
+			case TokenType::Star: {
+				throw BriskException("Generator::visit BinExpr: Unhandled operator star");
+			}
+			case TokenType::Slash: {
+				throw BriskException("Generator::visit BinExpr: Unhandled operator slash");
+			}
+			default:
+				break;
+			}
+
 			reg_allocator_.push(right_reg);
 			reg_allocator_.free(left_reg);
 		}

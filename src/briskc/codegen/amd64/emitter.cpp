@@ -8,14 +8,14 @@ namespace brisk {
 			buffer_ = std::make_unique<ByteBuffer>(1024);
 		}
 
-		void Emitter::emit_add(Register destination, Register source)
+		void Emitter::emit_add4(Register destination, Register source)
 		{
 			// 03 /r
 			emit(0x03);
 			emit_modrm(ModRM_Mod::RegisterAddr, source, destination);
 		}
 
-		void Emitter::emit_add(Register destination, u8 value)
+		void Emitter::emit_add4(Register destination, u8 value)
 		{
 			// 83 /0 ib
 			emit(0x83);
@@ -23,7 +23,15 @@ namespace brisk {
 			emit(value);
 		}
 
-		void Emitter::emit_add64(Register destination, u8 value)
+		void Emitter::emit_add8(Register destination, Register source)
+		{
+			// REX.W + 03 /r
+			emit_rex(REX::W);
+			emit(0x03);
+			emit_modrm(ModRM_Mod::RegisterAddr, source, destination);
+		}
+
+		void Emitter::emit_add8(Register destination, u8 value)
 		{
 			// REX.W + 83 / 0 ib
 			emit_rex(REX::W);
@@ -32,7 +40,7 @@ namespace brisk {
 			emit(value);
 		}
 
-		void Emitter::emit_add64(Register destination, u32 value)
+		void Emitter::emit_add8(Register destination, u32 value)
 		{
 			// REX.W + 81 /0 id
 			emit_rex(REX::W);

@@ -49,10 +49,11 @@ namespace brisk {
 		public:
 			Emitter();
 
-			void emit_add(Register destination, Register source);
-			void emit_add(Register destination, u8 value);
-			void emit_add64(Register destination, u8 value);
-			void emit_add64(Register destination, u32 value);
+			void emit_add4(Register destination, Register source);
+			void emit_add4(Register destination, u8 value);
+			void emit_add8(Register destination, Register source);
+			void emit_add8(Register destination, u8 value);
+			void emit_add8(Register destination, u32 value);
 
 			void emit_sub(Register destination, u8 value);
 			void emit_sub64(Register destination, u8 value);
