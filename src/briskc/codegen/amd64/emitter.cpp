@@ -49,15 +49,22 @@ namespace brisk {
 			emit4(value);
 		}
 
-		void Emitter::emit_sub(Register destination, u8 value)
+		void Emitter::emit_sub4(Register destination, Register source)
 		{
-			// 83 /5 ib
-			emit(0x83);
-			emit_modrm(ModRM_Mod::RegisterAddr, 0x5, (u8)destination);
-			emit(value);
+			// 2B /r
+			emit(0x2b);
+			emit_modrm(ModRM_Mod::RegisterAddr, source, destination);
 		}
 
-		void Emitter::emit_sub64(Register destination, u8 value)
+		void Emitter::emit_sub8(Register destination, Register source)
+		{
+			// REX.W + 2B /r
+			emit_rex(REX::W);
+			emit(0x2b);
+			emit_modrm(ModRM_Mod::RegisterAddr, source, destination);
+		}
+
+		void Emitter::emit_sub8(Register destination, u8 value)
 		{
 			// REX.W + 83 /5 ib
 			emit_rex(REX::W);
@@ -66,7 +73,7 @@ namespace brisk {
 			emit(value);
 		}
 
-		void Emitter::emit_sub64(Register destination, u32 value)
+		void Emitter::emit_sub8(Register destination, u32 value)
 		{
 			// REX.W + 81 / 5 id
 			emit_rex(REX::W);

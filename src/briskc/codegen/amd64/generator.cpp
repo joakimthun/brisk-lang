@@ -52,6 +52,16 @@ namespace brisk {
 				break;
 			}
 			case TokenType::Minus: {
+				if (primitive_type->size() == 8)
+				{
+					emitter_.emit_sub8(left_reg, right_reg);
+				}
+				else
+				{
+					emitter_.emit_sub4(left_reg, right_reg);
+				}
+
+				break;
 			}
 			case TokenType::Star: {
 				throw BriskException("Generator::visit BinExpr: Unhandled operator star");
