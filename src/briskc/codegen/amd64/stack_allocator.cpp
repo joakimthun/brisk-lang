@@ -21,13 +21,13 @@ namespace brisk {
 			auto shadow_space = calc_shadow_space(expr);
 
 			// TODO: Calculate the actual size needed
-			emitter_.emit_sub8(x64::Register::RSP, 100 + shadow_space);
+			emitter_.emit_sub64(x64::Register::RSP, 100 + shadow_space);
 		}
 
 		void StackAllocator::free(FnDeclExpr &expr)
 		{
 			auto shadow_space = calc_shadow_space(expr);
-			emitter_.emit_add8(x64::Register::RSP, 100 + shadow_space);
+			emitter_.emit_add64(x64::Register::RSP, 100 + shadow_space);
 		}
 
 		sp_rel_addr StackAllocator::reserve(u32 num_bytes)

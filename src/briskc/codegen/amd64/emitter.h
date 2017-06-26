@@ -49,33 +49,33 @@ namespace brisk {
 		public:
 			Emitter();
 
-			void emit_add4(Register destination, Register source);
-			void emit_add4(Register destination, u8 value);
-			void emit_add8(Register destination, Register source);
-			void emit_add8(Register destination, u8 value);
-			void emit_add8(Register destination, u32 value);
+			void emit_add32(Register destination, Register source);
+			void emit_add32(Register destination, u8 value);
+			void emit_add64(Register destination, Register source);
+			void emit_add64(Register destination, u8 value);
+			void emit_add64(Register destination, u32 value);
 
-			void emit_sub4(Register destination, Register source);
-			void emit_sub8(Register destination, Register source);
-			void emit_sub8(Register destination, u8 value);
-			void emit_sub8(Register destination, u32 value);
+			void emit_sub32(Register destination, Register source);
+			void emit_sub64(Register destination, Register source);
+			void emit_sub64(Register destination, u8 value);
+			void emit_sub64(Register destination, u32 value);
 
-			void emit_mov8(Register destination, u64 value);
-			void emit_mov(Register destination, u32 value);
-			void emit_mov(Register destination, Register source);
+			void emit_mov64(Register destination, u64 value);
+			void emit_mov32(Register destination, u32 value);
+			void emit_mov32(Register destination, Register source);
 
-			void emit_spd_mov1(u8 displacement, u8 value);
-			void emit_spd_mov2(u8 displacement, u16 value);
-			void emit_spd_mov4(u8 displacement, u32 value);
-			void emit_spd_mov4(Register destination, u8 displacement);
-			void emit_spd_mov8(u8 displacement, Register source);
-			void emit_spd_mov8(Register destination, u8 displacement);
+			void emit_spd_mov8(u8 displacement, u8 value);
+			void emit_spd_mov16(u8 displacement, u16 value);
+			void emit_spd_mov32(u8 displacement, u32 value);
+			void emit_spd_mov32(Register destination, u8 displacement);
+			void emit_spd_mov64(u8 displacement, Register source);
+			void emit_spd_mov64(Register destination, u8 displacement);
 
-			void emit_spd_movzx1(Register destination, u8 displacement);
-			void emit_spd_movzx2(Register destination, u8 displacement);
+			void emit_spd_movzx8(Register destination, u8 displacement);
+			void emit_spd_movzx16(Register destination, u8 displacement);
 
-			void emit_spd_movsx1(Register destination, u8 displacement);
-			void emit_spd_movsx2(Register destination, u8 displacement);
+			void emit_spd_movsx8(Register destination, u8 displacement);
+			void emit_spd_movsx16(Register destination, u8 displacement);
 
 			void emit_lea64(Register destination, u32 displacement);
 
@@ -85,16 +85,17 @@ namespace brisk {
 
 			void emit_call();
 
+			u32 current_buffer_offset();
+			std::unique_ptr<ByteBuffer> buffer();
+
+		private:
 			void emit_rex(REX r);
+
 			void emit(u8 value);
 			void emit2(u16 value);
 			void emit4(u32 value);
 			void emit8(u64 value);
 
-			u32 current_buffer_offset();
-			std::unique_ptr<ByteBuffer> buffer();
-
-		private:
 			void emit_modrm(ModRM_Mod mod, Register rm);
 			void emit_modrm(ModRM_Mod mod, u8 rm);
 			void emit_modrm(ModRM_Mod mod, Register reg, Register rm);

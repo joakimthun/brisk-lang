@@ -42,11 +42,11 @@ namespace brisk {
 			case TokenType::Plus: {
 				if (primitive_type->size() == 8)
 				{
-					emitter_.emit_add8(left_reg, right_reg);
+					emitter_.emit_add64(left_reg, right_reg);
 				}
 				else
 				{
-					emitter_.emit_add4(left_reg, right_reg);
+					emitter_.emit_add32(left_reg, right_reg);
 				}
 
 				break;
@@ -54,11 +54,11 @@ namespace brisk {
 			case TokenType::Minus: {
 				if (primitive_type->size() == 8)
 				{
-					emitter_.emit_sub8(left_reg, right_reg);
+					emitter_.emit_sub64(left_reg, right_reg);
 				}
 				else
 				{
-					emitter_.emit_sub4(left_reg, right_reg);
+					emitter_.emit_sub32(left_reg, right_reg);
 				}
 
 				break;
@@ -95,7 +95,7 @@ namespace brisk {
 			else
 			{
 				auto dest_reg = reg_allocator_.get_free();
-				emitter_.emit_mov(dest_reg, expr.value.i32);
+				emitter_.emit_mov32(dest_reg, expr.value.i32);
 				reg_allocator_.push(dest_reg);
 			}
 		}
@@ -111,35 +111,35 @@ namespace brisk {
 				// Temporary work-around for string literals
 				if (expr.type->is_ptr())
 				{
-					emitter_.emit_spd_mov8(dest_reg, rsp_rel_addr);
+					emitter_.emit_spd_mov64(dest_reg, rsp_rel_addr);
 				}
 				else
 				{
-					emitter_.emit_spd_movzx1(dest_reg, static_cast<u8>(rsp_rel_addr));
+					emitter_.emit_spd_movzx8(dest_reg, static_cast<u8>(rsp_rel_addr));
 				}
 				break;
 
 			}
 			case TypeID::I8: {
-				emitter_.emit_spd_movsx1(dest_reg, static_cast<u8>(rsp_rel_addr));
+				emitter_.emit_spd_movsx8(dest_reg, static_cast<u8>(rsp_rel_addr));
 				break;
 			}
 			case TypeID::U16: {
-				emitter_.emit_spd_movzx2(dest_reg, static_cast<u8>(rsp_rel_addr));
+				emitter_.emit_spd_movzx16(dest_reg, static_cast<u8>(rsp_rel_addr));
 				break;
 			}
 			case TypeID::I16: {
-				emitter_.emit_spd_movsx2(dest_reg, static_cast<u8>(rsp_rel_addr));
+				emitter_.emit_spd_movsx16(dest_reg, static_cast<u8>(rsp_rel_addr));
 				break;
 			}
 			case TypeID::U32: 
 			case TypeID::I32: {
-				emitter_.emit_spd_mov4(dest_reg, static_cast<u8>(rsp_rel_addr));
+				emitter_.emit_spd_mov32(dest_reg, static_cast<u8>(rsp_rel_addr));
 				break;
 			}
 			case TypeID::U64:
 			case TypeID::I64: {
-				emitter_.emit_spd_mov8(dest_reg, static_cast<u8>(rsp_rel_addr));
+				emitter_.emit_spd_mov64(dest_reg, static_cast<u8>(rsp_rel_addr));
 				break;
 			}
 			case TypeID::Float:
@@ -184,7 +184,7 @@ namespace brisk {
 
 			auto src_reg = reg_allocator_.pop();
 			// Just move the return value into RAX/EAX, ret will be emitted when emitting the function
-			emitter_.emit_mov(Register::EAX, src_reg);
+			emitter_.emit_mov32(Register::EAX, src_reg);
 		}
 
 		void Generator::visit(VarDeclExpr &expr)
@@ -201,7 +201,7 @@ namespace brisk {
 				auto value_reg = reg_allocator_.pop();
 				auto sp_rel_addr = stack_allocator_.reserve(4);
 
-				emitter_.emit_spd_mov8(sp_rel_addr, value_reg);
+				emitter_.emit_spd_mov64(sp_rel_addr, value_reg);
 				add_addr_entry(expr.name, sp_rel_addr);
 				reg_allocator_.free(value_reg);
 			}
@@ -247,22 +247,22 @@ namespace brisk {
 
 				if (i == 0)
 				{
-					emitter_.emit_spd_mov8(sp_rel_addr, Register::ECX);
+					emitter_.emit_spd_mov64(sp_rel_addr, Register::ECX);
 				}
 				else if(i == 1)
 				{
 					sp_rel_addr *= 2;
-					emitter_.emit_spd_mov8(sp_rel_addr, Register::EDX);
+					emitter_.emit_spd_mov64(sp_rel_addr, Register::EDX);
 				}
 				else if (i == 2)
 				{
 					sp_rel_addr *= 3;
-					emitter_.emit_spd_mov8(sp_rel_addr, Register::R8);
+					emitter_.emit_spd_mov64(sp_rel_addr, Register::R8);
 				}
 				else if (i == 3)
 				{
 					sp_rel_addr *= 4;
-					emitter_.emit_spd_mov8(sp_rel_addr, Register::R9);
+					emitter_.emit_spd_mov64(sp_rel_addr, Register::R9);
 				}
 				else
 				{
@@ -279,49 +279,49 @@ namespace brisk {
 			{
 			case TypeID::U8: {
 				auto addr = stack_allocator_.reserve(1);
-				emitter_.emit_spd_mov1(addr, expr.value.u8);
+				emitter_.emit_spd_mov8(addr, expr.value.u8);
 				return addr;
 			}
 			case TypeID::I8: {
 				auto addr = stack_allocator_.reserve(1);
-				emitter_.emit_spd_mov1(addr, static_cast<u8>(expr.value.i8));
+				emitter_.emit_spd_mov8(addr, static_cast<u8>(expr.value.i8));
 				return addr;
 			}
 			case TypeID::U16: {
 				auto addr = stack_allocator_.reserve(2);
-				emitter_.emit_spd_mov2(addr, expr.value.u16);
+				emitter_.emit_spd_mov16(addr, expr.value.u16);
 				return addr;
 			}
 			case TypeID::I16: {
 				auto addr = stack_allocator_.reserve(2);
-				emitter_.emit_spd_mov2(addr, static_cast<u16>(expr.value.i16));
+				emitter_.emit_spd_mov16(addr, static_cast<u16>(expr.value.i16));
 				return addr;
 			}
 			case TypeID::U32: {
 				auto addr = stack_allocator_.reserve(4);
-				emitter_.emit_spd_mov4(addr, expr.value.u32);
+				emitter_.emit_spd_mov32(addr, expr.value.u32);
 				return addr;
 			}
 			case TypeID::I32: {
 				auto addr = stack_allocator_.reserve(4);
-				emitter_.emit_spd_mov4(addr, static_cast<u32>(expr.value.i32));
+				emitter_.emit_spd_mov32(addr, static_cast<u32>(expr.value.i32));
 				return addr;
 			}
 			case brisk::TypeID::U64: {
 				// There is no MOV r/m64, imm64 instruction, it seems...
 				auto reg = reg_allocator_.get_free();
-				emitter_.emit_mov8(reg, expr.value.u64);
+				emitter_.emit_mov64(reg, expr.value.u64);
 				auto addr = stack_allocator_.reserve(8);
-				emitter_.emit_spd_mov8(addr, reg);
+				emitter_.emit_spd_mov64(addr, reg);
 				reg_allocator_.free(reg);
 				return addr;
 			}
 			case TypeID::I64: {
 				// There is no MOV r/m64, imm64 instruction, it seems...
 				auto reg = reg_allocator_.get_free();
-				emitter_.emit_mov8(reg, static_cast<u64>(expr.value.i64));
+				emitter_.emit_mov64(reg, static_cast<u64>(expr.value.i64));
 				auto addr = stack_allocator_.reserve(8);
-				emitter_.emit_spd_mov8(addr, reg);
+				emitter_.emit_spd_mov64(addr, reg);
 				reg_allocator_.free(reg);
 				return addr;
 			}
