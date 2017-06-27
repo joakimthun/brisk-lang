@@ -114,6 +114,16 @@ namespace brisk {
 			emit(value);
 		}
 
+		void Emitter::emit_spd_mov8(u8 displacement, Register source)
+		{
+			// 88 /r
+			emit_rexr_if_needed(source);
+			emit(0x88);
+			emit_modrm(ModRM_Mod::Displacement1, source, Register::RSP);
+			emit_sib(SIBScale::X1, Register::RSP, Register::RSP);
+			emit(displacement);
+		}
+
 		void Emitter::emit_spd_mov16(u8 displacement, u16 value)
 		{
 			// C7 /0 iw
@@ -123,6 +133,17 @@ namespace brisk {
 			emit_sib(SIBScale::X1, Register::RSP, Register::RSP);
 			emit(displacement);
 			emit2(value);
+		}
+
+		void Emitter::emit_spd_mov16(u8 displacement, Register source)
+		{
+			// 89 /r
+			emit(0x66); // Operand-size(word) override prefix
+			emit_rexr_if_needed(source);
+			emit(0x89);
+			emit_modrm(ModRM_Mod::Displacement1, source, Register::RSP);
+			emit_sib(SIBScale::X1, Register::RSP, Register::RSP);
+			emit(displacement);
 		}
 
 		void Emitter::emit_spd_mov32(u8 displacement, u32 value)
@@ -140,6 +161,16 @@ namespace brisk {
 			// 8B /r
 			emit(0x8b);
 			emit_modrm(ModRM_Mod::Displacement1, destination, Register::RSP);
+			emit_sib(SIBScale::X1, Register::RSP, Register::RSP);
+			emit(displacement);
+		}
+
+		void Emitter::emit_spd_mov32(u8 displacement, Register source)
+		{
+			// 89 /r
+			emit_rexr_if_needed(source);
+			emit(0x89);
+			emit_modrm(ModRM_Mod::Displacement1, source, Register::RSP);
 			emit_sib(SIBScale::X1, Register::RSP, Register::RSP);
 			emit(displacement);
 		}
@@ -240,6 +271,14 @@ namespace brisk {
 		std::unique_ptr<ByteBuffer> Emitter::buffer()
 		{
 			return std::move(buffer_);
+		}
+
+		void Emitter::emit_rexr_if_needed(Register reg)
+		{
+			if (reg > Register::RDI)
+			{
+				emit_rex(REX::R);
+			}
 		}
 
 		void Emitter::emit_rex(REX rex, Register reg)

@@ -65,9 +65,12 @@ namespace brisk {
 			void emit_mov32(Register destination, Register source);
 
 			void emit_spd_mov8(u8 displacement, u8 value);
+			void emit_spd_mov8(u8 displacement, Register source);
 			void emit_spd_mov16(u8 displacement, u16 value);
+			void emit_spd_mov16(u8 displacement, Register source);
 			void emit_spd_mov32(u8 displacement, u32 value);
 			void emit_spd_mov32(Register destination, u8 displacement);
+			void emit_spd_mov32(u8 displacement, Register source);
 			void emit_spd_mov64(u8 displacement, Register source);
 			void emit_spd_mov64(Register destination, u8 displacement);
 
@@ -89,6 +92,7 @@ namespace brisk {
 			std::unique_ptr<ByteBuffer> buffer();
 
 		private:
+			void emit_rexr_if_needed(Register reg);
 			void emit_rex(REX rex, Register reg);
 			void emit_rex(REX r);
 			void emit_rex(u8 r);

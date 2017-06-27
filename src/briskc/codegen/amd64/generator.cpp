@@ -247,22 +247,22 @@ namespace brisk {
 
 				if (i == 0)
 				{
-					emitter_.emit_spd_mov64(sp_rel_addr, Register::ECX);
+					move_to_reg(sp_rel_addr, arg->type, Register::ECX);
 				}
 				else if(i == 1)
 				{
 					sp_rel_addr *= 2;
-					emitter_.emit_spd_mov64(sp_rel_addr, Register::EDX);
+					move_to_reg(sp_rel_addr, arg->type, Register::EDX);
 				}
 				else if (i == 2)
 				{
 					sp_rel_addr *= 3;
-					emitter_.emit_spd_mov64(sp_rel_addr, Register::R8);
+					move_to_reg(sp_rel_addr, arg->type, Register::R8);
 				}
 				else if (i == 3)
 				{
 					sp_rel_addr *= 4;
-					emitter_.emit_spd_mov64(sp_rel_addr, Register::R9);
+					move_to_reg(sp_rel_addr, arg->type, Register::R9);
 				}
 				else
 				{
@@ -331,6 +331,29 @@ namespace brisk {
 				throw BriskException("Generator::store_literal_to_mem: Unhandled TypeID double");
 			default:
 				throw BriskException("Generator::store_literal_to_mem: Unhandled TypeID");
+			}
+		}
+
+		void Generator::move_to_reg(u8 sp_rel_addr, const Type *type, Register source)
+		{
+			const auto size_in_bytes = type->size();
+
+			switch (size_in_bytes)
+			{
+			case 1:
+				emitter_.emit_spd_mov8(sp_rel_addr, source);
+				break;
+			case 2:
+				emitter_.emit_spd_mov16(sp_rel_addr, source);
+				break;
+			case 4:
+				emitter_.emit_spd_mov32(sp_rel_addr, source);
+				break;
+			case 8:
+				emitter_.emit_spd_mov64(sp_rel_addr, source);
+				break;
+			default:
+				throw BriskException("Generator::move_to_reg: Invalid size");
 			}
 		}
 

@@ -51,6 +51,7 @@ namespace brisk {
 		private:
 			void store_fn_args(FnDeclExpr &expr);
 			sp_rel_addr store_literal_to_mem(LiteralExpr &expr);
+			void move_to_reg(u8 sp_rel_addr, const Type *type, Register source);
 
 			u32 add_fn_symbol(StringView &name, u32 value);
 			u32 add_ext_fn_symbol(const StringView &name);
