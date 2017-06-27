@@ -147,7 +147,7 @@ namespace brisk {
 		void Emitter::emit_spd_mov64(u8 displacement, Register source)
 		{
 			// REX.W + 89 /r
-			emit_rex(REX::W);
+			emit_rex(REX::W, source);
 			emit(0x89);
 			emit_modrm(ModRM_Mod::Displacement1, source, Register::RSP);
 			emit_sib(SIBScale::X1, Register::RSP, Register::RSP);
@@ -204,18 +204,6 @@ namespace brisk {
 			emit(displacement);
 		}
 
-		//void Emitter::emit_spd_mov(u8 displacement, Register source)
-		//{
-		//	if (source > Register::RDI)
-		//		emit_rex(REX::R);
-
-		//	// 89 /r
-		//	emit(0x89);
-		//	emit_modrm(ModRM_Mod::Displacement1, source, Register::RSP);
-		//	emit_sib(SIBScale::X1, Register::RSP, Register::RSP);
-		//	emit(displacement);
-		//}
-
 		void Emitter::emit_lea64(Register destination, u32 displacement)
 		{
 			// REX.W + 8D /r
@@ -254,26 +242,38 @@ namespace brisk {
 			return std::move(buffer_);
 		}
 
+		void Emitter::emit_rex(REX rex, Register reg)
+		{
+			if (reg > Register::RDI)
+			{
+				emit_rex(rex | REX::R);
+			}
+			else
+			{
+				emit_rex(rex);
+			}
+		}
+
 		void Emitter::emit_rex(REX r)
 		{
+			emit_rex(static_cast<u8>(r));
+		}
+
+		void Emitter::emit_rex(u8 r)
+		{
 			u8 value = 0x40;
-			switch (r)
-			{
-			case REX::W:
+
+			if((r & REX::W) > 0)
 				value |= (1 << 3);
-				break;
-			case REX::R:
+
+			if ((r & REX::R) > 0)
 				value |= (1 << 2);
-				break;
-			case REX::X:
+
+			if ((r & REX::X) > 0)
 				value |= (1 << 1);
-				break;
-			case REX::B:
+
+			if ((r & REX::B) > 0)
 				value |= (1 << 0);
-				break;
-			default:
-				break;
-			}
 
 			emit(value);
 		}

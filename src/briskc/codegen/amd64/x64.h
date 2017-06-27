@@ -37,11 +37,14 @@ namespace brisk {
 		//  0   1   0   0 | W | R | X | B
 		enum class REX : u8
 		{
-			W = 0,	// When 1, a 64-bit operand size is used. Otherwise, when 0, the default operand size is used (which is 32-bit for most but not all instructions)
-			R = 1,	// This 1-bit value is an extension to the MODRM.reg field.
-			X = 2,	// This 1-bit value is an extension to the SIB.index field.
-			B = 3	// This 1-bit value is an extension to the MODRM.rm field or the SIB.base field.
+			W = 1,	// When 1, a 64-bit operand size is used. Otherwise, when 0, the default operand size is used (which is 32-bit for most but not all instructions)
+			R = 2,	// This 1-bit value is an extension to the MODRM.reg field.
+			X = 4,	// This 1-bit value is an extension to the SIB.index field.
+			B = 8	// This 1-bit value is an extension to the MODRM.rm field or the SIB.base field.
 		};
+
+		inline u8 operator&(u8 a, REX b) { return a & static_cast<u8>(b); }
+		inline u8 operator|(REX a, REX b) { return static_cast<u8>(a) | static_cast<u8>(b); }
 
 		enum class SIBScale : u8 
 		{

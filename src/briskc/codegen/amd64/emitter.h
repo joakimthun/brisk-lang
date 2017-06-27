@@ -89,7 +89,9 @@ namespace brisk {
 			std::unique_ptr<ByteBuffer> buffer();
 
 		private:
+			void emit_rex(REX rex, Register reg);
 			void emit_rex(REX r);
+			void emit_rex(u8 r);
 
 			void emit(u8 value);
 			void emit2(u16 value);
