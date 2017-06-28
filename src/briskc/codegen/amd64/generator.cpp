@@ -208,9 +208,9 @@ namespace brisk {
 			{
 				expr.expr->accept(*this);
 				auto value_reg = reg_allocator_.pop();
-				auto sp_rel_addr = stack_allocator_.reserve(4);
+				auto sp_rel_addr = stack_allocator_.reserve(expr.type->size());
+				move_to_reg(sp_rel_addr, expr.type, value_reg);
 
-				emitter_.emit_spd_mov64(sp_rel_addr, value_reg);
 				add_addr_entry(expr.name, sp_rel_addr);
 				reg_allocator_.free(value_reg);
 			}
