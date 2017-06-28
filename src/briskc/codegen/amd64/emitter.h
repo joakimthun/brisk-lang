@@ -60,6 +60,9 @@ namespace brisk {
 			void emit_sub64(Register destination, u8 value);
 			void emit_sub64(Register destination, u32 value);
 
+			void emit_imul32(Register source, Register destination);
+			void emit_imul64(Register source, Register destination);
+
 			void emit_mov64(Register destination, u64 value);
 			void emit_mov32(Register destination, u32 value);
 			void emit_mov32(Register destination, Register source);

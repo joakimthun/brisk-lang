@@ -82,6 +82,23 @@ namespace brisk {
 			emit4(value);
 		}
 
+		void Emitter::emit_imul32(Register source, Register destination)
+		{
+			// 0F AF /r
+			emit(0x0f);
+			emit(0xaf);
+			emit_modrm(ModRM_Mod::RegisterAddr, destination, source);
+		}
+
+		void Emitter::emit_imul64(Register source, Register destination)
+		{
+			// REX.W + 0F AF /r
+			emit_rex(REX::W);
+			emit(0x0f);
+			emit(0xaf);
+			emit_modrm(ModRM_Mod::RegisterAddr, destination, source);
+		}
+
 		void Emitter::emit_mov64(Register destination, u64 value)
 		{
 			// REX.W + B8 +rd io

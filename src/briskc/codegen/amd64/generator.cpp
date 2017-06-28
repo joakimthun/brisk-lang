@@ -64,7 +64,16 @@ namespace brisk {
 				break;
 			}
 			case TokenType::Star: {
-				throw BriskException("Generator::visit BinExpr: Unhandled operator star");
+				if (primitive_type->size() == 8)
+				{
+					emitter_.emit_imul64(left_reg, right_reg);
+				}
+				else
+				{
+					emitter_.emit_imul32(left_reg, right_reg);
+				}
+
+				break;
 			}
 			case TokenType::Slash: {
 				throw BriskException("Generator::visit BinExpr: Unhandled operator slash");
