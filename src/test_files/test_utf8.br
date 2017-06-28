@@ -1,9 +1,13 @@
 pkg main
 
-// Windows stuff
+// wCodePageID: 65001 == Unicode (UTF-8)
 ext fn SetConsoleOutputCP(i32 wCodePageID) -> i32
 
 ext fn puts(u8 *str) -> i32
+ext fn putchar(i32 character) -> i32
+
+// Varargs not yest supported...
+ext fn printf(u8 *format, i32 arg) -> i32
 
 //fn myfn(i32 arg1, i32 arg2, i32 arg3, i32 arg4) -> i32 {
 //	//u8 x1 = 1
@@ -64,21 +68,21 @@ ext fn puts(u8 *str) -> i32
 //}
 
 fn main() -> i32 {
-	SetConsoleOutputCP(65001)
+	//SetConsoleOutputCP(65001)
 
 	//let str = "Hello Brisk!"
-	puts("Hello Brisk!")
+	//puts("Hello Brisk!")
 	//myfn(1, 2, 3, 4)
 
-	let x = 3
-	let y = 4
-	let res = x * y
+	i32 x = 10
+	i32 y = 4
+	i32 res = x * y
 
-	u8 x2 = 3
-	u8 y2 = 4
+	putchar(res)
+	putchar(10)
 
-	// Need to emit cdqe inst here if using let since the mov will be mov 64, 32
-	u8 res2 = x2 * y2
+	printf("asd %d", 10)
+	putchar(10)
 
 	ret 0
 }
