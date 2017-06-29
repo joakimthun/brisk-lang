@@ -63,9 +63,15 @@ namespace brisk {
 			void emit_imul32(Register source, Register destination);
 			void emit_imul64(Register source, Register destination);
 
-			void emit_mov64(Register destination, u64 value);
+			void emit_idiv32(Register operand);
+			void emit_idiv64(Register operand);
+
+			void emit_mov8(Register destination, Register source);
+			void emit_mov16(Register destination, Register source);
 			void emit_mov32(Register destination, u32 value);
 			void emit_mov32(Register destination, Register source);
+			void emit_mov64(Register destination, Register source);
+			void emit_mov64(Register destination, u64 value);
 
 			void emit_spd_mov8(u8 displacement, u8 value);
 			void emit_spd_mov8(u8 displacement, Register source);
@@ -85,7 +91,8 @@ namespace brisk {
 
 			void emit_lea64(Register destination, u32 displacement);
 
-			void emit_xor(Register destination, Register source);
+			void emit_xor32(Register destination, Register source);
+			void emit_xor64(Register destination, Register source);
 
 			void emit_ret();
 

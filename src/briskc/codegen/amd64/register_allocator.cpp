@@ -16,7 +16,7 @@ namespace brisk {
 		{
 			allocated_[arr_index(Register::RAX)] = true;
 			allocated_[arr_index(Register::RCX)] = false;
-			allocated_[arr_index(Register::RDX)] = false;
+			allocated_[arr_index(Register::RDX)] = true;
 			allocated_[arr_index(Register::RBX)] = false;
 			allocated_[arr_index(Register::RSP)] = true;
 			allocated_[arr_index(Register::RBP)] = false;

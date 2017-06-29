@@ -76,7 +76,23 @@ namespace brisk {
 				break;
 			}
 			case TokenType::Slash: {
-				throw BriskException("Generator::visit BinExpr: Unhandled operator slash");
+				move_to_reg(Register::RAX, expr.type, left_reg);
+
+				// Remainder stored in EDX/RDX
+				emitter_.emit_xor64(Register::RDX, Register::RDX);
+
+				if (primitive_type->size() == 8)
+				{
+					emitter_.emit_idiv64(right_reg);
+				}
+				else
+				{
+					emitter_.emit_idiv32(right_reg);
+				}
+
+				move_to_reg(right_reg, expr.type, Register::RAX);
+
+				break;
 			}
 			default:
 				break;
@@ -360,6 +376,29 @@ namespace brisk {
 				break;
 			case 8:
 				emitter_.emit_spd_mov64(sp_rel_addr, source);
+				break;
+			default:
+				throw BriskException("Generator::move_to_reg: Invalid size");
+			}
+		}
+
+		void Generator::move_to_reg(Register destination, const Type * type, Register source)
+		{
+			const auto size_in_bytes = type->size();
+
+			switch (size_in_bytes)
+			{
+			case 1:
+				emitter_.emit_mov8(destination, source);
+				break;
+			case 2:
+				emitter_.emit_mov16(destination, source);
+				break;
+			case 4:
+				emitter_.emit_mov32(destination, source);
+				break;
+			case 8:
+				emitter_.emit_mov64(destination, source);
 				break;
 			default:
 				throw BriskException("Generator::move_to_reg: Invalid size");

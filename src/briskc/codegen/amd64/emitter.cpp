@@ -99,12 +99,34 @@ namespace brisk {
 			emit_modrm(ModRM_Mod::RegisterAddr, destination, source);
 		}
 
-		void Emitter::emit_mov64(Register destination, u64 value)
+		void Emitter::emit_idiv32(Register operand)
 		{
-			// REX.W + B8 +rd io
+			// F7 /7
+			emit(0xf7);
+			emit_modrm(ModRM_Mod::RegisterAddr, 7, operand);
+		}
+
+		void Emitter::emit_idiv64(Register operand)
+		{
+			// REX.W + F7 /7
 			emit_rex(REX::W);
-			emit(0xb8 | ((u8)destination));
-			emit8(value);
+			emit(0xf7);
+			emit_modrm(ModRM_Mod::RegisterAddr, 7, operand);
+		}
+
+		void Emitter::emit_mov8(Register destination, Register source)
+		{
+			// 88 /r
+			emit(0x88);
+			emit_modrm(ModRM_Mod::RegisterAddr, source, destination);
+		}
+
+		void Emitter::emit_mov16(Register destination, Register source)
+		{
+			// 89 /r
+			emit(0x66); // Operand-size(word) override prefix
+			emit(0x89);
+			emit_modrm(ModRM_Mod::RegisterAddr, source, destination);
 		}
 
 		void Emitter::emit_mov32(Register destination, u32 value)
@@ -119,6 +141,22 @@ namespace brisk {
 			// 89 /r
 			emit(0x89);
 			emit_modrm(ModRM_Mod::RegisterAddr, source, destination);
+		}
+
+		void Emitter::emit_mov64(Register destination, Register source)
+		{
+			// REX.W + 89 /r
+			emit_rex(REX::W);
+			emit(0x89);
+			emit_modrm(ModRM_Mod::RegisterAddr, source, destination);
+		}
+
+		void Emitter::emit_mov64(Register destination, u64 value)
+		{
+			// REX.W + B8 +rd io
+			emit_rex(REX::W);
+			emit(0xb8 | ((u8)destination));
+			emit8(value);
 		}
 
 		void Emitter::emit_spd_mov8(u8 displacement, u8 value)
@@ -261,8 +299,17 @@ namespace brisk {
 			emit4(displacement);
 		}
 
-		void Emitter::emit_xor(Register destination, Register source)
+		void Emitter::emit_xor32(Register destination, Register source)
 		{
+			// 33 /r
+			emit(0x33);
+			emit_modrm(ModRM_Mod::RegisterAddr, source, destination);
+		}
+
+		void Emitter::emit_xor64(Register destination, Register source)
+		{
+			// REX.W + 33 /r
+			emit_rex(REX::W);
 			emit(0x33);
 			emit_modrm(ModRM_Mod::RegisterAddr, source, destination);
 		}
