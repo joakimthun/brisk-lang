@@ -85,6 +85,10 @@ fn main() -> i32 {
 	i32 x = 77
 	i32 y = 7
 	i32 result = x / y
+
+	if x {
+		
+	}
 	
 	printf("Result = %d", result)
 	putchar(10)

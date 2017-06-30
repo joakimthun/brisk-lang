@@ -26,6 +26,7 @@ namespace brisk {
 		keywords_.insert(kwe("mut", TokenType::Mut));
 		keywords_.insert(kwe("pkg", TokenType::Pkg));
 		keywords_.insert(kwe("ext", TokenType::Ext));
+		keywords_.insert(kwe("if", TokenType::If));
 
 		keywords_.insert(kwe("u8", TokenType::U8));
 		keywords_.insert(kwe("i8", TokenType::I8));

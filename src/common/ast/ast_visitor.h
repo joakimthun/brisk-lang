@@ -20,5 +20,6 @@ namespace brisk {
 		inline virtual void visit(RetExpr &expr) {}
 		inline virtual void visit(VarDeclExpr &expr) {}
 		inline virtual void visit(FnCallExpr &expr) {}
+		inline virtual void visit(IfExpr &expr) {}
 	};
 }

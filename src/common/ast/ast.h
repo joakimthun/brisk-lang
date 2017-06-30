@@ -18,6 +18,7 @@ namespace brisk {
 	enum class NodeType : u16
 	{
 		Block,
+		Group,
 		Bin,
 		Literal,
 		Identifier,
@@ -26,7 +27,8 @@ namespace brisk {
 		FnDecl,
 		Ret,
 		VarDecl,
-		FnCall
+		FnCall,
+		If
 	};
 
 	struct Expr
@@ -58,12 +60,22 @@ namespace brisk {
 	{
 		inline Block(SymbolTable *parent) : symbol_table(parent) {}
 		inline virtual ~Block() {};
+		void accept(ASTVisitor &visitor) override;
 		NodeType node_type() const override
 		{
 			return NodeType::Block;
 		}
 
 		SymbolTable symbol_table;
+	};
+
+	struct GroupExpr : public Expr
+	{
+		std::unique_ptr<Expr> expr;
+		NodeType node_type() const override
+		{
+			return NodeType::Group;
+		}
 	};
 
 	struct Ast
@@ -200,6 +212,19 @@ namespace brisk {
 		NodeType node_type() const override
 		{
 			return NodeType::FnCall;
+		}
+	};
+
+	struct IfExpr : public Expr
+	{
+		std::unique_ptr<Expr> if_condition;
+		std::vector<std::unique_ptr<Expr>> if_body;
+		std::unique_ptr<Block> if_body_scope;
+
+		void accept(ASTVisitor &visitor) override;
+		NodeType node_type() const override
+		{
+			return NodeType::If;
 		}
 	};
 }

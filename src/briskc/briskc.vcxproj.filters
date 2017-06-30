@@ -93,6 +93,9 @@
     <ClCompile Include="types\type_converters.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="parsing\parsers\if_parser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lexing\lexer.h">
@@ -180,6 +183,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="types\type_converters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="parsing\parsers\if_parser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

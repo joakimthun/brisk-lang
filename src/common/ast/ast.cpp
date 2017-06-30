@@ -4,6 +4,10 @@
 
 namespace brisk {
 
+	void Block::accept(ASTVisitor& visitor)
+	{
+	}
+
 	void BinExpr::accept(ASTVisitor &visitor)
 	{
 		visitor.visit(*this);
@@ -40,6 +44,11 @@ namespace brisk {
 	}
 
 	void FnCallExpr::accept(ASTVisitor &visitor)
+	{
+		visitor.visit(*this);
+	}
+
+	void IfExpr::accept(ASTVisitor& visitor)
 	{
 		visitor.visit(*this);
 	}

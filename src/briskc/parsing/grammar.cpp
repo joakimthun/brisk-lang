@@ -9,6 +9,7 @@
 #include "parsers/ret_parser.h"
 #include "parsers/var_decl_parser.h"
 #include "parsers/fn_call_parser.h"
+#include "parsers/if_parser.h"
 
 namespace brisk {
 
@@ -85,6 +86,7 @@ namespace brisk {
 		expr_parsers_[arr_index(TokenType::StrLiteral)] = std::make_unique<LiteralParser>();
 		expr_parsers_[arr_index(TokenType::Identifier)] = std::make_unique<IdentifierParser>();
 		expr_parsers_[arr_index(TokenType::Ret)] = std::make_unique<RetParser>();
+		expr_parsers_[arr_index(TokenType::If)] = std::make_unique<IfParser>();
 
 		expr_parsers_[arr_index(TokenType::Let)] = std::make_unique<VarDeclParser>(false);
 		expr_parsers_[arr_index(TokenType::U8)] = std::make_unique<VarDeclParser>(true);

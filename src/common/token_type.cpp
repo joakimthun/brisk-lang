@@ -34,6 +34,8 @@ namespace brisk {
 			return "Pkg";
 		case TokenType::Ext:
 			return "Ext";
+		case TokenType::If:
+			return "if";
 		case TokenType::I32:
 			return "I32";
 		case TokenType::Void:

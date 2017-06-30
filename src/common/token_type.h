@@ -26,6 +26,7 @@ namespace brisk {
 		Mut,
 		Pkg,
 		Ext,
+		If,
 
 		U8,
 		I8,
