@@ -5,6 +5,7 @@ ext fn SetConsoleOutputCP(i32 wCodePageID) -> i32
 
 ext fn puts(u8 *str) -> i32
 ext fn putchar(i32 character) -> i32
+ext fn exit(i32 status) -> void
 
 // Varargs not yest supported...
 ext fn printf(u8 *format, i32 arg) -> i32

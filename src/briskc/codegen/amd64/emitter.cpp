@@ -314,6 +314,14 @@ namespace brisk {
 			emit_modrm(ModRM_Mod::RegisterAddr, source, destination);
 		}
 
+		void Emitter::emit_cmp32(u8 value)
+		{
+			// 83 /7 ib
+			emit(0x83);
+			emit_modrm(ModRM_Mod::RegisterAddr, 7, 0);
+			emit(value);
+		}
+
 		void Emitter::emit_ret()
 		{
 			// Near return to calling procedure.
