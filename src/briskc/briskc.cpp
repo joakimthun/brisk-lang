@@ -23,6 +23,8 @@ int main(int argc, char* argv[])
 {
 	try
 	{
+		//coff::read("C:/test/main.obj");
+
 		auto type_table = TypeTable();
 
 		std::cout << "Compiling..." << std::endl << std::endl;

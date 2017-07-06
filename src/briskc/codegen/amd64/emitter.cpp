@@ -322,6 +322,13 @@ namespace brisk {
 			emit(value);
 		}
 
+		void Emitter::emit_je_rel8(u8 rel)
+		{
+			// 74 cb
+			emit(0x74);
+			emit(rel);
+		}
+
 		void Emitter::emit_ret()
 		{
 			// Near return to calling procedure.

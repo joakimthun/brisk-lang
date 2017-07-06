@@ -82,18 +82,16 @@ fn main() -> i32 {
 	//printf("asd %d", res)
 	//putchar(10)
 
-	i32 x = 77
-	i32 y = 7
-	i32 result = x / y
+	//i32 x = 77
+	//i32 y = 7
+	//i32 result = x / y
 
 	let b1 = true
-	bool b2 = true
 	if b1 {
-		
+		puts("true!")
 	}
-	
-	printf("Result = %d", result)
-	putchar(10)
+
+	//putchar(10)
 
 	ret 0
 }

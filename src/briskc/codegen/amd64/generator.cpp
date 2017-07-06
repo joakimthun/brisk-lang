@@ -167,6 +167,11 @@ namespace brisk {
 				emitter_.emit_spd_mov64(dest_reg, static_cast<u8>(rsp_rel_addr));
 				break;
 			}
+			case TypeID::Bool: {
+				emitter_.emit_spd_movzx8(dest_reg, static_cast<u8>(rsp_rel_addr));
+				break;
+
+			}
 			case TypeID::Float:
 				throw BriskException("Generator::visit IdentifierExpr: Unhandled TypeID float");
 			case TypeID::Double:
@@ -248,6 +253,19 @@ namespace brisk {
 			// Subtract the 4 byte displacement from the buffer offset
 			auto symbol_index = add_ext_fn_symbol(expr.name);
 			add_rel_reloc(emitter_.current_buffer_offset() - 4, symbol_index);
+		}
+
+		void Generator::visit(IfExpr &expr)
+		{
+			expr.if_condition->accept(*this);
+			auto condition_reg = reg_allocator_.pop();
+
+			emitter_.emit_mov32(Register::RAX, condition_reg);
+			emitter_.emit_cmp32(0);
+			emitter_.emit_je_rel8(12);
+
+			for (auto& arg : expr.if_body)
+				arg->accept(*this);
 		}
 
 		void Generator::write_to_disk(const std::string &path)

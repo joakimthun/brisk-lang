@@ -96,6 +96,8 @@ namespace brisk {
 
 			void emit_cmp32(u8 value);
 
+			void emit_je_rel8(u8 rel);
+
 			void emit_ret();
 
 			void emit_call();

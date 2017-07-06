@@ -46,6 +46,7 @@ namespace brisk {
 			void visit(RetExpr &expr) override;
 			void visit(VarDeclExpr &expr) override;
 			void visit(FnCallExpr &expr) override;
+			void visit(IfExpr &expr) override;
 
 			void write_to_disk(const std::string &path);
 		private:
