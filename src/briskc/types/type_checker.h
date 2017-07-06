@@ -25,6 +25,7 @@ namespace brisk {
 		void visit(RetExpr &expr) override;
 		void visit(VarDeclExpr &expr) override;
 		void visit(FnCallExpr &expr) override;
+		void visit(IfExpr &expr) override;
 
 	private:
 		void check_fn_call(const FnCallExpr &expr);

@@ -87,6 +87,17 @@ namespace brisk {
 		check_fn_call(expr);
 	}
 
+	void TypeChecker::visit(IfExpr &expr)
+	{
+		expr.if_condition->accept(*this);
+		for(auto& e : expr.if_body)
+			e->accept(*this);
+
+		const auto bool_type = type_table_.get("bool", false);
+		if (!expr.if_condition->type->equals(bool_type))
+			register_type_error(expr.start, "Non-bool type used as if condition. Cannot convert from '" + expr.if_condition->type->name() + "' to '" + bool_type->name() + "'");
+	}
+
 	void TypeChecker::check_fn_call(const FnCallExpr &expr)
 	{
 		const auto& callee_expr = expr.callee->decl_expr;

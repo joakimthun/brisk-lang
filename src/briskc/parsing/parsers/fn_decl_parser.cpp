@@ -26,6 +26,7 @@ namespace brisk {
 		parser.consume(TokenType::Fn);
 
 		auto expr = std::make_unique<FnDeclExpr>(parser.current_scope(), ext_);
+		expr->type = parser.type_table().get("void", false);
 		parser.push_scope(&expr->symbol_table);
 		parser.push_fn_context(expr.get());
 

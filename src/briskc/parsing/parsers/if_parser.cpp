@@ -9,6 +9,7 @@ namespace brisk {
 	std::unique_ptr<Expr> IfParser::parse(BriskParser &parser)
 	{
 		auto expr = std::make_unique<IfExpr>();
+		expr->type = parser.type_table().get("void", false);
 		expr->start = parser.current_token();
 		parser.consume(TokenType::If);
 
