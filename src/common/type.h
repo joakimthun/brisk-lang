@@ -19,8 +19,9 @@ namespace brisk {
 		I64 = 8,
 		Float = 9,
 		Double = 10,
-		Fn = 11,
-		Struct = 12
+		Bool = 11,
+		Fn = 12,
+		Struct = 13
 	};
 
 	struct Expr;

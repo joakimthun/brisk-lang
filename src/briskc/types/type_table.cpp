@@ -38,6 +38,9 @@ namespace brisk {
 
 		add("double", std::make_unique<PrimitiveType>("double", TypeID::Double));
 		add("double", std::make_unique<PtrType>(get("double", false)));
+
+		add("bool", std::make_unique<PrimitiveType>("bool", TypeID::Bool));
+		add("bool", std::make_unique<PtrType>(get("bool", false)));
 	}
 
 	void TypeTable::add(const StringView &name, std::unique_ptr<Type> type)
