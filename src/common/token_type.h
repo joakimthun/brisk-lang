@@ -18,6 +18,8 @@ namespace brisk {
 		// Literals
 		IntLiteral,
 		StrLiteral,
+		FalseLiteral,
+		TrueLiteral,
 
 		// Keywords
 		Fn,
@@ -39,6 +41,7 @@ namespace brisk {
 		Float,
 		Double,
 		Void,
+		Bool,
 
 		// Misc
 		Identifier,

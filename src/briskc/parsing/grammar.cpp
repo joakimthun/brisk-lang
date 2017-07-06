@@ -84,6 +84,8 @@ namespace brisk {
 		// Expr
 		expr_parsers_[arr_index(TokenType::IntLiteral)] = std::make_unique<LiteralParser>();
 		expr_parsers_[arr_index(TokenType::StrLiteral)] = std::make_unique<LiteralParser>();
+		expr_parsers_[arr_index(TokenType::TrueLiteral)] = std::make_unique<LiteralParser>();
+		expr_parsers_[arr_index(TokenType::FalseLiteral)] = std::make_unique<LiteralParser>();
 		expr_parsers_[arr_index(TokenType::Identifier)] = std::make_unique<IdentifierParser>();
 		expr_parsers_[arr_index(TokenType::Ret)] = std::make_unique<RetParser>();
 		expr_parsers_[arr_index(TokenType::If)] = std::make_unique<IfParser>();
@@ -99,6 +101,7 @@ namespace brisk {
 		expr_parsers_[arr_index(TokenType::I64)] = std::make_unique<VarDeclParser>(true);
 		expr_parsers_[arr_index(TokenType::Float)] = std::make_unique<VarDeclParser>(true);
 		expr_parsers_[arr_index(TokenType::Double)] = std::make_unique<VarDeclParser>(true);
+		expr_parsers_[arr_index(TokenType::Bool)] = std::make_unique<VarDeclParser>(true);
 	}
 
 }

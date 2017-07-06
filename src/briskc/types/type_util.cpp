@@ -31,6 +31,8 @@ namespace brisk {
 			return type_table.get("double", ptr);
 		case TokenType::Void:
 			return type_table.get("void", ptr);
+		case TokenType::Bool:
+			return type_table.get("bool", ptr);
 		default:
 			throw BriskException("type_from_token: Unknown token type");
 		}

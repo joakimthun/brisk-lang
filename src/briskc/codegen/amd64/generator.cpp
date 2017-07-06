@@ -350,6 +350,11 @@ namespace brisk {
 				reg_allocator_.free(reg);
 				return addr;
 			}
+			case TypeID::Bool: {
+				auto addr = stack_allocator_.reserve(1);
+				emitter_.emit_spd_mov8(addr, expr.value.b ? 1 : 0);
+				return addr;
+			}
 			case TypeID::Float:
 				throw BriskException("Generator::store_literal_to_mem: Unhandled TypeID float");
 			case TypeID::Double:

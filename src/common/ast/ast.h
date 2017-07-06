@@ -115,6 +115,7 @@ namespace brisk {
 			i64 i64;
 			float f;
 			double d;
+			bool b;
 		} value;
 		StringView str_value;
 		bool str_literal = false;

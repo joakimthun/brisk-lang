@@ -22,6 +22,10 @@ namespace brisk {
 			return "IntLiteral";
 		case TokenType::StrLiteral:
 			return "StrLiteral";
+		case TokenType::FalseLiteral:
+			return "FalseLiteral";
+		case TokenType::TrueLiteral:
+			return "TrueLiteral";
 		case TokenType::Fn:
 			return "Fn";
 		case TokenType::Ret:
@@ -40,6 +44,8 @@ namespace brisk {
 			return "I32";
 		case TokenType::Void:
 			return "Void";
+		case TokenType::Bool:
+			return "Bool";
 		case TokenType::Identifier:
 			return "Identifier";
 		case TokenType::LBracket:

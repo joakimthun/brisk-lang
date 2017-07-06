@@ -86,7 +86,9 @@ fn main() -> i32 {
 	i32 y = 7
 	i32 result = x / y
 
-	if x {
+	let b1 = true
+	bool b2 = true
+	if b1 {
 		
 	}
 	

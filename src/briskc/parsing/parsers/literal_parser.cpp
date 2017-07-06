@@ -85,6 +85,18 @@ namespace brisk {
 			parser.consume(TokenType::StrLiteral);
 			break;
 		}
+		case TokenType::TrueLiteral: {
+			expr->type = parser.type_table().get("bool", false);
+			raw_expr_ptr->value.b = true;
+			parser.consume(TokenType::TrueLiteral);
+			break;
+		}
+		case TokenType::FalseLiteral: {
+			expr->type = parser.type_table().get("bool", false);
+			raw_expr_ptr->value.b = false;
+			parser.consume(TokenType::FalseLiteral);
+			break;
+		}
 		default:
 			throw BriskException("LiteralParser::parse -> Unsupported type");
 		}

@@ -39,6 +39,10 @@ namespace brisk {
 		keywords_.insert(kwe("float", TokenType::Float));
 		keywords_.insert(kwe("double", TokenType::Double));
 		keywords_.insert(kwe("void", TokenType::Void));
+
+		keywords_.insert(kwe("bool", TokenType::Bool));
+		keywords_.insert(kwe("false", TokenType::FalseLiteral));
+		keywords_.insert(kwe("true", TokenType::TrueLiteral));
 	}
 
 	Token Lexer::next()
