@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <cstring>
 
+#include "brisk_exception.h"
 #include "util.h"
 
 namespace brisk {
@@ -72,6 +73,19 @@ namespace brisk {
 
 		std::memcpy(static_cast<u8*>(data_) + offset_, data, length);
 		offset_ += length;
+	}
+
+	void ByteBuffer::write_at(u8 val, u32 offset)
+	{
+		write_at(&val, offset, 1);
+	}
+
+	void ByteBuffer::write_at(const void *data, u32 length, u32 offset)
+	{
+		if (length_ == 0 || (offset + length) > length_)
+			throw BriskException("ByteBuffer::write_at: Can not write past the current length");
+
+		std::memcpy(static_cast<u8*>(data_) + offset, data, length);
 	}
 
 }
