@@ -158,6 +158,22 @@ namespace brisk {
 			consume_newline();
 			goto start;
 		}
+		case '|': {
+			consume();
+
+			if (consume('|'))
+				return create_token(TokenType::LogOr, start_offset);
+
+			return create_token(TokenType::BitOr, start_offset);
+		}
+		case '&': {
+			consume();
+
+			if (consume('&'))
+				return create_token(TokenType::LogAnd, start_offset);
+
+			return create_token(TokenType::BitAnd, start_offset);
+		}
 		default:
 			break;
 		}

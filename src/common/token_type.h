@@ -14,6 +14,10 @@ namespace brisk {
 		Star,
 		Slash,
 		Equals,
+		BitOr,
+		BitAnd,
+		LogOr,
+		LogAnd,
 
 		// Literals
 		IntLiteral,

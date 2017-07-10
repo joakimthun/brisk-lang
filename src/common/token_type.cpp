@@ -18,6 +18,14 @@ namespace brisk {
 			return "Slash";
 		case TokenType::Equals:
 			return "Equals";
+		case TokenType::BitOr:
+			return "BitOr";
+		case TokenType::BitAnd:
+			return "BitAnd";
+		case TokenType::LogOr:
+			return "LogOr";
+		case TokenType::LogAnd:
+			return "LogAnd";
 		case TokenType::IntLiteral:
 			return "IntLiteral";
 		case TokenType::StrLiteral:
