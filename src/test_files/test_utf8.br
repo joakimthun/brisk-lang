@@ -89,6 +89,9 @@ fn main() -> i32 {
 	let b1 = true
 	if b1 {
 		puts("true!")
+		let str = "Inside if"
+		puts(str)
+		puts(str)
 	}
 
 	//putchar(10)

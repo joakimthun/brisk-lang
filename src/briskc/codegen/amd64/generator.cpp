@@ -262,10 +262,14 @@ namespace brisk {
 
 			emitter_.emit_mov32(Register::RAX, condition_reg);
 			emitter_.emit_cmp32(0);
-			emitter_.emit_je_rel8(12);
+			const auto rel8_offset = emitter_.emit_je_rel8(0);
 
 			for (auto& arg : expr.if_body)
 				arg->accept(*this);
+
+			const auto current_offset = emitter_.current_buffer_offset() - 1;
+			const auto jmp_dist = current_offset - rel8_offset;
+			emitter_.emit_rel8_at(jmp_dist, rel8_offset);
 		}
 
 		void Generator::write_to_disk(const std::string &path)

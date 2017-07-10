@@ -96,7 +96,8 @@ namespace brisk {
 
 			void emit_cmp32(u8 value);
 
-			void emit_je_rel8(u8 rel);
+			u32 emit_je_rel8(u8 rel);
+			void emit_rel8_at(u8 rel, u32 offset);
 
 			void emit_ret();
 
@@ -115,6 +116,10 @@ namespace brisk {
 			void emit2(u16 value);
 			void emit4(u32 value);
 			void emit8(u64 value);
+			void emit_at(u8 value, u32 offset);
+			void emit2_at(u16 value, u32 offset);
+			void emit4_at(u32 value, u32 offset);
+			void emit8_at(u64 value, u32 offset);
 
 			void emit_modrm(ModRM_Mod mod, Register rm);
 			void emit_modrm(ModRM_Mod mod, u8 rm);

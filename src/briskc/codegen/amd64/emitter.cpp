@@ -322,11 +322,19 @@ namespace brisk {
 			emit(value);
 		}
 
-		void Emitter::emit_je_rel8(u8 rel)
+		u32 Emitter::emit_je_rel8(u8 rel)
 		{
 			// 74 cb
 			emit(0x74);
+			const auto rel_offset = buffer_->length();
 			emit(rel);
+
+			return rel_offset;
+		}
+
+		void Emitter::emit_rel8_at(u8 rel, u32 offset)
+		{
+			emit_at(rel, offset);
 		}
 
 		void Emitter::emit_ret()
@@ -427,6 +435,41 @@ namespace brisk {
 			for (auto i = 0u; i < 8; i++)
 			{
 				emit(*byte_ptr);
+				byte_ptr++;
+			}
+		}
+
+		void Emitter::emit_at(u8 value, u32 offset)
+		{
+			buffer_->write_at(value, offset);
+		}
+
+		void Emitter::emit2_at(u16 value, u32 offset)
+		{
+			auto byte_ptr = (u8*)&value;
+			for (auto i = 0u; i < 2; i++)
+			{
+				emit_at(*byte_ptr, offset + i);
+				byte_ptr++;
+			}
+		}
+
+		void Emitter::emit4_at(u32 value, u32 offset)
+		{
+			auto byte_ptr = (u8*)&value;
+			for (auto i = 0u; i < 4; i++)
+			{
+				emit_at(*byte_ptr, offset + i);
+				byte_ptr++;
+			}
+		}
+
+		void Emitter::emit8_at(u64 value, u32 offset)
+		{
+			auto byte_ptr = (u8*)&value;
+			for (auto i = 0u; i < 8; i++)
+			{
+				emit_at(*byte_ptr, offset + i);
 				byte_ptr++;
 			}
 		}
