@@ -94,7 +94,8 @@ fn main() -> i32 {
 		puts(str)
 	}
 
-	//putchar(10)
+	let str = "Outside if"
+	puts(str)
 
 	ret 0
 }

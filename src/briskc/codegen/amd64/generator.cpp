@@ -258,6 +258,8 @@ namespace brisk {
 		void Generator::visit(IfExpr &expr)
 		{
 			expr.if_condition->accept(*this);
+
+			push_addr_table();
 			auto condition_reg = reg_allocator_.pop();
 
 			emitter_.emit_mov32(Register::RAX, condition_reg);
@@ -266,6 +268,8 @@ namespace brisk {
 
 			for (auto& arg : expr.if_body)
 				arg->accept(*this);
+
+			pop_addr_table();
 
 			const auto current_offset = emitter_.current_buffer_offset() - 1;
 			const auto jmp_dist = current_offset - rel8_offset;
