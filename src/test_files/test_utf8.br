@@ -88,7 +88,7 @@ fn main() -> i32 {
 
 	let b1 = true
 	let b2 = false
-	//let b3 = b1 || b2
+	let b3 = b1 || b2
 	if b1 {
 		puts("true!")
 		let str = "Inside if"
