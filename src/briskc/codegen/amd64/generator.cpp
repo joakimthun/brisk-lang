@@ -5,6 +5,7 @@
 #include "ast/ast.h"
 #include "type.h"
 #include "brisk_exception.h"
+#include "token_type.h"
 
 namespace brisk {
 	namespace x64 {
@@ -34,68 +35,16 @@ namespace brisk {
 			auto right_reg = reg_allocator_.pop();
 
 			const auto primitive_type = expr.type->as_const<PrimitiveType>();
-			if (primitive_type == nullptr || !primitive_type->is_integral())
-				throw BriskException("Generator::visit BinExpr: Unhandled type: " + expr.type->name());
+			if (primitive_type == nullptr)
+				throw BriskException("Generator::visit BinExpr: Only primitive types are currently supported");
 
-			switch (expr.op)
+			if (primitive_type->is_integral())
 			{
-			case TokenType::Plus: {
-				if (primitive_type->size() == 8)
-				{
-					emitter_.emit_add64(left_reg, right_reg);
-				}
-				else
-				{
-					emitter_.emit_add32(left_reg, right_reg);
-				}
-
-				break;
+				integral_bin_op(expr, primitive_type, left_reg, right_reg);
 			}
-			case TokenType::Minus: {
-				if (primitive_type->size() == 8)
-				{
-					emitter_.emit_sub64(left_reg, right_reg);
-				}
-				else
-				{
-					emitter_.emit_sub32(left_reg, right_reg);
-				}
-
-				break;
-			}
-			case TokenType::Star: {
-				if (primitive_type->size() == 8)
-				{
-					emitter_.emit_imul64(left_reg, right_reg);
-				}
-				else
-				{
-					emitter_.emit_imul32(left_reg, right_reg);
-				}
-
-				break;
-			}
-			case TokenType::Slash: {
-				move_to_reg(Register::RAX, expr.type, left_reg);
-
-				// Remainder stored in EDX/RDX
-				emitter_.emit_xor64(Register::RDX, Register::RDX);
-
-				if (primitive_type->size() == 8)
-				{
-					emitter_.emit_idiv64(right_reg);
-				}
-				else
-				{
-					emitter_.emit_idiv32(right_reg);
-				}
-
-				move_to_reg(right_reg, expr.type, Register::RAX);
-
-				break;
-			}
-			default:
-				break;
+			else
+			{
+				throw BriskException("Generator::visit BinExpr: Unhandled type: " + expr.type->name());
 			}
 
 			reg_allocator_.push(right_reg);
@@ -433,6 +382,70 @@ namespace brisk {
 				break;
 			default:
 				throw BriskException("Generator::move_to_reg: Invalid size");
+			}
+		}
+
+		void Generator::integral_bin_op(BinExpr &expr, const PrimitiveType *primitive_type, Register left_reg, Register right_reg)
+		{
+			switch (expr.op)
+			{
+			case TokenType::Plus: {
+				if (primitive_type->size() == 8)
+				{
+					emitter_.emit_add64(left_reg, right_reg);
+				}
+				else
+				{
+					emitter_.emit_add32(left_reg, right_reg);
+				}
+
+				break;
+			}
+			case TokenType::Minus: {
+				if (primitive_type->size() == 8)
+				{
+					emitter_.emit_sub64(left_reg, right_reg);
+				}
+				else
+				{
+					emitter_.emit_sub32(left_reg, right_reg);
+				}
+
+				break;
+			}
+			case TokenType::Star: {
+				if (primitive_type->size() == 8)
+				{
+					emitter_.emit_imul64(left_reg, right_reg);
+				}
+				else
+				{
+					emitter_.emit_imul32(left_reg, right_reg);
+				}
+
+				break;
+			}
+			case TokenType::Slash: {
+				move_to_reg(Register::RAX, expr.type, left_reg);
+
+				// Remainder stored in EDX/RDX
+				emitter_.emit_xor64(Register::RDX, Register::RDX);
+
+				if (primitive_type->size() == 8)
+				{
+					emitter_.emit_idiv64(right_reg);
+				}
+				else
+				{
+					emitter_.emit_idiv32(right_reg);
+				}
+
+				move_to_reg(right_reg, expr.type, Register::RAX);
+
+				break;
+			}
+			default:
+				throw BriskException("Generator::integral_bin_op: Unhandled operator " + token_type_name(expr.op));
 			}
 		}
 
