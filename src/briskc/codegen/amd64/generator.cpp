@@ -42,6 +42,10 @@ namespace brisk {
 			{
 				integral_bin_op(expr, primitive_type, left_reg, right_reg);
 			}
+			else if(primitive_type->is_boolean())
+			{
+				boolean_bin_op(expr, primitive_type, left_reg, right_reg);
+			}
 			else
 			{
 				throw BriskException("Generator::visit BinExpr: Unhandled type: " + expr.type->name());
@@ -404,12 +408,14 @@ namespace brisk {
 			case TokenType::Minus: {
 				if (primitive_type->size() == 8)
 				{
-					emitter_.emit_sub64(left_reg, right_reg);
+					emitter_.emit_sub64(right_reg, left_reg);
 				}
 				else
 				{
-					emitter_.emit_sub32(left_reg, right_reg);
+					emitter_.emit_sub32(right_reg, left_reg);
 				}
+
+				move_to_reg(right_reg, expr.type, left_reg);
 
 				break;
 			}
@@ -443,6 +449,39 @@ namespace brisk {
 				move_to_reg(right_reg, expr.type, Register::RAX);
 
 				break;
+			}
+			default:
+				throw BriskException("Generator::integral_bin_op: Unhandled operator " + token_type_name(expr.op));
+			}
+		}
+
+		void Generator::boolean_bin_op(BinExpr &expr, const PrimitiveType *primitive_type, Register left_reg, Register right_reg)
+		{
+			switch (expr.op)
+			{
+			case TokenType::LogOr: {
+				// left == true
+				emitter_.emit_test8(left_reg, 1);
+				// jump to true branch
+				emitter_.emit_jne_rel8(10);
+
+				// right == true
+				emitter_.emit_test8(right_reg, 1);
+				// jump to true branch
+				emitter_.emit_jne_rel8(5);
+
+				// false branch
+				emitter_.emit_mov8(right_reg, 0);
+				// jump past true branch
+				emitter_.emit_jmp_rel8(3);
+
+				// true branch
+				emitter_.emit_mov8(right_reg, 1);
+
+				break;
+			}
+			case TokenType::LogAnd: {
+				throw BriskException("Generator::integral_bin_op: Unhandled operator " + token_type_name(expr.op));
 			}
 			default:
 				throw BriskException("Generator::integral_bin_op: Unhandled operator " + token_type_name(expr.op));

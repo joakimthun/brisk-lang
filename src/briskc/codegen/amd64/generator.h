@@ -55,6 +55,7 @@ namespace brisk {
 			void move_to_reg(u8 sp_rel_addr, const Type *type, Register source);
 			void move_to_reg(Register destination, const Type *type, Register source);
 			void integral_bin_op(BinExpr &expr, const PrimitiveType *primitive_type, Register left_reg, Register right_reg);
+			void boolean_bin_op(BinExpr &expr, const PrimitiveType *primitive_type, Register left_reg, Register right_reg);
 
 			u32 add_fn_symbol(StringView &name, u32 value);
 			u32 add_ext_fn_symbol(const StringView &name);

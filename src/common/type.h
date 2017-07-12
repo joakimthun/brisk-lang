@@ -88,6 +88,8 @@ namespace brisk {
 				return 4;
 			case TypeID::Double:
 				return 8;
+			case TypeID::Bool:
+				return 1;
 			default:
 				return 0;
 			}
@@ -100,19 +102,21 @@ namespace brisk {
 		{
 			switch (id_)
 			{
-			case brisk::TypeID::U8:
-			case brisk::TypeID::I8:
-			case brisk::TypeID::U16:
-			case brisk::TypeID::I16:
-			case brisk::TypeID::U32:
-			case brisk::TypeID::I32:
-			case brisk::TypeID::U64:
-			case brisk::TypeID::I64:
+			case TypeID::U8:
+			case TypeID::I8:
+			case TypeID::U16:
+			case TypeID::I16:
+			case TypeID::U32:
+			case TypeID::I32:
+			case TypeID::U64:
+			case TypeID::I64:
 				return true;
 			default:
 				return false;
 			}
 		}
+
+		inline bool is_boolean() const { return id_ == TypeID::Bool; }
 	};
 
 	struct FnDeclExpr;

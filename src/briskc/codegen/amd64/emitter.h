@@ -49,14 +49,14 @@ namespace brisk {
 		public:
 			Emitter();
 
-			void emit_add32(Register destination, Register source);
+			void emit_add32(Register source, Register destination);
 			void emit_add32(Register destination, u8 value);
-			void emit_add64(Register destination, Register source);
+			void emit_add64(Register source, Register destination);
 			void emit_add64(Register destination, u8 value);
 			void emit_add64(Register destination, u32 value);
 
-			void emit_sub32(Register destination, Register source);
-			void emit_sub64(Register destination, Register source);
+			void emit_sub32(Register source, Register destination);
+			void emit_sub64(Register source, Register destination);
 			void emit_sub64(Register destination, u8 value);
 			void emit_sub64(Register destination, u32 value);
 
@@ -67,6 +67,7 @@ namespace brisk {
 			void emit_idiv64(Register operand);
 
 			void emit_mov8(Register destination, Register source);
+			void emit_mov8(Register destination, u8 value);
 			void emit_mov16(Register destination, Register source);
 			void emit_mov32(Register destination, u32 value);
 			void emit_mov32(Register destination, Register source);
@@ -96,8 +97,13 @@ namespace brisk {
 
 			void emit_cmp32(u8 value);
 
+			void emit_test8(Register source, u8 value);
+
 			u32 emit_je_rel8(u8 rel);
 			void emit_rel8_at(u8 rel, u32 offset);
+
+			void emit_jne_rel8(u8 rel);
+			void emit_jmp_rel8(u8 rel);
 
 			void emit_ret();
 

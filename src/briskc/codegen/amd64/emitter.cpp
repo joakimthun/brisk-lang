@@ -8,11 +8,11 @@ namespace brisk {
 			buffer_ = std::make_unique<ByteBuffer>(1024);
 		}
 
-		void Emitter::emit_add32(Register destination, Register source)
+		void Emitter::emit_add32(Register source, Register destination)
 		{
 			// 03 /r
 			emit(0x03);
-			emit_modrm(ModRM_Mod::RegisterAddr, source, destination);
+			emit_modrm(ModRM_Mod::RegisterAddr, destination, source);
 		}
 
 		void Emitter::emit_add32(Register destination, u8 value)
@@ -23,12 +23,12 @@ namespace brisk {
 			emit(value);
 		}
 
-		void Emitter::emit_add64(Register destination, Register source)
+		void Emitter::emit_add64(Register source, Register destination)
 		{
 			// REX.W + 03 /r
 			emit_rex(REX::W);
 			emit(0x03);
-			emit_modrm(ModRM_Mod::RegisterAddr, source, destination);
+			emit_modrm(ModRM_Mod::RegisterAddr, destination, source);
 		}
 
 		void Emitter::emit_add64(Register destination, u8 value)
@@ -49,19 +49,19 @@ namespace brisk {
 			emit4(value);
 		}
 
-		void Emitter::emit_sub32(Register destination, Register source)
+		void Emitter::emit_sub32(Register source, Register destination)
 		{
 			// 2B /r
 			emit(0x2b);
-			emit_modrm(ModRM_Mod::RegisterAddr, source, destination);
+			emit_modrm(ModRM_Mod::RegisterAddr, destination, source);
 		}
 
-		void Emitter::emit_sub64(Register destination, Register source)
+		void Emitter::emit_sub64(Register source, Register destination)
 		{
 			// REX.W + 2B /r
 			emit_rex(REX::W);
 			emit(0x2b);
-			emit_modrm(ModRM_Mod::RegisterAddr, source, destination);
+			emit_modrm(ModRM_Mod::RegisterAddr, destination, source);
 		}
 
 		void Emitter::emit_sub64(Register destination, u8 value)
@@ -119,6 +119,14 @@ namespace brisk {
 			// 88 /r
 			emit(0x88);
 			emit_modrm(ModRM_Mod::RegisterAddr, source, destination);
+		}
+
+		void Emitter::emit_mov8(Register destination, u8 value)
+		{
+			// C6 /0 ib
+			emit(0xc6);
+			emit_modrm(ModRM_Mod::RegisterAddr, destination);
+			emit(value);
 		}
 
 		void Emitter::emit_mov16(Register destination, Register source)
@@ -322,6 +330,14 @@ namespace brisk {
 			emit(value);
 		}
 
+		void Emitter::emit_test8(Register source, u8 value)
+		{
+			// F6 /0 ib
+			emit(0xf6);
+			emit_modrm(ModRM_Mod::RegisterAddr, 0, source);
+			emit(value);
+		}
+
 		u32 Emitter::emit_je_rel8(u8 rel)
 		{
 			// 74 cb
@@ -335,6 +351,20 @@ namespace brisk {
 		void Emitter::emit_rel8_at(u8 rel, u32 offset)
 		{
 			emit_at(rel, offset);
+		}
+
+		void Emitter::emit_jne_rel8(u8 rel)
+		{
+			// 75 cb
+			emit(0x75);
+			emit(rel);
+		}
+
+		void Emitter::emit_jmp_rel8(u8 rel)
+		{
+			// EB cb
+			emit(0xeb);
+			emit(rel);
 		}
 
 		void Emitter::emit_ret()
