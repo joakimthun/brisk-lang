@@ -89,7 +89,7 @@ fn main() -> i32 {
 
 	let or1 = false
 	let or2 = true
-	let or3 = or1 || or2
+	let or3 = false || or1 || or1 || or1 || false || or1
 	
 	printf("or1: %d", or1)
 	putchar(10)
@@ -101,17 +101,17 @@ fn main() -> i32 {
 	putchar(10)
 	
 	putchar(10)
-
-	let and1 = true
+	
+	let and1 = false
 	let and2 = true
-	let and3 = and1 && and2
-
+	let and3 = true&& and1 && and2 && and1 && true && true
+	
 	printf("and1: %d", and1)
 	putchar(10)
-
+	
 	printf("and2: %d", and2)
 	putchar(10)
-
+	
 	printf("and3: %d", and3)
 	putchar(10)
 
