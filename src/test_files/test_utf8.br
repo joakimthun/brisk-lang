@@ -89,7 +89,7 @@ fn main() -> i32 {
 
 	let or1 = false
 	let or2 = true
-	let or3 = false || or1 || or1 || or1 || false || or1
+	let or3 = false || or1 || or1 || or1 || false || or2
 	
 	printf("or1: %d", or1)
 	putchar(10)
@@ -114,16 +114,18 @@ fn main() -> i32 {
 	
 	printf("and3: %d", and3)
 	putchar(10)
+	putchar(10)
+	putchar(10)
 
-	//if b1 {
-	//	puts("true!")
-	//	let str = "Inside if"
-	//	puts(str)
-	//	puts(str)
-	//}
-	//
-	//let str = "Outside if"
-	//puts(str)
+	if or3 && and3 {
+		puts("true!")
+		let str = "Inside if"
+		puts(str)
+		puts(str)
+	}
+	
+	let str = "Outside if"
+	puts(str)
 
 	//i32 x = 100
 	//i32 y = 10
