@@ -501,8 +501,31 @@ namespace brisk {
 
 				break;
 			}
+			case TokenType::DoubleEquals: {
+				const auto use_64 = expr.left->type->size() == 8 || expr.right->type->size() == 8;
+				if (use_64)
+				{
+					emitter_.emit_cmp64(left_reg, right_reg);
+				}
+				else
+				{
+					emitter_.emit_cmp32(left_reg, right_reg);
+				}
+
+				emitter_.emit_jne_rel8(5);
+
+				// true branch
+				emitter_.emit_mov8(right_reg, 1);
+				// jump past false branch
+				emitter_.emit_jmp_rel8(3);
+
+				// false branch
+				emitter_.emit_mov8(right_reg, 0);
+
+				break;
+			}
 			default:
-				throw BriskException("Generator::integral_bin_op: Unhandled operator " + token_type_name(expr.op));
+				throw BriskException("Generator::boolean_bin_op: Unhandled operator " + token_type_name(expr.op));
 			}
 		}
 

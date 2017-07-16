@@ -129,6 +129,10 @@ namespace brisk {
 		}
 		case '=': {
 			consume();
+
+			if (consume('='))
+				return create_token(TokenType::DoubleEquals, start_offset);
+
 			return create_token(TokenType::Equals, start_offset);
 		}
 		case '{': {

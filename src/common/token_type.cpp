@@ -18,6 +18,8 @@ namespace brisk {
 			return "Slash";
 		case TokenType::Equals:
 			return "Equals";
+		case TokenType::DoubleEquals:
+			return "DoubleEquals";
 		case TokenType::BitOr:
 			return "BitOr";
 		case TokenType::BitAnd:
@@ -89,6 +91,17 @@ namespace brisk {
 			return "=";
 		default:
 			return "operator_from_token: Unknown token type";
+		}
+	}
+
+	bool is_boolean_operator(TokenType type)
+	{
+		switch (type)
+		{
+		case TokenType::DoubleEquals:
+			return true;
+		default:
+			return false;
 		}
 	}
 

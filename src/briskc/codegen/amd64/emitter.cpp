@@ -330,6 +330,21 @@ namespace brisk {
 			emit(value);
 		}
 
+		void Emitter::emit_cmp32(Register x, Register y)
+		{
+			// 39 /r
+			emit(0x39);
+			emit_modrm(ModRM_Mod::RegisterAddr, x, y);
+		}
+
+		void Emitter::emit_cmp64(Register x, Register y)
+		{
+			// REX.W + 39 /r
+			emit_rex(REX::W);
+			emit(0x39);
+			emit_modrm(ModRM_Mod::RegisterAddr, x, y);
+		}
+
 		void Emitter::emit_test8(Register source, u8 value)
 		{
 			// F6 /0 ib

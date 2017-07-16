@@ -96,6 +96,8 @@ namespace brisk {
 			void emit_xor64(Register destination, Register source);
 
 			void emit_cmp32(u8 value);
+			void emit_cmp32(Register x, Register y);
+			void emit_cmp64(Register x, Register y);
 
 			void emit_test8(Register source, u8 value);
 

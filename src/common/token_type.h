@@ -14,6 +14,7 @@ namespace brisk {
 		Star,
 		Slash,
 		Equals,
+		DoubleEquals,
 		BitOr,
 		BitAnd,
 		LogOr,
@@ -60,4 +61,5 @@ namespace brisk {
 
 	std::string token_type_name(TokenType type);
 	std::string operator_from_token(TokenType type);
+	bool is_boolean_operator(TokenType type);
 }
