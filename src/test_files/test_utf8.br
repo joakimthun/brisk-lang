@@ -7,7 +7,7 @@ ext fn puts(u8 *str) -> i32
 ext fn putchar(i32 character) -> i32
 ext fn exit(i32 status) -> void
 
-// Varargs not yest supported...
+// Varargs not yet supported...
 //ext fn printf(u8 *format, i32 arg) -> i32
 ext fn printf(u8 *format, bool arg) -> i32
 
@@ -104,7 +104,7 @@ fn main() -> i32 {
 	
 	let and1 = false
 	let and2 = true
-	let and3 = true&& and1 && and2 && and1 && true && true
+	let and3 = true && and1 && and2 && and1 && true && true
 	
 	printf("and1: %d", and1)
 	putchar(10)
@@ -117,15 +117,11 @@ fn main() -> i32 {
 	putchar(10)
 	putchar(10)
 	
-	if or3 && and3 {
+	if and3 || true {
 		puts("true!")
-		let str = "Inside if"
-		puts(str)
-		puts(str)
 	}
 	
-	let str = "Outside if"
-	puts(str)
+	puts("Outside if 1")
 	putchar(10)
 
 
@@ -135,10 +131,9 @@ fn main() -> i32 {
 	printf("eq_res: %d", eq_res)
 	putchar(10)
 
-	//if eq1 == eq2 {
-	//	puts("eq1 == eq2")
-	//	putchar(10)
-	//}
+	if 1 == 1 {
+		puts("eq1 == eq2")
+	}
 
 	puts("Outside if 2")
 	putchar(10)

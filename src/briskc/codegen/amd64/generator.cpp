@@ -215,8 +215,7 @@ namespace brisk {
 			push_addr_table();
 			auto condition_reg = reg_allocator_.pop();
 
-			emitter_.emit_mov32(Register::RAX, condition_reg);
-			emitter_.emit_cmp32(0);
+			emitter_.emit_test8(condition_reg, 1);
 			const auto rel8_offset = emitter_.emit_je_rel8(0);
 
 			for (auto& arg : expr.if_body)
