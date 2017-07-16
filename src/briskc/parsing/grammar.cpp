@@ -84,6 +84,7 @@ namespace brisk {
 		infix_parsers_[arr_index(TokenType::BitOr)] = std::make_unique<BinExprParser>(Precedence::BitOr);
 		infix_parsers_[arr_index(TokenType::BitAnd)] = std::make_unique<BinExprParser>(Precedence::BitAnd);
 		infix_parsers_[arr_index(TokenType::DoubleEquals)] = std::make_unique<BinExprParser>(Precedence::Equality);
+		infix_parsers_[arr_index(TokenType::NotEqual)] = std::make_unique<BinExprParser>(Precedence::Equality);
 		infix_parsers_[arr_index(TokenType::Equals)] = std::make_unique<AssignmentParser>();
 
 		// Expr

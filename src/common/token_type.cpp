@@ -20,6 +20,10 @@ namespace brisk {
 			return "Equals";
 		case TokenType::DoubleEquals:
 			return "DoubleEquals";
+		case TokenType::Not:
+			return "Not";
+		case TokenType::NotEqual:
+			return "NotEqual";
 		case TokenType::BitOr:
 			return "BitOr";
 		case TokenType::BitAnd:
@@ -99,6 +103,7 @@ namespace brisk {
 		switch (type)
 		{
 		case TokenType::DoubleEquals:
+		case TokenType::NotEqual:
 			return true;
 		default:
 			return false;

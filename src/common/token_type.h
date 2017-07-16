@@ -15,6 +15,8 @@ namespace brisk {
 		Slash,
 		Equals,
 		DoubleEquals,
+		Not,
+		NotEqual,
 		BitOr,
 		BitAnd,
 		LogOr,

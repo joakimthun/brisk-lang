@@ -500,7 +500,8 @@ namespace brisk {
 
 				break;
 			}
-			case TokenType::DoubleEquals: {
+			case TokenType::DoubleEquals:
+			case TokenType::NotEqual: {
 				const auto use_64 = expr.left->type->size() == 8 || expr.right->type->size() == 8;
 				if (use_64)
 				{
@@ -511,7 +512,14 @@ namespace brisk {
 					emitter_.emit_cmp32(left_reg, right_reg);
 				}
 
-				emitter_.emit_jne_rel8(5);
+				if (expr.op == TokenType::DoubleEquals)
+				{
+					emitter_.emit_jne_rel8(5);
+				}
+				else 
+				{
+					emitter_.emit_je_rel8(5);
+				}
 
 				// true branch
 				emitter_.emit_mov8(right_reg, 1);

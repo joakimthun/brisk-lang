@@ -135,6 +135,14 @@ namespace brisk {
 
 			return create_token(TokenType::Equals, start_offset);
 		}
+		case '!': {
+			consume();
+
+			if (consume('='))
+				return create_token(TokenType::NotEqual, start_offset);
+
+			return create_token(TokenType::Not, start_offset);
+		}
 		case '{': {
 			consume();
 			return create_token(TokenType::LBracket, start_offset);
