@@ -481,7 +481,25 @@ namespace brisk {
 				break;
 			}
 			case TokenType::LogAnd: {
-				throw BriskException("Generator::integral_bin_op: Unhandled operator " + token_type_name(expr.op));
+				// left == true
+				emitter_.emit_test8(left_reg, 1);
+				// jump to false branch if false
+				emitter_.emit_je_rel8(10);
+
+				// right == true
+				emitter_.emit_test8(right_reg, 1);
+				// jump to false branch if false
+				emitter_.emit_je_rel8(5);
+
+				// true branch
+				emitter_.emit_mov8(right_reg, 1);
+				// jump past false branch
+				emitter_.emit_jmp_rel8(3);
+
+				// false branch
+				emitter_.emit_mov8(right_reg, 0);
+
+				break;
 			}
 			default:
 				throw BriskException("Generator::integral_bin_op: Unhandled operator " + token_type_name(expr.op));

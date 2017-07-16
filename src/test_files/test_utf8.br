@@ -87,17 +87,32 @@ fn main() -> i32 {
 	//i32 y = 7
 	//i32 result = x / y
 
-	let b1 = false
-	let b2 = true
-	let b3 = b1 || b2
-
-	printf("b1: %d", b1)
+	let or1 = false
+	let or2 = true
+	let or3 = or1 || or2
+	
+	printf("or1: %d", or1)
+	putchar(10)
+	
+	printf("or2: %d", or2)
+	putchar(10)
+	
+	printf("or3: %d", or3)
+	putchar(10)
+	
 	putchar(10)
 
-	printf("b2: %d", b2)
+	let and1 = true
+	let and2 = true
+	let and3 = and1 && and2
+
+	printf("and1: %d", and1)
 	putchar(10)
 
-	printf("b3: %d", b3)
+	printf("and2: %d", and2)
+	putchar(10)
+
+	printf("and3: %d", and3)
 	putchar(10)
 
 	//if b1 {
