@@ -62,7 +62,9 @@ namespace brisk {
 				auto reg = reg_allocator_.get_free();
 				emitter_.emit_lea64(reg, 0);
 				auto symbol_index = add_static_data_symbol(data_->length());
-				data_->write(expr.str_value.data(), expr.str_value.length());
+
+				auto unescaped_string = expr.str_value.to_unescaped_string();
+				data_->write(unescaped_string.c_str(), unescaped_string.size());
 				data_->write(0);
 
 				// Subtract the 4 byte displacement from the buffer offset

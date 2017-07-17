@@ -71,10 +71,11 @@ ext fn printf(u8 *format, i64 arg) -> i32
 //}
 
 fn main() -> i32 {
-	//SetConsoleOutputCP(65001)
+	SetConsoleOutputCP(65001)
 
-	//let str = "Hello Brisk!"
-	//puts("Hello Brisk!")
+	let str = "Hello Brisk!\n"
+	puts(str)
+
 	//myfn(1, 2, 3, 4)
 
 	//i32 x = 10
@@ -151,8 +152,7 @@ fn main() -> i32 {
 	let mod1 = 598
 	let mod2 = 88
 	let mod_res = mod1 % mod2
-	printf("mod_res: %d", mod_res)
-	putchar(10)
+	printf("mod_res: %d \n", mod_res)
 
 	ret 0
 }

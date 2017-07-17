@@ -13,6 +13,7 @@ namespace brisk {
 		StringView(u8 *data, u32 length);
 
 		std::string to_string() const;
+		std::string to_unescaped_string() const;
 		u32 length() const;
 		const u8 *data() const;
 	private:
