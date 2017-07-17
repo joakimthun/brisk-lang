@@ -16,6 +16,8 @@ namespace brisk {
 			return "Star";
 		case TokenType::Slash:
 			return "Slash";
+		case TokenType::Modulus:
+			return "Modulus";
 		case TokenType::Equals:
 			return "Equals";
 		case TokenType::DoubleEquals:

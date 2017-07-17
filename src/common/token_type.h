@@ -13,6 +13,7 @@ namespace brisk {
 		Minus,
 		Star,
 		Slash,
+		Modulus,
 		Equals,
 		DoubleEquals,
 		Not,

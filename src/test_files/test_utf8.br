@@ -9,7 +9,8 @@ ext fn exit(i32 status) -> void
 
 // Varargs not yet supported...
 //ext fn printf(u8 *format, i32 arg) -> i32
-ext fn printf(u8 *format, bool arg) -> i32
+ext fn printf(u8 *format, i64 arg) -> i32
+//ext fn printf(u8 *format, bool arg) -> i32
 
 //fn myfn(i32 arg1, i32 arg2, i32 arg3, i32 arg4) -> i32 {
 //	//u8 x1 = 1
@@ -87,65 +88,71 @@ fn main() -> i32 {
 	//i32 y = 7
 	//i32 result = x / y
 
-	let or1 = false
-	let or2 = true
-	let or3 = false || or1 || or1 || or1 || false || or2
-	
-	printf("or1: %d", or1)
-	putchar(10)
-	
-	printf("or2: %d", or2)
-	putchar(10)
-	
-	printf("or3: %d", or3)
-	putchar(10)
-	
-	putchar(10)
-	
-	let and1 = false
-	let and2 = true
-	let and3 = true && and1 && and2 && and1 && true && true
-	
-	printf("and1: %d", and1)
-	putchar(10)
-	
-	printf("and2: %d", and2)
-	putchar(10)
-	
-	printf("and3: %d", and3)
-	putchar(10)
-	putchar(10)
-	putchar(10)
-	
-	if and3 || true {
-		puts("true!")
-	}
-	
-	puts("Outside if 1")
-	putchar(10)
+	//let or1 = false
+	//let or2 = true
+	//let or3 = false || or1 || or1 || or1 || false || or2
+	//
+	//printf("or1: %d", or1)
+	//putchar(10)
+	//
+	//printf("or2: %d", or2)
+	//putchar(10)
+	//
+	//printf("or3: %d", or3)
+	//putchar(10)
+	//
+	//putchar(10)
+	//
+	//let and1 = false
+	//let and2 = true
+	//let and3 = true && and1 && and2 && and1 && true && true
+	//
+	//printf("and1: %d", and1)
+	//putchar(10)
+	//
+	//printf("and2: %d", and2)
+	//putchar(10)
+	//
+	//printf("and3: %d", and3)
+	//putchar(10)
+	//putchar(10)
+	//putchar(10)
+	//
+	//if and3 || true {
+	//	puts("true!")
+	//}
+	//
+	//puts("Outside if 1")
+	//putchar(10)
+	//
+	//
+	//let eq1 = 5
+	//let eq2 = 5
+	//let eq_res = eq1 == eq2
+	//printf("eq_res: %d", eq_res)
+	//putchar(10)
+	//
+	//if 1 == 1 {
+	//	puts("1 == 2")
+	//}
+	//
+	//puts("Outside if 2")
+	//putchar(10)
+	//
+	//let neq1 = 5
+	//let neq2 = 5
+	//let neq_res = neq1 != neq2
+	//printf("neq_res: %d", neq_res)
+	//putchar(10)
+	//if 1 != 2 {
+	//	puts("1 != 2")
+	//}
 
-
-	let eq1 = 5
-	let eq2 = 5
-	let eq_res = eq1 == eq2
-	printf("eq_res: %d", eq_res)
+	let mod1 = 598
+	let mod2 = 88
+	let mod_res = mod1 % mod2
+	printf("mod_res: %d", mod_res)
 	putchar(10)
-
-	if 1 == 1 {
-		puts("1 == 2")
-	}
-
-	puts("Outside if 2")
-	putchar(10)
-
-	let neq1 = 5
-	let neq2 = 5
-	let neq_res = neq1 != neq2
-	printf("neq_res: %d", neq_res)
-	putchar(10)
-	if 1 != 2 {
-		puts("1 != 2")
-	}
 
 	ret 0
 }

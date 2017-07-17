@@ -430,7 +430,8 @@ namespace brisk {
 
 				break;
 			}
-			case TokenType::Slash: {
+			case TokenType::Slash: 
+			case TokenType::Modulus : {
 				move_to_reg(Register::RAX, expr.type, left_reg);
 
 				// Remainder stored in EDX/RDX
@@ -445,7 +446,14 @@ namespace brisk {
 					emitter_.emit_idiv32(right_reg);
 				}
 
-				move_to_reg(right_reg, expr.type, Register::RAX);
+				if (expr.op == TokenType::Slash)
+				{
+					move_to_reg(right_reg, expr.type, Register::RAX);
+				}
+				else
+				{
+					move_to_reg(right_reg, expr.type, Register::RDX);
+				}
 
 				break;
 			}

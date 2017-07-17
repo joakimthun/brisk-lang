@@ -127,6 +127,10 @@ namespace brisk {
 
 			return create_token(TokenType::Slash, start_offset);
 		}
+		case '%': {
+			consume();
+			return create_token(TokenType::Modulus, start_offset);
+		}
 		case '=': {
 			consume();
 

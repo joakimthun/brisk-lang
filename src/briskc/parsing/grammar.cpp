@@ -79,6 +79,7 @@ namespace brisk {
 		infix_parsers_[arr_index(TokenType::Minus)] = std::make_unique<BinExprParser>(Precedence::Sum);
 		infix_parsers_[arr_index(TokenType::Star)] = std::make_unique<BinExprParser>(Precedence::Product);
 		infix_parsers_[arr_index(TokenType::Slash)] = std::make_unique<BinExprParser>(Precedence::Product);
+		infix_parsers_[arr_index(TokenType::Modulus)] = std::make_unique<BinExprParser>(Precedence::Product);
 		infix_parsers_[arr_index(TokenType::LogOr)] = std::make_unique<BinExprParser>(Precedence::LogOr);
 		infix_parsers_[arr_index(TokenType::LogAnd)] = std::make_unique<BinExprParser>(Precedence::LogAnd);
 		infix_parsers_[arr_index(TokenType::BitOr)] = std::make_unique<BinExprParser>(Precedence::BitOr);
