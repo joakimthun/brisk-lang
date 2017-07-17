@@ -56,7 +56,7 @@ namespace brisk {
 
 		for (auto i = 0u; i < length_; i++)
 		{
-			bool has_next = (i + 1) < length_;
+			auto has_next = (i + 1) < length_;
 			if (has_next && is_escaped(data_[i]) && should_unescape_char(data_[i + 1]))
 			{
 				result += unescape_char(data_[i + 1]);
