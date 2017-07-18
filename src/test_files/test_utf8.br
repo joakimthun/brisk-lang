@@ -152,7 +152,10 @@ fn main() -> i32 {
 	let mod1 = 598
 	let mod2 = 88
 	let mod_res = mod1 % mod2
-	printf("mod_res: %d \n", mod_res)
+	printf("mod_res: %d\n", mod_res)
+	printf("\t\tmod_res: %d\n", mod_res)
+	printf("\t\t\tmod_res: %d\n", mod_res)
+	printf("\t\t\t\tmod_res: %d\n", mod_res)
 
 	ret 0
 }

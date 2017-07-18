@@ -1,5 +1,7 @@
 #include "string_view.h"
 
+#include "utf8.h"
+
 namespace brisk {
 
 	StringView::StringView()
@@ -28,7 +30,7 @@ namespace brisk {
 
 	std::string StringView::to_unescaped_string() const
 	{
-		auto is_escaped = [](char c) { return c == '\\';};
+		auto is_escaped = [](char c) { return c == '\\' && utf8::read_num_bytes(static_cast<u8>(c)) == 1; };
 
 		auto should_unescape_char = [](char c) {
 			/*
