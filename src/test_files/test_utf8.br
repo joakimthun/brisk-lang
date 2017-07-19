@@ -70,11 +70,16 @@ ext fn printf(u8 *format, i64 arg) -> i32
 //	ret 0
 //}
 
-fn main() -> i32 {
-	SetConsoleOutputCP(65001)
+fn myfn5() -> i32 {
+	puts("myfn5")
+	ret 0
+}
 
-	let str = "Hello Brisk!\n"
-	puts(str)
+fn main() -> i32 {
+	//SetConsoleOutputCP(65001)
+	//
+	//let str = "Hello Brisk!\n"
+	//puts(str)
 
 	//myfn(1, 2, 3, 4)
 
@@ -148,6 +153,8 @@ fn main() -> i32 {
 	//if 1 != 2 {
 	//	puts("1 != 2")
 	//}
+
+	//myfn5()
 
 	let mod1 = 598
 	let mod2 = 88

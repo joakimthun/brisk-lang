@@ -48,6 +48,7 @@ namespace brisk {
 		void pop_explicit_literal_type();
 		const Expr *current_explicit_literal_type_expr();
 
+		const Ast &current_pkg() const;
 		TypeTable &type_table();
 
 		void defer(std::function<void(BriskParser &parser)> fn);
@@ -55,11 +56,14 @@ namespace brisk {
 	private:
 		u8 get_precedence();
 		void parse_pkg(Ast &ast);
+		void push_pkg_context(const std::unique_ptr<Ast> &ast);
+		void pop_pkg_context();
 
 		Lexer lexer_;
 		Token current_token_;
 		Grammar grammar_;
 		SymbolTable *current_scope_;
+		std::stack<const Ast*> pkg_context_;
 		TypeTable &type_table_;
 		std::vector<std::function<void(BriskParser &parser)>> defered_calls_;
 		std::stack<const FnDeclExpr*> fn_context_;

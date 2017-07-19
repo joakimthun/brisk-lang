@@ -23,16 +23,18 @@ namespace brisk {
 		ast->file = lexer_.file().path;
 		push_scope(&ast->symbol_table);
 		parse_pkg(*ast);
+		push_pkg_context(ast);
 
 		while (current_token_.type != TokenType::Eof)
 		{
 			ast->exprs.push_back(parse_top_expr());
 		}
 
-		pop_scope();
-
 		for (auto &call : defered_calls_)
 			call(*this);
+
+		pop_scope();
+		pop_pkg_context();
 
 		return ast;
 	}
@@ -173,6 +175,11 @@ namespace brisk {
 		return explicit_literal_types_.top();
 	}
 
+	const Ast &BriskParser::current_pkg() const
+	{
+		return *pkg_context_.top();
+	}
+
 	TypeTable &BriskParser::type_table()
 	{
 		return type_table_;
@@ -192,11 +199,21 @@ namespace brisk {
 		return 0;
 	}
 
-	void BriskParser::parse_pkg(Ast & ast)
+	void BriskParser::parse_pkg(Ast &ast)
 	{
 		consume(TokenType::Pkg);
 		ast.pkg_name = current_token_.raw_value;
 		consume(TokenType::Identifier);
+	}
+
+	void BriskParser::push_pkg_context(const std::unique_ptr<Ast> &ast)
+	{
+		pkg_context_.push(ast.get());
+	}
+
+	void BriskParser::pop_pkg_context()
+	{
+		pkg_context_.pop();
 	}
 
 }
