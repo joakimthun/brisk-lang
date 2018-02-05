@@ -1,4 +1,7 @@
-## Hello Brisk!
+## Brisk
+A tiny toy “language” developed as an excuse to learn more about x86-x64/code generation. The compiler currently generates a pe/coff object file and then uses Microsoft's linker to generate an executable.
+
+### Hello Brisk!
 ```
 pkg main
 
